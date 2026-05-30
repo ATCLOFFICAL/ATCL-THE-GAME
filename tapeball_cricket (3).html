@@ -1,0 +1,1576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATCL — Aussie Tapeball Cricket League</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500;600&display=swap');
+:root{--gold:#f5c842;--gold-dark:#c9a010;--green:#1a5c2e;--green-mid:#2a7d42;--green-light:#3cb05e;--cream:#f4efe4;--dark:#0d1a12;--mid:#182b1e;--bronze:#cd7f32;--silver:#b0b0b0;--epic:#a855f7;--red:#e74c3c;--orange:#f39c12;--blue:#3b82f6}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--dark);color:var(--cream);font-family:'Barlow',sans-serif;min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 100%,rgba(26,92,46,.35) 0%,transparent 70%),repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(255,255,255,.015) 40px),repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(255,255,255,.015) 40px);pointer-events:none;z-index:0}
+.app{position:relative;z-index:1}
+header{background:linear-gradient(135deg,var(--green) 0%,#0d2a18 100%);border-bottom:3px solid var(--gold);padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100;box-shadow:0 4px 24px rgba(0,0,0,.5)}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:3px;color:var(--gold);text-shadow:0 0 20px rgba(245,200,66,.4)}
+.logo span{color:var(--cream)}
+.hcoins{display:flex;align-items:center;gap:7px;background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.3);border-radius:20px;padding:5px 14px;font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;color:var(--gold)}
+/* MODE TABS */
+.mode-nav{background:#0d1a12;border-bottom:2px solid rgba(245,200,66,.2);display:flex;overflow-x:auto}
+.mode-btn{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:rgba(244,239,228,.45);background:none;border:none;border-bottom:3px solid transparent;padding:12px 18px;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0}
+.mode-btn:hover{color:var(--cream)}
+.mode-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
+/* SUB NAV */
+.sub-nav{background:var(--mid);border-bottom:1px solid rgba(245,200,66,.1);display:flex;overflow-x:auto}
+.sub-btn{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(244,239,228,.45);background:none;border:none;border-bottom:2px solid transparent;padding:10px 18px;cursor:pointer;transition:all .2s;white-space:nowrap}
+.sub-btn:hover{color:var(--cream)}
+.sub-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
+/* MODE PANELS */
+.mode-panel{display:none}.mode-panel.active{display:block}
+.screen{display:none;padding:20px;max-width:1100px;margin:0 auto}.screen.active{display:block}
+/* TITLES */
+.stitle{font-family:'Bebas Neue',sans-serif;font-size:34px;letter-spacing:3px;color:var(--gold);margin-bottom:4px}
+.ssub{font-size:13px;color:rgba(244,239,228,.45);margin-bottom:24px;letter-spacing:.5px}
+/* PACKS */
+.packs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-bottom:28px}
+.pack-card{border-radius:14px;padding:24px 20px;cursor:pointer;transition:transform .2s,box-shadow .2s;position:relative;overflow:hidden}
+.pack-card::before{content:'';position:absolute;inset:0;opacity:.06;background:repeating-linear-gradient(45deg,#fff 0,#fff 1px,transparent 1px,transparent 12px)}
+.pack-card:hover{transform:translateY(-4px)}
+.pack-basic{background:linear-gradient(135deg,#1a3a2e,#0d2018);border:2px solid var(--bronze);box-shadow:0 4px 20px rgba(205,127,50,.18)}
+.pack-rare{background:linear-gradient(135deg,#1a2a3e,#0d1828);border:2px solid var(--silver);box-shadow:0 4px 20px rgba(176,176,176,.18)}
+.pack-epic{background:linear-gradient(135deg,#2a1a3e,#1a0d28);border:2px solid var(--epic);box-shadow:0 4px 20px rgba(168,85,247,.22)}
+.pack-lbl{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:3px;margin-bottom:3px}
+.pack-basic .pack-lbl{color:var(--bronze)}.pack-rare .pack-lbl{color:var(--silver)}.pack-epic .pack-lbl{color:var(--epic)}
+.pack-range{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:600;color:rgba(244,239,228,.55);margin-bottom:10px;letter-spacing:1px}
+.pack-price{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--gold);letter-spacing:1px}
+.pack-emoji{font-size:44px;float:right;margin-top:-8px;opacity:.7}
+.pack-desc{font-size:12px;color:rgba(244,239,228,.4);margin-top:7px;line-height:1.5}
+/* CARDS */
+.player-card{width:154px;height:215px;border-radius:11px;position:relative;cursor:pointer;transition:transform .25s,box-shadow .25s;flex-shrink:0}
+.player-card:hover{transform:scale(1.05) rotate(-1deg)}
+.card-inner{width:100%;height:100%;border-radius:11px;padding:11px 9px 9px;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.card-bronze .card-inner{background:linear-gradient(160deg,#3d2108,#1a0d00 60%,#2a1500);border:2px solid var(--bronze);box-shadow:0 0 14px rgba(205,127,50,.3)}
+.card-silver .card-inner{background:linear-gradient(160deg,#2a2a2a,#111 60%,#1c1c1c);border:2px solid var(--silver);box-shadow:0 0 14px rgba(176,176,176,.3)}
+.card-gold .card-inner{background:linear-gradient(160deg,#3a2c00,#1a1200 60%,#2a2000);border:2px solid var(--gold);box-shadow:0 0 18px rgba(245,200,66,.32)}
+.card-epic .card-inner{background:linear-gradient(160deg,#2a0a3e,#110018 60%,#1e0030);border:2px solid var(--epic);box-shadow:0 0 22px rgba(168,85,247,.38)}
+.card-legendary .card-inner{background:linear-gradient(160deg,#3a2800,#1a0d00 40%,#1e0030);position:relative;border:2px solid transparent}
+.card-legendary .card-inner::before{content:'';position:absolute;inset:-2px;border-radius:12px;background:linear-gradient(135deg,#f5c842,#a855f7,#f5c842);z-index:-1}
+.card-legendary .card-inner{box-shadow:0 0 28px rgba(245,200,66,.45),0 0 55px rgba(168,85,247,.28)}
+.card-ovr{font-family:'Bebas Neue',sans-serif;font-size:36px;line-height:1;letter-spacing:1px}
+.card-bronze .card-ovr{color:var(--bronze)}.card-silver .card-ovr{color:var(--silver)}.card-gold .card-ovr{color:var(--gold)}.card-epic .card-ovr{color:var(--epic)}.card-legendary .card-ovr{color:var(--gold);text-shadow:0 0 10px rgba(245,200,66,.6)}
+.card-name{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--cream);margin-top:3px;line-height:1.2}
+.card-role{font-size:9px;font-weight:600;letter-spacing:.7px;text-transform:uppercase;margin-top:2px;opacity:.7}
+.card-badge{font-size:8px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;padding:2px 5px;border-radius:3px;margin-top:3px;display:inline-block}
+.card-stats{margin-top:auto;display:grid;grid-template-columns:1fr 1fr;gap:2px}
+.stat-row{display:flex;justify-content:space-between;font-size:9px;font-family:'Barlow Condensed',sans-serif;font-weight:600}
+.stat-label{color:rgba(244,239,228,.45);letter-spacing:.2px}.stat-val{color:var(--cream)}
+.card-avatar{font-size:33px;text-align:center;margin:3px 0;filter:drop-shadow(0 2px 4px rgba(0,0,0,.5))}
+.card-val{font-size:8px;font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--gold);opacity:.8;margin-top:1px}
+/* COLLECTION */
+.col-grid{display:flex;flex-wrap:wrap;gap:14px}
+.col-empty{text-align:center;padding:50px 20px;color:rgba(244,239,228,.3)}
+.col-empty .ei{font-size:52px;margin-bottom:14px}
+.col-empty p{font-family:'Barlow Condensed',sans-serif;font-size:17px;letter-spacing:1px}
+/* TEAM */
+.team-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:640px){.team-grid{grid-template-columns:1fr}}
+.tslot{background:rgba(255,255,255,.04);border:2px dashed rgba(244,239,228,.13);border-radius:11px;padding:14px;display:flex;align-items:center;gap:11px;cursor:pointer;transition:border-color .2s,background .2s;min-height:72px}
+.tslot:hover{border-color:var(--gold);background:rgba(245,200,66,.04)}
+.tslot.filled{border-style:solid;border-color:rgba(244,239,228,.18)}
+.snum{font-family:'Bebas Neue',sans-serif;font-size:22px;color:rgba(244,239,228,.22);min-width:26px}
+.sinfo{flex:1}.sname{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700}
+.srole{font-size:10px;color:rgba(244,239,228,.45);letter-spacing:.4px}
+.sovr{font-family:'Bebas Neue',sans-serif;font-size:21px;color:var(--gold)}
+/* BUTTONS */
+.btn{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:1.3px;text-transform:uppercase;padding:10px 24px;border-radius:7px;border:none;cursor:pointer;transition:all .2s}
+.btn-primary{background:linear-gradient(135deg,var(--green-mid),var(--green));color:var(--cream);border:1px solid var(--green-light);box-shadow:0 3px 14px rgba(26,92,46,.4)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 5px 20px rgba(26,92,46,.5)}
+.btn-primary:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--dark);box-shadow:0 3px 14px rgba(245,200,66,.28)}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 5px 20px rgba(245,200,66,.42)}
+.btn-gold:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.btn-danger{background:linear-gradient(135deg,#c0392b,#96281b);color:#fff}
+.btn-blue{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;box-shadow:0 3px 14px rgba(37,99,235,.3)}
+.btn-blue:hover{transform:translateY(-2px)}
+.btn-sm{padding:6px 14px;font-size:13px}
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(4px);z-index:200;display:flex;align-items:center;justify-content:center;padding:14px}
+.modal{background:var(--mid);border:1px solid rgba(245,200,66,.18);border-radius:18px;padding:24px;max-width:680px;width:100%;max-height:88vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,.6)}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:3px;color:var(--gold);margin-bottom:18px}
+/* PACK REVEAL */
+.pack-reveal{display:flex;flex-wrap:wrap;gap:11px;justify-content:center;margin:18px 0}
+.reveal-card{animation:revealCard .4s ease-out both}
+@keyframes revealCard{from{transform:scale(.5) rotateY(90deg);opacity:0}to{transform:scale(1) rotateY(0);opacity:1}}
+/* SCOREBOARD */
+.scoreboard{background:linear-gradient(135deg,#0d2018,#182b1e);border:1px solid rgba(245,200,66,.18);border-radius:14px;padding:20px;margin-bottom:20px}
+.match-teams{display:flex;justify-content:space-between;align-items:center;gap:14px}
+.tscore{flex:1;text-align:center}
+.tscore-name{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;color:rgba(244,239,228,.55);text-transform:uppercase;margin-bottom:3px}
+.tscore-runs{font-family:'Bebas Neue',sans-serif;font-size:48px;line-height:1;color:var(--cream);letter-spacing:2px}
+.tscore-wkts{font-family:'Barlow Condensed',sans-serif;font-size:16px;color:rgba(244,239,228,.45);font-weight:600}
+.vs{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--gold);letter-spacing:2px}
+.match-overs{text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;color:rgba(244,239,228,.35);margin-top:10px;letter-spacing:1px}
+.innings-log{background:rgba(0,0,0,.3);border-radius:9px;padding:12px 14px;max-height:180px;overflow-y:auto;font-size:12px;line-height:1.7;color:rgba(244,239,228,.65)}
+.log-entry{}
+.log-highlight{color:var(--gold);font-weight:600}
+.log-wicket{color:var(--red)}
+.log-boundary{color:var(--green-light)}
+/* LEAGUE */
+.ltable{width:100%;border-collapse:collapse;font-family:'Barlow Condensed',sans-serif}
+.ltable th{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(244,239,228,.4);text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.05)}
+.ltable td{padding:9px 10px;font-size:14px;font-weight:600;border-bottom:1px solid rgba(255,255,255,.035)}
+.ltable tr.prow{background:rgba(245,200,66,.06)}
+.ltable tr.prow td{color:var(--gold)}
+.lpos{font-family:'Bebas Neue',sans-serif;font-size:19px;color:rgba(244,239,228,.28)}
+/* RESULT */
+.result-banner{text-align:center;padding:18px;border-radius:12px;margin-top:18px}
+.result-banner.win{background:linear-gradient(135deg,rgba(26,92,46,.4),rgba(42,125,66,.2));border:1px solid var(--green-light)}
+.result-banner.loss{background:linear-gradient(135deg,rgba(192,57,43,.3),rgba(150,40,27,.15));border:1px solid var(--red)}
+.result-title{font-family:'Bebas Neue',sans-serif;font-size:34px;letter-spacing:3px}
+.result-banner.win .result-title{color:var(--green-light)}.result-banner.loss .result-title{color:var(--red)}
+/* TOAST */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--green);border:1px solid var(--green-light);color:var(--cream);padding:10px 24px;border-radius:28px;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:1px;z-index:300;transition:transform .3s cubic-bezier(.34,1.56,.64,1);box-shadow:0 8px 28px rgba(0,0,0,.4);text-align:center;max-width:90vw}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.error{background:var(--red);border-color:#c0392b}
+.toast.warning{background:var(--orange);border-color:#d68910}
+/* MISC */
+.flex-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.mt8{margin-top:8px}.mt16{margin-top:16px}.mt24{margin-top:24px}.mb16{margin-bottom:16px}
+.info-box{background:rgba(245,200,66,.07);border:1px solid rgba(245,200,66,.16);border-radius:9px;padding:12px 16px;font-size:13px;color:rgba(244,239,228,.72);line-height:1.6;margin-bottom:18px}
+.info-box strong{color:var(--gold)}
+.pill{display:inline-block;padding:2px 8px;border-radius:16px;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase}
+.pill-bat{background:rgba(59,130,246,.2);color:#60a5fa}.pill-bowl{background:rgba(239,68,68,.2);color:#f87171}.pill-all{background:rgba(34,197,94,.2);color:#4ade80}.pill-wk{background:rgba(168,85,247,.2);color:#c084fc}
+.filter-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
+.fbtn{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.4px;padding:4px 12px;border-radius:5px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:rgba(244,239,228,.55);cursor:pointer;transition:all .15s}
+.fbtn.active,.fbtn:hover{border-color:var(--gold);color:var(--gold);background:rgba(245,200,66,.08)}
+.pbar{height:4px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden;margin-top:3px}
+.pfill{height:100%;border-radius:2px;background:var(--green-light);transition:width .5s}
+.divider{border:none;border-top:1px solid rgba(255,255,255,.06);margin:18px 0}
+.sell-btn{font-size:8px;font-family:'Barlow Condensed',sans-serif;font-weight:700;background:rgba(231,76,60,.2);border:1px solid rgba(231,76,60,.38);color:#e74c3c;border-radius:3px;padding:2px 5px;cursor:pointer;margin-top:2px;letter-spacing:.4px;transition:background .15s}
+.sell-btn:hover{background:rgba(231,76,60,.35)}
+.badge-world{background:rgba(59,130,246,.15);color:#60a5fa;border:1px solid rgba(59,130,246,.3)}
+.badge-atcl{background:rgba(34,197,94,.15);color:#4ade80;border:1px solid rgba(34,197,94,.3)}
+.badge-u19{background:rgba(245,200,66,.15);color:var(--gold);border:1px solid rgba(245,200,66,.35)}
+/* MARKET */
+.market-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:14px;margin-bottom:10px;transition:border-color .2s}
+.market-card:hover{border-color:rgba(245,200,66,.25)}
+.market-info{flex:1}
+.market-name{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700}
+.market-meta{font-size:11px;color:rgba(244,239,228,.45);margin-top:2px}
+.market-price{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--gold);margin-right:8px}
+/* NATION GRID */
+.nation-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin-bottom:24px}
+.nation-card{background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.1);border-radius:12px;padding:18px 14px;text-align:center;cursor:pointer;transition:all .2s}
+.nation-card:hover,.nation-card.selected{border-color:var(--gold);background:rgba(245,200,66,.07)}
+.nation-flag{font-size:38px;margin-bottom:8px}
+.nation-name{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:.5px}
+.nation-ovr{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--gold)}
+/* TOURNAMENT BRACKET */
+.bracket{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:20px}
+.bgroup{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:14px}
+.bgroup-title{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:2px;color:var(--gold);margin-bottom:10px}
+.bteam{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05);font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:600}
+.bteam:last-child{border-bottom:none}
+.bteam.you{color:var(--gold)}
+.bteam-pts{color:rgba(244,239,228,.45);font-size:12px}
+/* spinner */
+.spinner{width:30px;height:30px;border:3px solid rgba(245,200,66,.2);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 10px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.pack-open-anim{text-align:center;padding:18px}
+.pack-open-anim .pea{font-size:68px;animation:pb .5s ease-in-out infinite alternate;display:block;margin-bottom:10px}
+@keyframes pb{from{transform:scale(1) rotate(-3deg)}to{transform:scale(1.1) rotate(3deg)}}
+.pack-open-anim p{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:3px;color:var(--gold);animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.7}50%{opacity:1}}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:rgba(255,255,255,.04)}
+::-webkit-scrollbar-thumb{background:rgba(245,200,66,.3);border-radius:3px}
+/* TEAM PICKER */
+.team-pick-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:20px}
+.tpcard{background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.1);border-radius:11px;padding:16px 14px;cursor:pointer;transition:all .2s}
+.tpcard:hover,.tpcard.sel{border-color:var(--gold);background:rgba(245,200,66,.07)}
+.tpname{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700}
+.tpmeta{font-size:11px;color:rgba(244,239,228,.45);margin-top:3px}
+.tpovr{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--gold)}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="logo">ATCL <span>Tapeball</span></div>
+  <div class="hcoins">🪙 <span id="coinDisplay">2000</span><span id="coinLabel" style="font-size:10px;opacity:.6;margin-left:2px"></span></div>
+</header>
+
+<!-- TOP MODE NAVIGATION -->
+<div class="mode-nav">
+  <button class="mode-btn active" onclick="switchMode('packs')">🎁 Packs &amp; Cards</button>
+  <button class="mode-btn" onclick="switchMode('myleague')">📋 My League Career</button>
+  <button class="mode-btn" onclick="switchMode('u19')">🟡 U19 League</button>
+  <button class="mode-btn" onclick="switchMode('atcl')">🟢 ATCL</button>
+  <button class="mode-btn" onclick="switchMode('world')">🌍 World Championship</button>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!--  MODE: PACKS & CARDS                   -->
+<!-- ═══════════════════════════════════════ -->
+<div id="mode-packs" class="mode-panel active">
+  <div class="sub-nav">
+    <button class="sub-btn active" onclick="showSub('packs','open')">Open Packs</button>
+    <button class="sub-btn" onclick="showSub('packs','collection')">Collection</button>
+    <button class="sub-btn" onclick="showSub('packs','team')">My Team</button>
+  </div>
+  <div id="packs-open" class="screen active">
+    <div class="stitle">Open Packs</div>
+    <div class="ssub">Pull players to build your squad</div>
+    <div class="info-box"><strong>Every pack gives 5 cards</strong> — always includes a Batter, Allrounder &amp; Bowler. Sell duplicates to earn coins. Win matches in My League Career to earn more!</div>
+    <div class="packs-grid">
+      <div class="pack-card pack-basic" onclick="openPack('basic')">
+        <span class="pack-emoji">📦</span>
+        <div class="pack-lbl">Basic Pack</div>
+        <div class="pack-range">OVR 60–84</div>
+        <div class="pack-price">FREE</div>
+        <div class="pack-desc">Bronze-tier grassroots players.</div>
+      </div>
+      <div class="pack-card pack-rare" onclick="openPack('rare')">
+        <span class="pack-emoji">💎</span>
+        <div class="pack-lbl">Rare Pack</div>
+        <div class="pack-range">OVR 70–94</div>
+        <div class="pack-price">🪙 500</div>
+        <div class="pack-desc">Silver &amp; Gold tier state-level players.</div>
+      </div>
+      <div class="pack-card pack-epic" onclick="openPack('epic')">
+        <span class="pack-emoji">⚡</span>
+        <div class="pack-lbl">Epic Pack</div>
+        <div class="pack-range">OVR 95–110</div>
+        <div class="pack-price">🪙 5500</div>
+        <div class="pack-desc">Elite legends of Australian tapeball.</div>
+      </div>
+    </div>
+  </div>
+  <div id="packs-collection" class="screen">
+    <div class="stitle">My Collection</div>
+    <div class="ssub">All your pulled players</div>
+    <div class="filter-row">
+      <button class="fbtn active" onclick="filterCol('all',this)">All</button>
+      <button class="fbtn" onclick="filterCol('BAT',this)">🏏 Batters</button>
+      <button class="fbtn" onclick="filterCol('ALL',this)">⚡ Allrounders</button>
+      <button class="fbtn" onclick="filterCol('BOWL',this)">🎳 Bowlers</button>
+      <button class="fbtn" onclick="filterCol('WK',this)">🧤 Keepers</button>
+    </div>
+    <div id="colGrid" class="col-grid"><div class="col-empty"><div class="ei">📦</div><p>Open packs to start!</p></div></div>
+  </div>
+  <div id="packs-team" class="screen">
+    <div class="stitle">My Team</div>
+    <div class="ssub">Build your starting XI for My League Career</div>
+    <div class="info-box">Need 4 Batters, 2 Allrounders, 3 Bowlers, 1 Keeper + 1 Wildcard.</div>
+    <div class="flex-row mt8 mb16">
+      <div id="teamOvrDisp" style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--gold)">Team OVR: —</div>
+      <button class="btn btn-gold" onclick="startCareerMatch()" id="playBtn" disabled>⚡ Play Match</button>
+      <button class="btn btn-primary" onclick="autoFill()">🎲 Auto-Fill</button>
+    </div>
+    <div id="teamSlots" class="team-grid"></div>
+  </div>
+  <div id="packs-league" class="screen">
+    <div id="careerLeagueContent"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!--  MODE: MY LEAGUE CAREER                -->
+<!-- ═══════════════════════════════════════ -->
+<div id="mode-myleague" class="mode-panel">
+  <div class="sub-nav">
+    <button class="sub-btn active" onclick="showSub('myleague','league')">Season</button>
+    <button class="sub-btn" onclick="showSub('myleague','squad')">Squad</button>
+  </div>
+  <div id="myleague-league" class="screen active">
+    <div id="careerContent"></div>
+  </div>
+  <div id="myleague-squad" class="screen">
+    <div class="stitle">My Squad</div>
+    <div class="ssub">Manage your playing XI</div>
+    <div class="flex-row mt8 mb16">
+      <div id="squadOvrDisp" style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--gold)">Team OVR: —</div>
+      <button class="btn btn-gold" onclick="startCareerMatch()" id="playBtn2" disabled>⚡ Play Next Match</button>
+      <button class="btn btn-primary" onclick="autoFill()">🎲 Auto-Fill</button>
+    </div>
+    <div id="squadSlots" class="team-grid"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!--  MODE: U19 LEAGUE                      -->
+<!-- ═══════════════════════════════════════ -->
+<div id="mode-u19" class="mode-panel">
+  <div class="sub-nav">
+    <button class="sub-btn active" onclick="showSub('u19','home')">Home</button>
+    <button class="sub-btn" onclick="showSub('u19','squad')">Squad</button>
+    <button class="sub-btn" onclick="showSub('u19','market')">Market</button>
+    <button class="sub-btn" onclick="showSub('u19','season')">Season</button>
+  </div>
+  <div id="u19-home" class="screen active"><div id="u19HomeContent"></div></div>
+  <div id="u19-squad" class="screen"><div id="u19SquadContent"></div></div>
+  <div id="u19-market" class="screen"><div id="u19MarketContent"></div></div>
+  <div id="u19-season" class="screen"><div id="u19SeasonContent"></div></div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!--  MODE: ATCL                            -->
+<!-- ═══════════════════════════════════════ -->
+<div id="mode-atcl" class="mode-panel">
+  <div class="sub-nav">
+    <button class="sub-btn active" onclick="showSub('atcl','home')">Home</button>
+    <button class="sub-btn" onclick="showSub('atcl','squad')">Squad</button>
+    <button class="sub-btn" onclick="showSub('atcl','market')">Market</button>
+    <button class="sub-btn" onclick="showSub('atcl','season')">Season</button>
+  </div>
+  <div id="atcl-home" class="screen active"><div id="atclHomeContent"></div></div>
+  <div id="atcl-squad" class="screen"><div id="atclSquadContent"></div></div>
+  <div id="atcl-market" class="screen"><div id="atclMarketContent"></div></div>
+  <div id="atcl-season" class="screen"><div id="atclSeasonContent"></div></div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!--  MODE: WORLD CHAMPIONSHIP              -->
+<!-- ═══════════════════════════════════════ -->
+<div id="mode-world" class="mode-panel">
+  <div class="sub-nav">
+    <button class="sub-btn active" onclick="showSub('world','home')">Home</button>
+    <button class="sub-btn" onclick="showSub('world','squad')">Squad</button>
+    <button class="sub-btn" onclick="showSub('world','market')">Transfer</button>
+    <button class="sub-btn" onclick="showSub('world','tournament')">Tournament</button>
+  </div>
+  <div id="world-home" class="screen active"><div id="worldHomeContent"></div></div>
+  <div id="world-squad" class="screen"><div id="worldSquadContent"></div></div>
+  <div id="world-market" class="screen"><div id="worldMarketContent"></div></div>
+  <div id="world-tournament" class="screen"><div id="worldTournamentContent"></div></div>
+</div>
+
+<!-- MODAL + TOAST -->
+<div id="modalOverlay" class="modal-overlay" style="display:none" onclick="closeMOB(event)">
+  <div class="modal" id="modalContent"></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════
+//  SHARED DATA
+// ═══════════════════════════════════════════
+const FN=['Liam','Noah','Oliver','Elijah','James','Aiden','Lucas','Mason','Ethan','Logan','Jack','Owen','Charlie','Hunter','Wyatt','Sebastian','Declan','Finn','Archer','Blake','Connor','Dylan','Evan','Flynn','Grady','Hamish','Ivan','Jasper','Kai','Leon','Miles','Nate','Oscar','Patrick','Quinn','Ryan','Sam','Tyler','Usman','Vince','Angus','Brody','Callum','Darcy','Eddie','Felix','Gus','Harry','Iggy','Jaxon','Koby','Lachlan','Murray','Nash','Otto','Percy','Reef','Spencer','Tom','Xander','Yannick','Zach','Archie','Benji','Cruz','Damo','Joel','Kieran','Lars','Marcus','Nico','Pax','Raf','Seb','Tanner','Vahn','Wren','Xavi'];
+const LN=['Smith','Jones','Williams','Taylor','Brown','Davies','Evans','Wilson','Thomas','Roberts','Johnson','White','Walker','Harris','Martin','Thompson','Garcia','Robinson','Clark','Lewis','Lee','Hall','Allen','Young','King','Wright','Hill','Scott','Green','Adams','Baker','Nelson','Carter','Mitchell','Turner','Campbell','Anderson','Murray','Murphy','Kelly','Riley','Walsh','Burke','Collins','Ryan','Nguyen','Patel','Sharma','Khan','Singh','Chandra','Mehta','Kumar','Zhang','Li','Chen','Wang','Liu','Xu','Lin','Huang','Wu','Mackay','Fraser','Morrison','Grant','Stewart','Reid','Ferguson','Hamilton','Ross','Fitzgerald','Brennan','Gallagher','Doyle','Nolan','Quinn','Brady'];
+const BATTING_STYLES=['Right-hand bat','Left-hand bat'];
+const BOWLING_STYLES=['Right-arm fast','Left-arm fast','Right-arm medium','Left-arm medium','Right-arm off-spin','Left-arm orthodox','Leg-spin'];
+const SPECS={BAT:['Opening bat','Middle-order bat','Aggressive bat','Anchor bat','Power hitter'],ALL:['Batting allrounder','Bowling allrounder','Pace allrounder','Spin allrounder'],BOWL:['Pace bowler','Swing bowler','Spin bowler','Death bowler','Economy bowler'],WK:['Wicketkeeper bat','Keeping specialist']};
+const ROLE_NAMES={BAT:'Batter',ALL:'Allrounder',BOWL:'Bowler',WK:'Wicketkeeper'};
+const ROLE_PILLS={BAT:'pill-bat',ALL:'pill-all',BOWL:'pill-bowl',WK:'pill-wk'};
+const TPFX=['Red','Blue','Golden','Black','Thunder','Storm','Blaze','Iron','Wild','Silver','Rapid','Shadow','Sonic','Razor','Steel','Crimson','Apex','Nova','Bolt','Feral'];
+const TANI=['Roos','Crocs','Dingoes','Eagles','Sharks','Hawks','Cobras','Pythons','Magpies','Kookaburras','Panthers','Wolves','Falcons','Vipers','Stallions'];
+
+// CAREER LEAGUES
+const LEAGUES=[
+  {name:'Division 15',teams:6,reward:300,qw:4,ovr:60,world:false},
+  {name:'Division 14',teams:6,reward:400,qw:4,ovr:62,world:false},
+  {name:'Division 13',teams:6,reward:500,qw:4,ovr:64,world:false},
+  {name:'Division 12',teams:8,reward:600,qw:4,ovr:66,world:false},
+  {name:'Division 11',teams:8,reward:700,qw:4,ovr:68,world:false},
+  {name:'Division 10',teams:8,reward:900,qw:4,ovr:70,world:false},
+  {name:'Division 9', teams:8,reward:1100,qw:4,ovr:72,world:false},
+  {name:'Division 8', teams:8,reward:1300,qw:4,ovr:74,world:false},
+  {name:'Division 7', teams:8,reward:1600,qw:4,ovr:76,world:false},
+  {name:'Division 6', teams:10,reward:2000,qw:4,ovr:78,world:false},
+  {name:'Division 5', teams:10,reward:2500,qw:4,ovr:80,world:false},
+  {name:'Division 4', teams:10,reward:3000,qw:4,ovr:83,world:false},
+  {name:'Division 2', teams:10,reward:4000,qw:4,ovr:86,world:false},
+  {name:'Division 1 — U19 ATCL',teams:10,reward:6000,qw:4,ovr:89,world:false},
+  {name:'Champions Tapeball Trophy',teams:12,reward:12000,qw:5,ovr:93,world:false},
+  {name:'World Tapeball League — Group Stage',teams:12,reward:20000,qw:6,ovr:97,world:true},
+  {name:'World Tapeball League — Plate',teams:12,reward:35000,qw:6,ovr:100,world:true},
+  {name:'World Tapeball League — Cup',teams:14,reward:55000,qw:6,ovr:103,world:true},
+  {name:'World Tapeball League — Trophy',teams:14,reward:80000,qw:6,ovr:106,world:true},
+  {name:'World Tapeball Champions League',teams:16,reward:150000,qw:7,ovr:108,world:true},
+];
+const MAX_DOM=7; const MAX_WLD=12;
+
+// WORLD CHAMPIONSHIP NATIONS
+const NATIONS=[
+  {name:'Australia',flag:'🇦🇺',ovr:88},
+  {name:'India',flag:'🇮🇳',ovr:91},
+  {name:'England',flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',ovr:85},
+  {name:'Pakistan',flag:'🇵🇰',ovr:89},
+  {name:'New Zealand',flag:'🇳🇿',ovr:83},
+  {name:'South Africa',flag:'🇿🇦',ovr:84},
+  {name:'Sri Lanka',flag:'🇱🇰',ovr:80},
+  {name:'West Indies',flag:'🌴',ovr:82},
+  {name:'Bangladesh',flag:'🇧🇩',ovr:76},
+  {name:'Afghanistan',flag:'🇦🇫',ovr:78},
+  {name:'Zimbabwe',flag:'🇿🇼',ovr:72},
+  {name:'Ireland',flag:'🇮🇪',ovr:70},
+  {name:'Netherlands',flag:'🇳🇱',ovr:68},
+  {name:'Scotland',flag:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',ovr:67},
+  {name:'UAE',flag:'🇦🇪',ovr:74},
+  {name:'Namibia',flag:'🇳🇦',ovr:65},
+];
+
+// U19 TEAMS
+const U19_TEAMS_DEF=[
+  'Northern Stars U19','Southern Bolts U19','Western Blaze U19','Eastern Crocs U19','Capital Roos U19','Harbour Hawks U19','Desert Cobras U19','Valley Eagles U19','Coastal Pythons U19','Outback Vipers U19'
+];
+// ATCL TEAMS
+const ATCL_TEAMS_DEF=[
+  'Northern Stars','Southern Bolts','Western Blaze','Eastern Crocs','Capital Roos','Harbour Hawks','Desert Cobras','Valley Eagles','Coastal Pythons','Outback Vipers'
+];
+
+// ── STATE ──
+let S={
+  coins:2000,        // Packs & Career mode coins
+  u19_coins:5000,    // U19 League separate wallet
+  atcl_coins:8000,   // ATCL separate wallet
+  world_coins:10000, // World Championship separate wallet
+  collection:[],
+  team:Array(11).fill(null),
+  career_tier:0,
+  career_table:[],
+  career_filter:'all',
+  // U19 MANAGER
+  u19_team_idx:null,
+  u19_squad:[],
+  u19_season:null,
+  u19_market:[],
+  // ATCL MANAGER
+  atcl_team_idx:null,
+  atcl_squad:[],
+  atcl_season:null,
+  atcl_market:[],
+  // WORLD
+  world_nation:null,
+  world_squad:[],
+  world_market:[],
+  world_tournament:null,
+};
+
+function save(){try{localStorage.setItem('atcl2',JSON.stringify(S));}catch(e){}}
+function load(){
+  try{
+    const d=localStorage.getItem('atcl2');
+    if(d){
+      const saved=JSON.parse(d);
+      // Merge saved into S so new fields keep their defaults
+      S=Object.assign({},S,saved);
+      // Ensure new coin wallets are never undefined
+      if(typeof S.u19_coins!=='number')S.u19_coins=5000;
+      if(typeof S.atcl_coins!=='number')S.atcl_coins=8000;
+      if(typeof S.world_coins!=='number')S.world_coins=10000;
+      if(typeof S.coins!=='number')S.coins=2000;
+    }
+  }catch(e){}
+}
+
+// ═══════════════════════════════════════════
+//  PLAYER GENERATION
+// ═══════════════════════════════════════════
+function rndName(){return FN[~~(Math.random()*FN.length)]+' '+LN[~~(Math.random()*LN.length)];}
+function rnd(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
+function wRnd(min,max){return Math.floor(min+Math.pow(Math.random(),1.8)*(max-min));}
+
+function tierFromOvr(o){if(o>=100)return'legendary';if(o>=90)return'epic';if(o>=80)return'gold';if(o>=70)return'silver';return'bronze';}
+function valFromOvr(o){if(o>=100)return 700;if(o>=90)return 400;if(o>=85)return 370;if(o>=80)return 300;if(o>=70)return 200;return 100;}
+
+function genStats(o,r){
+  const j=()=>rnd(-8,8);const b=o;
+  const cap=(v)=>Math.min(99,Math.max(30,v));
+  if(r==='BAT')return{power:cap(b+j()),timing:cap(b+j()),technique:cap(b+j()),running:cap(b+j()),fielding:cap(b+j()-10),bowling:cap(b+j()-30)};
+  if(r==='BOWL')return{pace:cap(b+j()),swing:cap(b+j()),accuracy:cap(b+j()),variation:cap(b+j()),fielding:cap(b+j()-5),batting:cap(b+j()-25)};
+  if(r==='ALL')return{batting:cap(b+j()-5),bowling:cap(b+j()-5),power:cap(b+j()),accuracy:cap(b+j()),fielding:cap(b+j()),fitness:cap(b+j())};
+  return{keeping:cap(b+j()),stumping:cap(b+j()),batting:cap(b+j()-10),diving:cap(b+j()),fielding:cap(b+j()),reading:cap(b+j())};
+}
+
+function genPlayer(role,oMin,oMax,leagueName,isU19=false){
+  const ovr=wRnd(oMin,oMax);
+  const tier=tierFromOvr(ovr);
+  const val=valFromOvr(ovr);
+  return{
+    id:'p_'+Date.now()+'_'+Math.random().toString(36).slice(2,6),
+    name:rndName(),ovr,role,
+    batting_style:BATTING_STYLES[~~(Math.random()*2)],
+    bowling_style:BOWLING_STYLES[~~(Math.random()*BOWLING_STYLES.length)],
+    specialisation:SPECS[role][~~(Math.random()*SPECS[role].length)],
+    league:leagueName||'',
+    is_u19:isU19,
+    stats:genStats(ovr,role),card_tier:tier,value:val,
+    from_league:leagueName||''
+  };
+}
+
+const DAKSH={id:'daksh_nayak',name:'Daksh Nayak',ovr:82,role:'BOWL',batting_style:'Right-hand bat',bowling_style:'Left-arm fast',specialisation:'Pace bowler',league:'Division 1 — U19 ATCL',is_u19:true,stats:{pace:84,swing:80,accuracy:79,fitness:83,batting:48,fielding:77,experience:72},card_tier:'gold',value:300,from_league:'Division 1 — U19 ATCL'};
+
+// ═══════════════════════════════════════════
+//  CARD HTML
+// ═══════════════════════════════════════════
+function buildCard(p,showSell=false){
+  const tier=p.card_tier;
+  const sk=Object.keys(p.stats).slice(0,4);
+  const statsH=sk.map(k=>`<div class="stat-row"><span class="stat-label">${k.toUpperCase().slice(0,3)}</span><span class="stat-val">${p.stats[k]}</span></div>`).join('');
+  const emo={BAT:'🏏',ALL:'⚡',BOWL:'🎳',WK:'🧤'}[p.role];
+  let badge='';
+  if(p.ovr>75){
+    const isU19=p.is_u19||(p.from_league||'').toLowerCase().includes('u19');
+    if(isU19) badge=`<div class="card-badge badge-u19">U19 ATCL</div>`;
+    else badge=`<div class="card-badge badge-atcl">ATCL</div>`;
+  }
+  const sellBtn=showSell?`<button class="sell-btn" onclick="sellCard('${p.id}',event)">SELL 🪙${p.value}</button>`:'';
+  return`<div class="player-card card-${tier}" title="${p.name}">
+    <div class="card-inner">
+      <div class="card-ovr">${p.ovr}</div>
+      <div class="card-name">${p.name}</div>
+      <div class="card-role"><span class="pill ${ROLE_PILLS[p.role]}">${ROLE_NAMES[p.role]}</span></div>
+      ${badge}
+      <div class="card-avatar">${emo}</div>
+      <div class="card-stats">${statsH}</div>
+      <div class="card-val">🪙${p.value}</div>
+      ${sellBtn}
+    </div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════
+//  PACKS
+// ═══════════════════════════════════════════
+const PACKS={basic:{cost:0,min:60,max:84,label:'Basic Pack',emoji:'📦'},rare:{cost:500,min:70,max:94,label:'Rare Pack',emoji:'💎'},epic:{cost:5500,min:95,max:110,label:'Epic Pack',emoji:'⚡'}};
+
+function openPack(type){
+  const cfg=PACKS[type];
+  if(S.coins<cfg.cost){showToast(`Need 🪙${cfg.cost}!`,'error');return;}
+  openModal(`<div class="modal-title">${cfg.emoji} ${cfg.label}</div><div class="pack-open-anim"><span class="pea">${cfg.emoji}</span><p>Opening...</p></div>`);
+  setTimeout(()=>{
+    S.coins-=cfg.cost;updCoins();
+    const roles=['BAT','ALL','BOWL','BAT','BOWL'];
+    const pool=['BAT','BAT','ALL','BOWL','BOWL','WK'];
+    const allR=[...roles.slice(0,3),pool[~~(Math.random()*pool.length)],pool[~~(Math.random()*pool.length)]];
+    const ld=LEAGUES[Math.min(S.career_tier,LEAGUES.length-1)];
+    const cards=allR.map(r=>genPlayer(r,cfg.min,cfg.max,ld.name,type==='basic'));
+    if(type==='basic'&&!S.collection.find(c=>c.id==='daksh_nayak'))cards[cards.length-1]=DAKSH;
+    cards.forEach(c=>S.collection.push(c));save();
+    const total=cards.reduce((a,c)=>a+c.value,0);
+    const revH=cards.map((c,i)=>`<div class="reveal-card" style="animation-delay:${i*.12}s">${buildCard(c)}</div>`).join('');
+    openModal(`<div class="modal-title">${cfg.emoji} Pack Opened!</div>
+    <p style="font-family:'Barlow Condensed';font-size:13px;color:rgba(244,239,228,.45);margin-bottom:14px;">5 new players • Total value: 🪙${total}</p>
+    <div class="pack-reveal">${revH}</div>
+    <div class="flex-row mt24" style="justify-content:center;gap:10px;">
+      <button class="btn btn-primary" onclick="openPack('${type}');closeModal()" ${S.coins<cfg.cost?'disabled':''}>Open Another</button>
+      <button class="btn btn-gold" onclick="closeModal();showSub('packs','collection')">View Collection</button>
+    </div>`);
+    renderCol();updateSlots();
+  },1300);
+}
+
+// ═══════════════════════════════════════════
+//  COLLECTION
+// ═══════════════════════════════════════════
+let colFilter='all';
+function filterCol(f,btn){colFilter=f;document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderCol();}
+function renderCol(){
+  const g=document.getElementById('colGrid');if(!g)return;
+  let cards=S.collection;
+  if(colFilter!=='all')cards=cards.filter(c=>c.role===colFilter);
+  if(!cards.length){g.innerHTML=`<div class="col-empty"><div class="ei">📦</div><p>${S.collection.length?'No cards here.':'Open packs first!'}</p></div>`;return;}
+  g.innerHTML=[...cards].sort((a,b)=>b.ovr-a.ovr).map(p=>buildCard(p,true)).join('');
+}
+function sellCard(id,e){
+  e&&e.stopPropagation();
+  if(id==='daksh_nayak'){showToast("Can't sell Daksh!",'error');return;}
+  const i=S.collection.findIndex(c=>c.id===id);if(i===-1)return;
+  const c=S.collection[i];
+  S.team=S.team.map(t=>t&&t.id===id?null:t);
+  S.collection.splice(i,1);
+  S.coins+=c.value;updCoins();save();renderCol();updateSlots();
+  showToast(`Sold ${c.name} for 🪙${c.value}`);
+}
+
+// ═══════════════════════════════════════════
+//  CAREER TEAM / SLOTS
+// ═══════════════════════════════════════════
+const SLOT_DEF=[
+  {l:'Batter 1',r:'BAT'},{l:'Batter 2',r:'BAT'},{l:'Batter 3',r:'BAT'},{l:'Batter 4',r:'BAT'},
+  {l:'Allrounder 1',r:'ALL'},{l:'Allrounder 2',r:'ALL'},
+  {l:'Bowler 1',r:'BOWL'},{l:'Bowler 2',r:'BOWL'},{l:'Bowler 3',r:'BOWL'},
+  {l:'Keeper',r:'WK'},{l:'Wildcard',r:'ANY'}
+];
+
+function updateSlots(){
+  ['teamSlots','squadSlots'].forEach(sid=>{
+    const c=document.getElementById(sid);if(!c)return;
+    c.innerHTML=SLOT_DEF.map((sd,i)=>{
+      const p=S.team[i];
+      if(p)return`<div class="tslot filled"><div class="snum">${i+1}</div>
+        <div style="font-size:22px;">${{BAT:'🏏',ALL:'⚡',BOWL:'🎳',WK:'🧤'}[p.role]}</div>
+        <div class="sinfo"><div class="sname">${p.name}</div><div class="srole">${sd.l} • <span class="pill ${ROLE_PILLS[p.role]}">${ROLE_NAMES[p.role]}</span></div></div>
+        <div><div class="sovr">${p.ovr}</div><button class="sell-btn" style="font-size:9px;padding:2px 7px" onclick="removeSlot(${i})">✕</button></div></div>`;
+      return`<div class="tslot" onclick="pickSlot(${i})"><div class="snum">${i+1}</div>
+        <div style="font-size:18px;opacity:.3">${sd.r==='ANY'?'⭐':{BAT:'🏏',ALL:'⚡',BOWL:'🎳',WK:'🧤'}[sd.r]}</div>
+        <div class="sinfo"><div class="sname" style="color:rgba(244,239,228,.35)">+ Add Player</div><div class="srole">${sd.l}</div></div></div>`;
+    }).join('');
+  });
+  const filled=S.team.filter(Boolean);
+  const ovr=filled.length?Math.round(filled.reduce((a,c)=>a+c.ovr,0)/filled.length):0;
+  const disp=filled.length?`Team OVR: ${ovr} (${filled.length}/11)`:'Team OVR: —';
+  ['teamOvrDisp','squadOvrDisp'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=disp;});
+  const full=filled.length===11;
+  ['playBtn','playBtn2'].forEach(id=>{const el=document.getElementById(id);if(el)el.disabled=!full;});
+  save();
+}
+function removeSlot(i){S.team[i]=null;updateSlots();}
+function pickSlot(si){
+  const sr=SLOT_DEF[si].r;
+  const taken=S.team.filter(Boolean).map(p=>p.id);
+  let avail=S.collection.filter(p=>!taken.includes(p.id));
+  if(sr!=='ANY')avail=avail.filter(p=>p.role===sr);
+  if(!avail.length){showToast(`No available ${sr==='ANY'?'players':ROLE_NAMES[sr]}!`,'warning');return;}
+  avail.sort((a,b)=>b.ovr-a.ovr);
+  openModal(`<div class="modal-title">Pick ${SLOT_DEF[si].l}</div>
+  <p style="font-family:'Barlow Condensed';font-size:12px;color:rgba(244,239,228,.4);margin-bottom:14px">${avail.length} available</p>
+  <div class="col-grid">${avail.map(p=>`<div onclick="assignSlot(${si},'${p.id}')" style="cursor:pointer">${buildCard(p)}</div>`).join('')}</div>
+  <div class="mt16"><button class="btn btn-danger btn-sm" onclick="closeModal()">Cancel</button></div>`);
+}
+function assignSlot(si,pid){
+  const p=S.collection.find(x=>x.id===pid);if(!p)return;
+  S.team=S.team.map(t=>t&&t.id===pid?null:t);
+  S.team[si]=p;closeModal();updateSlots();save();
+}
+function autoFill(){
+  if(S.collection.length<11){showToast('Not enough players!','warning');return;}
+  const nt=Array(11).fill(null);const used=new Set();
+  SLOT_DEF.forEach((sd,i)=>{
+    const cands=S.collection.filter(p=>(sd.r==='ANY'||p.role===sd.r)&&!used.has(p.id)).sort((a,b)=>b.ovr-a.ovr);
+    if(cands[0]){nt[i]=cands[0];used.add(cands[0].id);}
+  });
+  S.team=nt;updateSlots();showToast('Team auto-filled!');
+}
+
+// ═══════════════════════════════════════════
+//  CAREER LEAGUE
+// ═══════════════════════════════════════════
+function aiTeamName(){return TPFX[~~(Math.random()*TPFX.length)]+' '+TANI[~~(Math.random()*TANI.length)];}
+function genAITeam(ovrBase,ti){
+  const roles=['BAT','BAT','BAT','BAT','ALL','ALL','BOWL','BOWL','BOWL','WK','BAT'];
+  const isW=ti>=15,isChamp=ti===14,isNear=ti===12||ti===13;
+  return roles.map((r,i)=>{
+    let mn,mx;
+    if(isW){mn=i<7?Math.max(100,ovrBase-3):Math.max(93,ovrBase-6);mx=Math.min(110,ovrBase+5);}
+    else if(isChamp){mn=i<4?Math.max(99,ovrBase-3):Math.max(85,ovrBase-8);mx=Math.min(110,ovrBase+5);}
+    else if(isNear){mn=i<3?Math.max(97,ovrBase-4):Math.max(ovrBase-6,75);mx=Math.min(110,ovrBase+5);}
+    else{mn=Math.max(55,ovrBase-6);mx=Math.min(110,ovrBase+6);}
+    return genPlayer(r,mn,mx);
+  });
+}
+function initCareer(){if(!S.career_table.length)genCareerTable();}
+function genCareerTable(){
+  const ld=LEAGUES[Math.min(S.career_tier,LEAGUES.length-1)];
+  const maxM=ld.world?MAX_WLD:MAX_DOM;
+  const teams=[];
+  for(let i=0;i<ld.teams-1;i++){
+    const w=~~(Math.random()*Math.floor(maxM*.6)),l=~~(Math.random()*(maxM-w));
+    teams.push({name:aiTeamName(),w,l,played:w+l,pts:w*2,nrr:+(Math.random()*2-1).toFixed(2),isP:false,in_final:false,final_done:false});
+  }
+  teams.push({name:'YOUR TEAM',w:0,l:0,played:0,pts:0,nrr:0,isP:true,in_final:false,final_done:false,final_won:false});
+  shuffle(teams);S.career_table=teams;save();
+}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=~~(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function renderCareer(containerId){
+  containerId=containerId||'careerContent';
+  initCareer();
+  const ti=Math.min(S.career_tier,LEAGUES.length-1);
+  const ld=LEAGUES[ti];
+  const maxM=ld.world?MAX_WLD:MAX_DOM;
+  const sorted=[...S.career_table].sort((a,b)=>b.pts-a.pts||b.nrr-a.nrr);
+  const pe=S.career_table.find(t=>t.isP);
+  const pw=pe?pe.w:0,pp=pe?pe.played:0;
+  const qw=ld.qw,mLeft=Math.max(0,maxM-pp);
+  const qual=pw>=qw,done=pp>=maxM;
+  const inF=pe&&pe.in_final,fDone=pe&&pe.final_done,fWon=pe&&pe.final_won;
+  const tf=S.team.filter(Boolean).length===11;
+
+  let statusMsg='';
+  if(fDone&&fWon) statusMsg=`<div style="color:var(--gold);font-weight:700;font-size:13px;margin-top:5px">🏆 Final won! Claim promotion below.</div>`;
+  else if(fDone&&!fWon) statusMsg=`<div style="color:var(--red);font-weight:700;font-size:13px;margin-top:5px">❌ Lost the Final. Reset season to try again.</div>`;
+  else if(inF) statusMsg=`<div style="color:var(--gold);font-weight:700;font-size:13px;margin-top:5px">🏟️ Qualified! Play Grand Final (Match ${maxM+1}) below.</div>`;
+  else if(done&&!qual) statusMsg=`<div style="color:var(--red);font-weight:700;font-size:13px;margin-top:5px">Season over — didn't qualify. Reset to retry.</div>`;
+  else if(done&&qual&&!inF) statusMsg=`<div style="color:var(--gold);font-weight:700;font-size:13px;margin-top:5px">✅ Qualified! Enter the Final below.</div>`;
+  else statusMsg=`<div style="color:rgba(244,239,228,.45);font-size:12px;margin-top:3px">${mLeft} match${mLeft!==1?'es':''} left • need ${Math.max(0,qw-pw)} more win${qw-pw!==1?'s':''} to qualify</div>`;
+
+  let pbLbl='⚡ Play Match',pbAct='startCareerMatch()',pbDis=!tf;
+  if(inF&&!fDone){pbLbl='🏆 Play Grand Final';pbAct='startCareerFinal()';}
+  else if(done){pbDis=true;}
+  if(fDone)pbDis=true;
+
+  const qualBtn=(done&&qual&&!inF&&!fDone)?`<div class="mt8 mb16"><button class="btn btn-gold" onclick="careerEnterFinal()">🏟️ Enter Grand Final (Match ${maxM+1})</button></div>`:'';
+  const promBtn=(fDone&&fWon)?`<div class="mt8 mb16"><button class="btn btn-gold" onclick="careerClaim()">🏆 Claim League Win! +🪙${ld.reward+500}</button></div>`:'';
+
+  const el=document.getElementById(containerId);
+  if(!el)return;
+  el.innerHTML=`
+    <div class="stitle">${ld.name}</div>
+    <div class="ssub">${ld.world?'🌍 World League':'Career Mode'} • ${maxM} matches + Grand Final • Win the League: 🪙${ld.reward+500}</div>
+    <div class="flex-row mb16" style="gap:10px">
+      <button class="btn btn-primary" onclick="${pbAct}" ${pbDis?'disabled':''}>${pbLbl}</button>
+      <button class="btn btn-primary btn-sm" onclick="genCareerTable();renderCareer('${containerId}')">🔄 Reset Season</button>
+    </div>
+    <div class="info-box">
+      <strong>Season:</strong> Match ${pp}/${maxM} • ${pw}W ${pe?pe.l:0}L • Qualify at ${qw}+ wins
+      <div class="pbar"><div class="pfill" style="width:${Math.round(pp/maxM*100)}%"></div></div>
+      ${statusMsg}
+    </div>
+    ${qualBtn}${promBtn}
+    <table class="ltable">
+      <thead><tr><th>#</th><th>Team</th><th>Pld</th><th>W</th><th>L</th><th>Pts</th><th>NRR</th></tr></thead>
+      <tbody>${sorted.map((t,i)=>`<tr class="${t.isP?'prow':''}">
+        <td class="lpos">${i+1}</td>
+        <td style="font-weight:700">${t.name}${t.isP?' ⭐':''}${t.in_final?' 🏟️':''}</td>
+        <td style="color:rgba(244,239,228,.4)">${t.played||0}</td>
+        <td>${t.w}</td><td>${t.l}</td><td style="color:var(--gold)">${t.pts}</td>
+        <td style="color:rgba(244,239,228,.4)">${t.nrr>0?'+':''}${t.nrr}</td>
+      </tr>`).join('')}</tbody>
+    </table>`;
+}
+function careerEnterFinal(){
+  const pe=S.career_table.find(t=>t.isP);if(pe)pe.in_final=true;save();renderCareer();renderCareer('careerLeagueContent');
+  showToast('🏟️ Entered the Final!');
+}
+function careerClaim(){
+  const ti=Math.min(S.career_tier,LEAGUES.length-1);
+  const ld=LEAGUES[ti];
+  const totalReward=ld.reward+500;
+  S.coins+=totalReward;updCoins();
+  if(S.career_tier<LEAGUES.length-1){
+    S.career_tier++;S.career_table=[];
+    showToast(`🏆 Promoted to ${LEAGUES[S.career_tier].name}! +🪙${totalReward}`);
+  }else{showToast(`🌍 World Champions! +🪙${totalReward}`);}
+  genCareerTable();save();renderCareer();renderCareer('careerLeagueContent');
+}
+
+function startCareerMatch(){
+  if(S.team.filter(Boolean).length<11){showToast('Need full team!','error');switchMode('packs');showSub('packs','team');return;}
+  const ld=LEAGUES[Math.min(S.career_tier,LEAGUES.length-1)];
+  const maxM=ld.world?MAX_WLD:MAX_DOM;
+  const pe=S.career_table.find(t=>t.isP);
+  if(pe&&pe.played>=maxM){showToast('Season complete! Check League tab.','warning');return;}
+  runCareerMatch(false);
+}
+function startCareerFinal(){
+  if(S.team.filter(Boolean).length<11){showToast('Need full team!','error');return;}
+  runCareerMatch(true);
+}
+function runCareerMatch(isFinal){
+  const ti=Math.min(S.career_tier,LEAGUES.length-1);
+  const ld=LEAGUES[ti];
+  const maxM=ld.world?MAX_WLD:MAX_DOM;
+  const ovrBase=ld.ovr+(isFinal?6:0);
+  const aiTeam=genAITeam(ovrBase,ti);
+  const aiName=isFinal?'Grand Final Opponents':aiTeamName();
+  const my=S.team.filter(Boolean);
+  const myO=Math.round(my.reduce((a,c)=>a+c.ovr,0)/my.length);
+  const aiO=Math.round(aiTeam.reduce((a,c)=>a+c.ovr,0)/aiTeam.length);
+  // Show loading screen
+  openModal(`<div style="text-align:center;padding:40px 20px">
+    <div style="font-size:60px;animation:pb .5s ease-in-out infinite alternate;display:inline-block">🏏</div>
+    <div style="font-family:'Bebas Neue';font-size:24px;letter-spacing:3px;color:var(--gold);margin-top:16px">MATCH IN PROGRESS</div>
+    <div style="font-family:'Barlow Condensed';font-size:14px;color:rgba(244,239,228,.45);margin-top:8px">Your Team vs ${aiName}</div>
+    <div class="spinner" style="margin-top:20px"></div>
+  </div>`);
+  setTimeout(()=>{
+    const myI=simInnings(my,aiTeam,myO,aiO);
+    const aiI=simInnings(aiTeam,my,aiO,myO,myI.runs+1);
+    const won=myI.runs>aiI.runs;
+    const pe=S.career_table.find(t=>t.isP);
+    const ate=S.career_table.filter(t=>!t.isP)[~~(Math.random()*(S.career_table.length-1))];
+    if(isFinal){if(pe){pe.final_done=true;pe.final_won=won;}}
+    else{
+      if(pe){pe.played=(pe.played||0)+1;if(won){pe.w++;pe.pts+=2;pe.nrr=+(pe.nrr+.3).toFixed(2);}else{pe.l++;pe.nrr=+(pe.nrr-.2).toFixed(2);}}
+      if(ate){ate.played=Math.min(maxM,(ate.played||0)+1);if(!won){ate.w++;ate.pts+=2;ate.nrr=+(ate.nrr+.3).toFixed(2);}else{ate.l++;ate.nrr=+(ate.nrr-.2).toFixed(2);}}
+    }
+    S.total_wins=(S.total_wins||0)+(won?1:0);save();
+    const fmn=maxM+1;
+    const mnum=isFinal?`Grand Final (Match ${fmn})`:`Match ${pe?pe.played:'?'} of ${maxM}`;
+    const margin=Math.abs(myI.runs-aiI.runs);
+    // myI.bowlStats = opp's bowlers (they bowl when my team bats)
+    // oppI.bowlStats = my bowlers (I bowl when opp bats)
+    const myCard=buildScorecardTable(myI.batStats||[],oppI.bowlStats||[],'Your Team');
+    const oppCard=buildScorecardTable(aiI.batStats||[],myI.bowlStats||[],aiName);
+    const pfl=!isFinal&&pe&&pe.played>=maxM;
+    const qual=pe&&pe.w>=ld.qw;
+    let note='';
+    if(pfl&&qual)note=`<div class="info-box" style="margin-top:14px;border-color:rgba(245,200,66,.4)">🏟️ Season done! You qualified (${pe.w}W). Go to League tab for the Final!</div>`;
+    else if(pfl&&!qual)note=`<div class="info-box" style="margin-top:14px;border-color:rgba(231,76,60,.4)">Season over. ${pe.w} wins — need ${ld.qw} to qualify. Reset season.</div>`;
+    else if(!isFinal){const l=maxM-(pe?pe.played:0);note=`<div style="font-family:'Barlow Condensed';font-size:12px;color:rgba(244,239,228,.35);margin-top:10px;text-align:center">${l} match${l!==1?'es':''} remaining</div>`;}
+    openModal(`<div class="modal-title">⚡ ${isFinal?'🏆 Grand Final':'Match Report'}</div>
+    <div style="font-family:'Barlow Condensed';font-size:12px;font-weight:700;letter-spacing:1px;color:rgba(245,200,66,.55);margin-bottom:10px;text-transform:uppercase">${mnum}</div>
+    <div class="scoreboard"><div class="match-teams">
+      <div class="tscore"><div class="tscore-name">Your Team</div><div class="tscore-runs">${myI.runs}</div><div class="tscore-wkts">${myI.wickets} wkts</div></div>
+      <div class="vs">VS</div>
+      <div class="tscore"><div class="tscore-name">${aiName}</div><div class="tscore-runs">${aiI.runs}</div><div class="tscore-wkts">${aiI.wickets} wkts</div></div>
+    </div><div class="match-overs">10 Overs Each Side</div></div>
+    <div class="result-banner ${won?'win':'loss'}" style="margin-bottom:16px">
+      <div class="result-title">${isFinal?(won?'CHAMPIONS!':'FINAL LOSS'):(won?'VICTORY!':'DEFEAT')}</div>
+      <div style="font-family:'Barlow Condensed';font-size:15px;color:rgba(244,239,228,.65);margin-top:4px">${won?`Won by ${margin} runs`:`Lost by ${margin} runs`}</div>
+    </div>
+    <div style="background:rgba(0,0,0,.25);border-radius:10px;padding:14px;margin-bottom:10px">${myCard}</div>
+    <div style="background:rgba(0,0,0,.25);border-radius:10px;padding:14px">${oppCard}</div>
+    ${note}
+    <div class="flex-row mt24" style="justify-content:center;gap:10px">
+      ${(!isFinal&&pe&&pe.played<maxM)?`<button class="btn btn-gold" onclick="closeModal();startCareerMatch()">⚡ Next Match</button>`:''}
+      <button class="btn btn-primary" onclick="closeModal();switchMode('myleague');showSub('myleague','league')">🏆 View League</button>
+    </div>`);
+    renderCareer();renderCareer('careerLeagueContent');
+  },1200);
+}
+
+// ═══════════════════════════════════════════
+//  MATCH SIMULATION
+// ═══════════════════════════════════════════
+function simInnings(bat,bowl,batO,bowlO,target=null){
+  const overs=10;let runs=0,wickets=0;const log=[];
+  const adv=(batO/100)-(bowlO/100*.9)+.05;
+  // Per-player tracking — ALL players tracked for batting
+  const batStats=bat.map(p=>({name:p.name,role:p.role,runs:0,balls:0,fours:0,sixes:0,out:false}));
+  const allBowlStats=bowl.map(p=>({name:p.name,role:p.role,overs:0,runs:0,wickets:0}));
+  // Pure BOWLers MUST bowl. Allrounders (ALL) fill remaining overs if needed.
+  // Priority: BOWL players first, then ALL players, never BAT or WK
+  const pureBowlers=allBowlStats.filter(p=>p.role==='BOWL');
+  const allrounders=allBowlStats.filter(p=>p.role==='ALL');
+  let actualBowlers=[...pureBowlers,...allrounders];
+  if(!actualBowlers.length) actualBowlers=allBowlStats.filter(p=>p.role!=='BAT'&&p.role!=='WK');
+  if(!actualBowlers.length) actualBowlers=allBowlStats.slice(0,3);
+  // Each BOWL gets max 3 overs, each ALL gets max 2 overs (tapeball: 10 overs total)
+  const maxOvr=(p)=>p.role==='BOWL'?3:2;
+  const overCount={};
+  actualBowlers.forEach((_,i)=>overCount[i]=0);
+  let batIdx=0;
+  for(let o=0;o<overs;o++){
+    if(wickets>=10)break;
+    // Pick bowler: rotate, skip anyone who hit their max
+    let bowlerIdx=o%actualBowlers.length;
+    let tries=0;
+    while(overCount[bowlerIdx]>=maxOvr(actualBowlers[bowlerIdx]) && tries<actualBowlers.length){
+      bowlerIdx=(bowlerIdx+1)%actualBowlers.length;tries++;
+    }
+    const bowler=actualBowlers[bowlerIdx];
+    bowler.overs++;overCount[bowlerIdx]++;
+    let overRuns=0;
+    for(let b=0;b<6;b++){
+      if(wickets>=10||(target&&runs>=target))break;
+      const curBat=batStats[Math.min(batIdx,batStats.length-1)];
+      curBat.balls++;
+      if(Math.random()<Math.max(.04,.08-adv*.05)){
+        wickets++;curBat.out=true;
+        bowler.wickets++;
+        log.push({text:`  ${curBat.name} OUT — b. ${bowler.name} (${curBat.runs}) — ${wickets} wkt`,t:'log-wicket'});
+        batIdx++;
+      }else{
+        const ops=[0,0,1,1,2,2,3,4,4,6];
+        const br=Math.max(0,ops[~~(Math.random()*ops.length)]+(adv>.05&&Math.random()<.15?2:0));
+        runs+=br;overRuns+=br;
+        curBat.runs+=br;bowler.runs+=br;
+        if(br===4)curBat.fours++;
+        if(br===6)curBat.sixes++;
+        if(br>=4)log.push({text:`  ${curBat.name}: ${br>=6?'SIX! 🏏':'FOUR! 🎯'} (${curBat.runs} off ${curBat.balls}) — ${runs} total`,t:'log-boundary'});
+      }
+    }
+    log.push({text:`  End of over ${o+1}: ${runs}/${wickets} (over: ${overRuns})`});
+  }
+  log.push({text:`TOTAL: ${runs}/${wickets} (${overs} overs)`,t:'log-highlight'});
+  // Only return stats for bowlers who actually bowled
+  const bowlStats=actualBowlers.filter(p=>p.overs>0);
+  return{runs,wickets,log,batStats,bowlStats};
+}
+
+// ═══════════════════════════════════════════
+//  MANAGER MODE: SHARED UTILITIES
+// ═══════════════════════════════════════════
+function genManagedTeam(minOvr,maxOvr,isU19=false){
+  const roles=['BAT','BAT','BAT','BAT','ALL','ALL','BOWL','BOWL','BOWL','WK','BAT'];
+  return roles.map(r=>genPlayer(r,minOvr,maxOvr,'',isU19));
+}
+function genMarket(isU19=false,count=18){
+  const roles=['BAT','BAT','BAT','BAT','ALL','ALL','ALL','BOWL','BOWL','BOWL','BOWL','WK'];
+  const r=[];
+  for(let i=0;i<count;i++){
+    const role=roles[i%roles.length];
+    const ovr=isU19?rnd(60,90):rnd(65,98);
+    const p=genPlayer(role,ovr,Math.min(ovr+8,isU19?90:100),'',isU19);
+    p.market_price=p.value*rnd(2,5);
+    r.push(p);
+  }
+  return shuffle(r);
+}
+function mgmtTeamOvr(squad){if(!squad||!squad.length)return 0;return Math.round(squad.reduce((a,c)=>a+c.ovr,0)/squad.length);}
+
+function renderManagedSeason(season,squadKey,seasonKey,onWin,onLoss){
+  if(!season)return'<div class="col-empty"><div class="ei">📋</div><p>No season in progress.</p></div>';
+  const sorted=[...season.table].sort((a,b)=>b.pts-a.pts||b.nrr-a.nrr);
+  const pe=season.table.find(t=>t.isP);
+  const pp=pe?pe.played:0,pw=pe?pe.w:0,pl=pe?pe.l:0;
+  const maxM=season.maxM||7;
+  const qual=pw>=season.qw;const done=pp>=maxM;
+  const inF=pe&&pe.in_final,fDone=pe&&pe.final_done,fWon=pe&&pe.final_won;
+  let status='';
+  if(fDone&&fWon)status=`<div style="color:var(--gold);font-weight:700;font-size:13px;margin-top:5px">🏆 Won the Final! Collect your prize below.</div>`;
+  else if(fDone&&!fWon)status=`<div style="color:var(--red);font-weight:700;font-size:13px;margin-top:5px">❌ Lost the Final.</div>`;
+  else if(inF)status=`<div style="color:var(--gold);font-weight:700;font-size:13px;margin-top:5px">🏟️ Qualified! Play Grand Final.</div>`;
+  else if(done&&!qual)status=`<div style="color:var(--red);font-size:13px;margin-top:5px">Season over — didn't qualify.</div>`;
+  else if(done&&qual&&!inF)status=`<div style="color:var(--gold);font-size:13px;margin-top:5px">✅ Qualified for Final!</div>`;
+  else status=`<div style="color:rgba(244,239,228,.45);font-size:12px;margin-top:3px">${maxM-pp} match${maxM-pp!==1?'es':''} left • need ${Math.max(0,season.qw-pw)} more win${season.qw-pw!==1?'s':''}</div>`;
+
+  const canPlay=!done&&!inF&&!fDone;
+  const canFinal=(done&&qual&&!inF&&!fDone)||(inF&&!fDone);
+  const prize=season.prize||3000;
+  const winPrize=fDone&&fWon?`<div class="mt8 mb16"><button class="btn btn-gold" onclick="${onWin}">🏆 Collect 🪙${prize}</button></div>`:'';
+
+  return`<div class="info-box"><strong>Season:</strong> Match ${pp}/${maxM} • ${pw}W ${pl}L • Qualify at ${season.qw}+ wins
+    <div class="pbar"><div class="pfill" style="width:${Math.round(pp/maxM*100)}%"></div></div>
+    ${status}</div>
+    ${winPrize}
+    ${canFinal&&!inF?`<div class="mb16"><button class="btn btn-gold" onclick="${onLoss}">🏟️ Enter Grand Final (Match ${maxM+1})</button></div>`:''}
+    <table class="ltable">
+      <thead><tr><th>#</th><th>Team</th><th>Pld</th><th>W</th><th>L</th><th>Pts</th></tr></thead>
+      <tbody>${sorted.map((t,i)=>`<tr class="${t.isP?'prow':''}">
+        <td class="lpos">${i+1}</td><td style="font-weight:700">${t.name}${t.isP?' ⭐':''}</td>
+        <td style="color:rgba(244,239,228,.4)">${t.played||0}</td><td>${t.w}</td><td>${t.l}</td><td style="color:var(--gold)">${t.pts}</td>
+      </tr>`).join('')}</tbody></table>`;
+}
+
+function genManagedSeasonTable(myName,numTeams,isU19,qw,maxM,prize,teamNames){
+  const table=[];
+  for(let i=0;i<numTeams-1;i++){
+    const w=~~(Math.random()*Math.floor(maxM*.6)),l=~~(Math.random()*(maxM-w));
+    table.push({name:teamNames?teamNames[i]:aiTeamName(),w,l,played:w+l,pts:w*2,nrr:+(Math.random()*2-1).toFixed(2),isP:false,in_final:false,final_done:false,final_won:false});
+  }
+  table.push({name:myName,w:0,l:0,played:0,pts:0,nrr:0,isP:true,in_final:false,final_done:false,final_won:false});
+  return{table:shuffle(table),qw,maxM,prize};
+}
+
+function simManagedMatch(mySquad,oppOvr,isFinal=false,oppName=null){
+  const myOvr=mgmtTeamOvr(mySquad)+(isFinal?0:0);
+  const opp=genManagedTeam(Math.max(55,oppOvr-6),Math.min(110,oppOvr+6));
+  const oppO=Math.round(opp.reduce((a,c)=>a+c.ovr,0)/opp.length);
+  const myI=simInnings(mySquad,opp,myOvr,oppO);
+  const oppI=simInnings(opp,mySquad,oppO+(isFinal?5:0),myOvr,myI.runs+1);
+  return{won:myI.runs>oppI.runs,myI,oppI,oppName:oppName||aiTeamName()};
+}
+
+// ═══════════════════════════════════════════
+//  U19 LEAGUE MANAGER
+// ═══════════════════════════════════════════
+function initU19(){
+  const el=document.getElementById('u19HomeContent');if(!el)return;
+  if(S.u19_team_idx===null){renderU19TeamPick();return;}
+  renderU19Home();
+}
+function renderU19TeamPick(){
+  const el=document.getElementById('u19HomeContent');if(!el)return;
+  el.innerHTML=`<div class="stitle">U19 LEAGUE MANAGER</div>
+  <div class="ssub">Pick a team to manage — you'll build the squad, trade players, and compete for the championship.</div>
+  <div class="info-box">All players are <strong>U19 rated (OVR 60–90)</strong>. Use the market to contract new players and sell ones that don't fit. Win the season to earn the <strong>league prize</strong>!</div>
+  <div class="team-pick-grid">${U19_TEAMS_DEF.map((name,i)=>{
+    const ovr=rnd(68,84);
+    return`<div class="tpcard" onclick="pickU19Team(${i})">
+      <div class="tpname">${name}</div>
+      <div class="tpmeta">U19 Division • ${11} players</div>
+      <div class="tpovr">${ovr} OVR</div>
+    </div>`;
+  }).join('')}</div>`;
+}
+function pickU19Team(idx){
+  S.u19_team_idx=idx;
+  // Generate squad
+  const roles=['BAT','BAT','BAT','BAT','ALL','ALL','BOWL','BOWL','BOWL','WK','BAT','BOWL','ALL','BAT','WK'];
+  S.u19_squad=roles.map(r=>genPlayer(r,62,88,'U19 League',true));
+  S.u19_market=genMarket(true,16);
+  // Start season
+  const otherTeams=U19_TEAMS_DEF.filter((_,i)=>i!==idx);
+  S.u19_season=genManagedSeasonTable(U19_TEAMS_DEF[idx],10,true,4,7,3000,otherTeams);
+  save();renderU19Home();renderU19Season();renderU19Squad();renderU19Market();
+}
+function renderU19Home(){
+  const el=document.getElementById('u19HomeContent');if(!el)return;
+  const name=U19_TEAMS_DEF[S.u19_team_idx];
+  const ovr=mgmtTeamOvr(S.u19_squad);
+  el.innerHTML=`<div class="stitle">${name}</div>
+  <div class="ssub">U19 League Manager</div>
+  <div class="info-box">
+    <strong>Squad OVR:</strong> ${ovr} &nbsp;•&nbsp; <strong>Squad size:</strong> ${S.u19_squad.length} players<br>
+    <strong>U19 Coins:</strong> 🪙${S.u19_coins.toLocaleString()} &nbsp;•&nbsp; Win the league to earn <strong>🪙${S.u19_season?.prize||3000}</strong>
+  </div>
+  <div class="flex-row">
+    <button class="btn btn-primary" onclick="playU19Match()">⚡ Play Match</button>
+    <button class="btn btn-gold" onclick="showSub('u19','squad')">👕 Manage Squad</button>
+    <button class="btn btn-blue" onclick="showSub('u19','market')">🛒 Market</button>
+    <button class="btn btn-primary btn-sm" onclick="S.u19_team_idx=null;S.u19_squad=[];S.u19_season=null;save();renderU19TeamPick()">↩ Change Team</button>
+  </div>`;
+}
+function renderU19Squad(){
+  const el=document.getElementById('u19SquadContent');if(!el)return;
+  if(!S.u19_squad.length){el.innerHTML='<div class="col-empty"><div class="ei">👕</div><p>No squad yet.</p></div>';return;}
+  const sorted=[...S.u19_squad].sort((a,b)=>b.ovr-a.ovr);
+  el.innerHTML=`<div class="stitle">Squad</div>
+  <div class="ssub">${S.u19_squad.length} players • Team OVR: ${mgmtTeamOvr(S.u19_squad)}</div>
+  <div class="col-grid">${sorted.map(p=>`<div style="position:relative">
+    ${buildCard(p)}
+    <button class="sell-btn" style="position:absolute;bottom:14px;left:50%;transform:translateX(-50%);font-size:9px;white-space:nowrap" onclick="releaseU19('${p.id}')">Release 🪙${p.value}</button>
+  </div>`).join('')}</div>`;
+}
+function releaseU19(id){
+  const i=S.u19_squad.findIndex(p=>p.id===id);if(i===-1)return;
+  const p=S.u19_squad[i];S.u19_squad.splice(i,1);S.u19_coins+=p.value;updCoins();save();
+  renderU19Squad();showToast(`Released ${p.name} +🪙${p.value}`);
+}
+function renderU19Market(){
+  const el=document.getElementById('u19MarketContent');if(!el)return;
+  if(!S.u19_market)S.u19_market=genMarket(true,16);
+  el.innerHTML=`<div class="stitle">Transfer Market</div>
+  <div class="ssub">U19 players available to contract • Your coins: 🪙${S.u19_coins.toLocaleString()}</div>
+  <div>
+    <button class="btn btn-primary btn-sm mb16" onclick="S.u19_market=genMarket(true,16);save();renderU19Market()">🔄 Refresh Market</button>
+  </div>
+  ${S.u19_market.map(p=>`<div class="market-card">
+    <div style="font-size:28px">${{BAT:'🏏',ALL:'⚡',BOWL:'🎳',WK:'🧤'}[p.role]}</div>
+    <div style="flex:1">
+      <div style="font-family:'Barlow Condensed';font-size:15px;font-weight:700">${p.name}</div>
+      <div style="font-size:11px;color:rgba(244,239,228,.45)">${ROLE_NAMES[p.role]} • OVR ${p.ovr} • ${p.bowling_style}</div>
+    </div>
+    <div style="font-family:'Bebas Neue';font-size:20px;color:var(--gold)">🪙${p.market_price}</div>
+    <button class="btn btn-primary btn-sm" onclick="contractU19('${p.id}')" ${S.u19_coins<p.market_price?'disabled':''}>Contract</button>
+  </div>`).join('')}`;
+}
+function contractU19(id){
+  const i=S.u19_market.findIndex(p=>p.id===id);if(i===-1)return;
+  const p=S.u19_market[i];
+  if(S.u19_coins<p.market_price){showToast('Not enough coins!','error');return;}
+  S.u19_coins-=p.market_price;S.u19_squad.push(p);S.u19_market.splice(i,1);
+  updCoins();save();renderU19Market();renderU19Squad();
+  showToast(`Contracted ${p.name}! 🪙-${p.market_price}`);
+}
+function renderU19Season(){
+  const el=document.getElementById('u19SeasonContent');if(!el)return;
+  el.innerHTML=`<div class="stitle">Season</div><div class="ssub">U19 League — 7 matches + Grand Final</div>`
+    +renderManagedSeason(S.u19_season,'u19_squad','u19_season','collectU19Prize()','enterU19Final()');
+  // Add play button
+  const pe=S.u19_season?.table?.find(t=>t.isP);
+  const done=(pe?.played||0)>=7;const inF=pe?.in_final;const fDone=pe?.final_done;
+  if(!done&&!fDone){
+    el.innerHTML+=`<div class="mt16"><button class="btn btn-primary" onclick="playU19Match()">⚡ Play Next Match</button></div>`;
+  }else if(inF&&!fDone){
+    el.innerHTML+=`<div class="mt16"><button class="btn btn-gold" onclick="playU19Final()">🏆 Play Grand Final</button></div>`;
+  }
+}
+function playU19Match(){
+  if(!S.u19_season){showToast('No season active','warning');return;}
+  const pe=S.u19_season.table.find(t=>t.isP);
+  if(!pe||pe.played>=7){showToast('Season complete!','warning');showSub('u19','season');return;}
+  const ovrBase=72+Math.floor(pe.played/2);
+  const oppTeam=S.u19_season.table.filter(t=>!t.isP)[~~(Math.random()*(S.u19_season.table.length-1))];
+  const res=simManagedMatch(S.u19_squad,ovrBase,false,oppTeam?.name||'Opposition');
+  res.myName=U19_TEAMS_DEF[S.u19_team_idx]||'Your Team';
+  pe.played++;
+  const ate=S.u19_season.table.filter(t=>!t.isP)[~~(Math.random()*(S.u19_season.table.length-1))];
+  if(res.won){pe.w++;pe.pts+=2;pe.nrr=+(pe.nrr+.3).toFixed(2);}
+  else{pe.l++;pe.nrr=+(pe.nrr-.2).toFixed(2);}
+  if(ate){ate.played=Math.min(7,(ate.played||0)+1);if(!res.won){ate.w++;ate.pts+=2;}else{ate.l++;}}
+  save();renderU19Season();renderU19Home();
+  showMatchResult(res,`Match ${pe.played} of 7`,false,'u19');
+}
+function enterU19Final(){const pe=S.u19_season?.table?.find(t=>t.isP);if(pe)pe.in_final=true;save();renderU19Season();}
+function playU19Final(){
+  if(!S.u19_season)return;
+  const res=simManagedMatch(S.u19_squad,85,true,'Grand Final Opponents');
+  res.myName=U19_TEAMS_DEF[S.u19_team_idx]||'Your Team';
+  const pe=S.u19_season.table.find(t=>t.isP);
+  if(pe){pe.final_done=true;pe.final_won=res.won;}
+  save();renderU19Season();renderU19Home();
+  showMatchResult(res,'Grand Final (Match 8)',true,'u19');
+}
+function collectU19Prize(){
+  S.u19_coins+=S.u19_season.prize;updCoins();
+  const otherTeams=U19_TEAMS_DEF.filter((_,i)=>i!==S.u19_team_idx);
+  S.u19_season=genManagedSeasonTable(U19_TEAMS_DEF[S.u19_team_idx],10,true,4,7,Math.round((S.u19_season.prize||3000)*1.15),otherTeams);
+  save();renderU19Season();renderU19Home();
+  showToast(`🏆 Champions! +🪙${S.u19_season.prize} • New season started!`);
+}
+
+// ═══════════════════════════════════════════
+//  ATCL MANAGER
+// ═══════════════════════════════════════════
+function initATCL(){
+  const el=document.getElementById('atclHomeContent');if(!el)return;
+  if(S.atcl_team_idx===null){renderATCLTeamPick();return;}
+  renderATCLHome();
+}
+function renderATCLTeamPick(){
+  const el=document.getElementById('atclHomeContent');if(!el)return;
+  el.innerHTML=`<div class="stitle">ATCL MANAGER</div>
+  <div class="ssub">Pick an ATCL club to manage — no U19 restrictions, full professional players.</div>
+  <div class="info-box">All players are <strong>pro-rated (OVR 70–100)</strong>. Trade freely in the open market. Win the ATCL season for big prizes!</div>
+  <div class="team-pick-grid">${ATCL_TEAMS_DEF.map((name,i)=>{
+    const ovr=rnd(76,90);
+    return`<div class="tpcard" onclick="pickATCLTeam(${i})">
+      <div class="tpname">${name}</div>
+      <div class="tpmeta">ATCL Pro Division • ${11} players</div>
+      <div class="tpovr">${ovr} OVR</div>
+    </div>`;
+  }).join('')}</div>`;
+}
+function pickATCLTeam(idx){
+  S.atcl_team_idx=idx;
+  const roles=['BAT','BAT','BAT','BAT','ALL','ALL','BOWL','BOWL','BOWL','WK','BAT','BOWL','ALL','BAT','WK'];
+  S.atcl_squad=roles.map(r=>genPlayer(r,70,94,'ATCL',false));
+  S.atcl_market=genMarket(false,18);
+  const otherTeams=ATCL_TEAMS_DEF.filter((_,i)=>i!==idx);
+  S.atcl_season=genManagedSeasonTable(ATCL_TEAMS_DEF[idx],10,false,4,7,8000,otherTeams);
+  save();renderATCLHome();renderATCLSeason();renderATCLSquad();renderATCLMarket();
+}
+function renderATCLHome(){
+  const el=document.getElementById('atclHomeContent');if(!el)return;
+  const name=ATCL_TEAMS_DEF[S.atcl_team_idx];
+  el.innerHTML=`<div class="stitle">${name}</div>
+  <div class="ssub">ATCL Manager</div>
+  <div class="info-box">
+    <strong>Squad OVR:</strong> ${mgmtTeamOvr(S.atcl_squad)} &nbsp;•&nbsp; <strong>Squad:</strong> ${S.atcl_squad.length} players<br>
+    <strong>ATCL Coins:</strong> 🪙${S.atcl_coins.toLocaleString()} &nbsp;•&nbsp; Win prize: <strong>🪙${S.atcl_season?.prize||8000}</strong>
+  </div>
+  <div class="flex-row">
+    <button class="btn btn-primary" onclick="playATCLMatch()">⚡ Play Match</button>
+    <button class="btn btn-gold" onclick="showSub('atcl','squad')">👕 Manage Squad</button>
+    <button class="btn btn-blue" onclick="showSub('atcl','market')">🛒 Market</button>
+    <button class="btn btn-primary btn-sm" onclick="S.atcl_team_idx=null;S.atcl_squad=[];S.atcl_season=null;save();renderATCLTeamPick()">↩ Change Team</button>
+  </div>`;
+}
+function renderATCLSquad(){
+  const el=document.getElementById('atclSquadContent');if(!el)return;
+  if(!S.atcl_squad.length){el.innerHTML='<div class="col-empty"><div class="ei">👕</div><p>No squad.</p></div>';return;}
+  const sorted=[...S.atcl_squad].sort((a,b)=>b.ovr-a.ovr);
+  el.innerHTML=`<div class="stitle">ATCL Squad</div>
+  <div class="ssub">${S.atcl_squad.length} players • OVR ${mgmtTeamOvr(S.atcl_squad)}</div>
+  <div class="col-grid">${sorted.map(p=>`<div style="position:relative">${buildCard(p)}<button class="sell-btn" style="position:absolute;bottom:14px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:9px" onclick="releaseATCL('${p.id}')">Release 🪙${p.value}</button></div>`).join('')}</div>`;
+}
+function releaseATCL(id){
+  const i=S.atcl_squad.findIndex(p=>p.id===id);if(i===-1)return;
+  const p=S.atcl_squad[i];S.atcl_squad.splice(i,1);S.atcl_coins+=p.value;updCoins();save();
+  renderATCLSquad();showToast(`Released ${p.name} +🪙${p.value}`);
+}
+function renderATCLMarket(){
+  const el=document.getElementById('atclMarketContent');if(!el)return;
+  if(!S.atcl_market)S.atcl_market=genMarket(false,18);
+  el.innerHTML=`<div class="stitle">ATCL Transfer Market</div>
+  <div class="ssub">Pro players • ATCL Coins: 🪙${S.atcl_coins.toLocaleString()}</div>
+  <button class="btn btn-primary btn-sm mb16" onclick="S.atcl_market=genMarket(false,18);save();renderATCLMarket()">🔄 Refresh</button>
+  ${S.atcl_market.map(p=>`<div class="market-card">
+    <div style="font-size:26px">${{BAT:'🏏',ALL:'⚡',BOWL:'🎳',WK:'🧤'}[p.role]}</div>
+    <div style="flex:1"><div style="font-family:'Barlow Condensed';font-size:15px;font-weight:700">${p.name}</div>
+    <div style="font-size:11px;color:rgba(244,239,228,.45)">${ROLE_NAMES[p.role]} • OVR ${p.ovr} • ${p.bowling_style}</div></div>
+    <div style="font-family:'Bebas Neue';font-size:20px;color:var(--gold)">🪙${p.market_price}</div>
+    <button class="btn btn-primary btn-sm" onclick="contractATCL('${p.id}')" ${S.atcl_coins<p.market_price?'disabled':''}>Sign</button>
+  </div>`).join('')}`;
+}
+function contractATCL(id){
+  const i=S.atcl_market.findIndex(p=>p.id===id);if(i===-1)return;
+  const p=S.atcl_market[i];
+  if(S.atcl_coins<p.market_price){showToast('Not enough coins!','error');return;}
+  S.atcl_coins-=p.market_price;S.atcl_squad.push(p);S.atcl_market.splice(i,1);
+  updCoins();save();renderATCLMarket();renderATCLSquad();
+  showToast(`Signed ${p.name}! 🪙-${p.market_price}`);
+}
+function renderATCLSeason(){
+  const el=document.getElementById('atclSeasonContent');if(!el)return;
+  el.innerHTML=`<div class="stitle">ATCL Season</div><div class="ssub">7 matches + Grand Final</div>`
+    +renderManagedSeason(S.atcl_season,'atcl_squad','atcl_season','collectATCLPrize()','enterATCLFinal()');
+  const pe=S.atcl_season?.table?.find(t=>t.isP);
+  const done=(pe?.played||0)>=7;const inF=pe?.in_final;const fDone=pe?.final_done;
+  if(!done&&!fDone){el.innerHTML+=`<div class="mt16"><button class="btn btn-primary" onclick="playATCLMatch()">⚡ Play Next Match</button></div>`;}
+  else if(inF&&!fDone){el.innerHTML+=`<div class="mt16"><button class="btn btn-gold" onclick="playATCLFinal()">🏆 Play Grand Final</button></div>`;}
+}
+function playATCLMatch(){
+  if(!S.atcl_season)return;
+  const pe=S.atcl_season.table.find(t=>t.isP);
+  if(!pe||pe.played>=7){showToast('Season complete!','warning');showSub('atcl','season');return;}
+  const ovrBase=80+Math.floor(pe.played/2);
+  const oppTeam=S.atcl_season.table.filter(t=>!t.isP)[~~(Math.random()*(S.atcl_season.table.length-1))];
+  const res=simManagedMatch(S.atcl_squad,ovrBase,false,oppTeam?.name||'Opposition');
+  res.myName=ATCL_TEAMS_DEF[S.atcl_team_idx]||'Your Team';
+  pe.played++;
+  if(res.won){pe.w++;pe.pts+=2;pe.nrr=+(pe.nrr+.3).toFixed(2);}else{pe.l++;pe.nrr=+(pe.nrr-.2).toFixed(2);}
+  if(oppTeam){oppTeam.played=Math.min(7,(oppTeam.played||0)+1);if(!res.won){oppTeam.w++;oppTeam.pts+=2;}else oppTeam.l++;}
+  save();renderATCLSeason();renderATCLHome();
+  showMatchResult(res,`Match ${pe.played} of 7`,false,'atcl');
+}
+function enterATCLFinal(){const pe=S.atcl_season?.table?.find(t=>t.isP);if(pe)pe.in_final=true;save();renderATCLSeason();}
+function playATCLFinal(){
+  if(!S.atcl_season)return;
+  const res=simManagedMatch(S.atcl_squad,92,true,'ATCL Grand Final Opponents');
+  res.myName=ATCL_TEAMS_DEF[S.atcl_team_idx]||'Your Team';
+  const pe=S.atcl_season.table.find(t=>t.isP);
+  if(pe){pe.final_done=true;pe.final_won=res.won;}
+  save();renderATCLSeason();renderATCLHome();
+  showMatchResult(res,'Grand Final (Match 8)',true,'atcl');
+}
+function collectATCLPrize(){
+  S.atcl_coins+=S.atcl_season.prize;updCoins();
+  const otherTeams=ATCL_TEAMS_DEF.filter((_,i)=>i!==S.atcl_team_idx);
+  S.atcl_season=genManagedSeasonTable(ATCL_TEAMS_DEF[S.atcl_team_idx],10,false,4,7,Math.round((S.atcl_season.prize||8000)*1.2),otherTeams);
+  save();renderATCLSeason();renderATCLHome();
+  showToast(`🏆 ATCL Champions! +🪙${S.atcl_season.prize} • New season!`);
+}
+
+// ═══════════════════════════════════════════
+//  WORLD CHAMPIONSHIP
+// ═══════════════════════════════════════════
+function initWorld(){
+  const el=document.getElementById('worldHomeContent');if(!el)return;
+  if(!S.world_nation){renderWorldPick();return;}
+  renderWorldHome();
+}
+function renderWorldPick(){
+  const el=document.getElementById('worldHomeContent');if(!el)return;
+  el.innerHTML=`<div class="stitle">WORLD CHAMPIONSHIP</div>
+  <div class="ssub">Choose a nation to manage and lead to World Cup glory</div>
+  <div class="info-box">You control the <strong>national team</strong>. Sign players, manage your squad, and compete through group stages and knockouts. Beat all 16 nations to become World Champions!</div>
+  <div class="nation-grid">${NATIONS.map((n,i)=>`<div class="nation-card" onclick="pickNation(${i})">
+    <div class="nation-flag">${n.flag}</div>
+    <div class="nation-name">${n.name}</div>
+    <div class="nation-ovr">${n.ovr} OVR</div>
+  </div>`).join('')}</div>`;
+}
+function pickNation(idx){
+  S.world_nation=idx;
+  const n=NATIONS[idx];
+  const roles=['BAT','BAT','BAT','BAT','ALL','ALL','BOWL','BOWL','BOWL','WK','BAT','BOWL','ALL','BAT','WK'];
+  const ovrBase=n.ovr;
+  S.world_squad=roles.map(r=>genPlayer(r,Math.max(60,ovrBase-10),Math.min(110,ovrBase+10),n.name+' National',false));
+  S.world_market=genWorldMarket();
+  S.world_tournament=genWorldTournament(idx);
+  save();renderWorldHome();renderWorldSquad();renderWorldMarket();renderWorldTournament();
+}
+function genWorldMarket(){
+  const roles=['BAT','BAT','ALL','ALL','BOWL','BOWL','WK'];
+  const r=[];
+  for(let i=0;i<16;i++){
+    const role=roles[i%roles.length];
+    const ovr=rnd(75,105);
+    const p=genPlayer(role,ovr,Math.min(ovr+8,110),'International',false);
+    p.market_price=p.value*rnd(3,7);
+    r.push(p);
+  }
+  return shuffle(r);
+}
+function genWorldTournament(playerNationIdx){
+  // 4 groups of 4
+  const nations=[...NATIONS.map((n,i)=>({...n,idx:i,w:0,l:0,played:0,pts:0,nrr:0}))];
+  shuffle(nations);
+  const groups=[[],[],[],[]];
+  nations.forEach((n,i)=>groups[i%4].push(n));
+  // ensure player's nation is in group A
+  const pn=nations.find(n=>n.idx===playerNationIdx);
+  if(pn){
+    const gi=groups.findIndex(g=>g.includes(pn));
+    if(gi>0){const tmp=groups[0][0];const tgi=groups[gi].indexOf(pn);groups[gi][tgi]=groups[0][0];groups[0][0]=pn;}
+  }
+  return{groups,stage:'group',playerNationIdx,matchIdx:0,groupMatchesDone:false,sf:[],final:null,champion:null,gamesPlayed:0,totalGroupGames:12};
+}
+function renderWorldHome(){
+  const el=document.getElementById('worldHomeContent');if(!el)return;
+  const n=NATIONS[S.world_nation];
+  const tournament=S.world_tournament;
+  const stageLabel=tournament?({group:'Group Stage',semifinal:'Semi-Finals',final:'Grand Final',done:'Champion!'}[tournament.stage]||tournament.stage):'Not started';
+  el.innerHTML=`<div class="stitle">${n.flag} ${n.name}</div>
+  <div class="ssub">World Championship</div>
+  <div class="info-box">
+    <strong>Stage:</strong> ${stageLabel} &nbsp;•&nbsp; <strong>Squad OVR:</strong> ${mgmtTeamOvr(S.world_squad)}<br>
+    <strong>World Coins:</strong> 🪙${S.world_coins.toLocaleString()}
+  </div>
+  <div class="flex-row">
+    <button class="btn btn-primary" onclick="playWorldMatch()">⚡ Play Next Match</button>
+    <button class="btn btn-gold" onclick="showSub('world','squad')">👕 Squad</button>
+    <button class="btn btn-blue" onclick="showSub('world','market')">🛒 Transfers</button>
+    <button class="btn btn-primary" onclick="showSub('world','tournament')">🏆 Tournament</button>
+    <button class="btn btn-primary btn-sm" onclick="S.world_nation=null;S.world_squad=[];S.world_tournament=null;save();renderWorldPick()">↩ Change Nation</button>
+  </div>`;
+}
+function renderWorldSquad(){
+  const el=document.getElementById('worldSquadContent');if(!el)return;
+  if(!S.world_squad.length){el.innerHTML='<div class="col-empty"><div class="ei">🌍</div><p>No squad.</p></div>';return;}
+  const n=NATIONS[S.world_nation];
+  el.innerHTML=`<div class="stitle">${n.flag} National Squad</div>
+  <div class="ssub">${S.world_squad.length} players • OVR ${mgmtTeamOvr(S.world_squad)}</div>
+  <div class="col-grid">${[...S.world_squad].sort((a,b)=>b.ovr-a.ovr).map(p=>`<div style="position:relative">${buildCard(p)}<button class="sell-btn" style="position:absolute;bottom:14px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:9px" onclick="releaseWorld('${p.id}')">Drop 🪙${p.value}</button></div>`).join('')}</div>`;
+}
+function releaseWorld(id){
+  const i=S.world_squad.findIndex(p=>p.id===id);if(i===-1)return;
+  const p=S.world_squad[i];S.world_squad.splice(i,1);S.world_coins+=p.value;updCoins();save();renderWorldSquad();showToast(`Dropped ${p.name} +🪙${p.value}`);
+}
+function renderWorldMarket(){
+  const el=document.getElementById('worldMarketContent');if(!el)return;
+  if(!S.world_market||!S.world_market.length)S.world_market=genWorldMarket();
+  el.innerHTML=`<div class="stitle">International Transfers</div>
+  <div class="ssub">World-class players • World Coins: 🪙${S.world_coins.toLocaleString()}</div>
+  <button class="btn btn-primary btn-sm mb16" onclick="S.world_market=genWorldMarket();save();renderWorldMarket()">🔄 Refresh</button>
+  ${S.world_market.map(p=>`<div class="market-card">
+    <div style="font-size:26px">${{BAT:'🏏',ALL:'⚡',BOWL:'🎳',WK:'🧤'}[p.role]}</div>
+    <div style="flex:1"><div style="font-family:'Barlow Condensed';font-size:15px;font-weight:700">${p.name}</div>
+    <div style="font-size:11px;color:rgba(244,239,228,.45)">${ROLE_NAMES[p.role]} • OVR ${p.ovr} • ${p.bowling_style}</div></div>
+    <div style="font-family:'Bebas Neue';font-size:20px;color:var(--gold)">🪙${p.market_price}</div>
+    <button class="btn btn-primary btn-sm" onclick="signWorld('${p.id}')" ${S.world_coins<p.market_price?'disabled':''}>Sign</button>
+  </div>`).join('')}`;
+}
+function signWorld(id){
+  const i=S.world_market.findIndex(p=>p.id===id);if(i===-1)return;
+  const p=S.world_market[i];
+  if(S.world_coins<p.market_price){showToast('Not enough coins!','error');return;}
+  S.world_coins-=p.market_price;S.world_squad.push(p);S.world_market.splice(i,1);
+  updCoins();save();renderWorldMarket();renderWorldSquad();
+  showToast(`Signed ${p.name}! 🪙-${p.market_price}`);
+}
+function renderWorldTournament(){
+  const el=document.getElementById('worldTournamentContent');if(!el)return;
+  const t=S.world_tournament;if(!t){el.innerHTML='<div class="col-empty"><div class="ei">🌍</div><p>Pick a nation first!</p></div>';return;}
+  const n=NATIONS[S.world_nation];
+  const groupNames=['Group A','Group B','Group C','Group D'];
+  const groupsH=t.groups.map((g,gi)=>`<div class="bgroup">
+    <div class="bgroup-title">${groupNames[gi]}</div>
+    ${[...g].sort((a,b)=>b.pts-a.pts||b.nrr-a.nrr).map(team=>`<div class="bteam ${team.idx===S.world_nation?'you':''}">
+      <span>${team.flag} ${team.name}</span><span class="bteam-pts">${team.pts}pts ${team.w}W${team.l}L</span>
+    </div>`).join('')}
+  </div>`).join('');
+  let knockoutH='';
+  if(t.stage==='semifinal'&&t.sf.length){
+    knockoutH=`<div class="stitle" style="font-size:22px;margin-top:20px">Semi-Finals</div>
+    ${t.sf.map((m,i)=>`<div class="market-card"><span>${m.a.flag} ${m.a.name}</span><span style="font-family:'Bebas Neue';color:var(--gold);font-size:18px;padding:0 12px">VS</span><span>${m.b.flag} ${m.b.name}</span>${m.winner?`<span style="color:var(--green-light);font-size:12px;font-family:'Barlow Condensed';margin-left:10px">✅ ${m.winner.name} advances</span>`:''}</div>`).join('')}`;
+  }
+  if(t.stage==='final'&&t.final){
+    knockoutH+=`<div class="stitle" style="font-size:22px;margin-top:20px">🏆 Grand Final</div>
+    <div class="market-card"><span>${t.final.a.flag} ${t.final.a.name}</span><span style="font-family:'Bebas Neue';color:var(--gold);font-size:18px;padding:0 12px">VS</span><span>${t.final.b.flag} ${t.final.b.name}</span></div>`;
+  }
+  if(t.champion){
+    knockoutH+=`<div class="result-banner win" style="margin-top:16px"><div class="result-title">🌍 WORLD CHAMPIONS</div><div style="font-size:20px;font-family:'Bebas Neue';letter-spacing:2px;color:var(--gold);margin-top:6px">${t.champion.flag} ${t.champion.name}</div></div>`;
+  }
+  const stageLabel={group:`Group Stage — ${t.gamesPlayed||0}/${t.totalGroupGames} group games`,semifinal:'Semi-Finals',final:'Grand Final',done:'Tournament Complete'}[t.stage]||t.stage;
+  el.innerHTML=`<div class="stitle">World Cup</div>
+  <div class="ssub">${stageLabel}</div>
+  <div class="info-box">Top 2 from each group advance to Semi-Finals. Win the Final to become World Champions and earn <strong>🪙50,000</strong>!</div>
+  <button class="btn btn-primary mb16" onclick="playWorldMatch()">${t.stage==='group'?'⚡ Play Group Match':t.stage==='semifinal'?'⚡ Play Semi-Final':t.stage==='final'?'⚡ Play Grand Final':'🏆 Done'}</button>
+  <div class="bracket">${groupsH}</div>
+  ${knockoutH}`;
+}
+function playWorldMatch(){
+  const t=S.world_tournament;if(!t)return;
+  const n=NATIONS[S.world_nation];
+  if(t.stage==='done'){showToast('Tournament complete!','warning');return;}
+  if(t.stage==='group'){
+    // Find next unplayed group game involving player's nation
+    const pGroup=t.groups.find(g=>g.some(n2=>n2.idx===S.world_nation));
+    const pn=pGroup.find(n2=>n2.idx===S.world_nation);
+    const opponents=pGroup.filter(n2=>n2.idx!==S.world_nation);
+    const playedCount=pn.played||0;
+    if(playedCount>=3){
+      // advance to semifinal
+      advanceToSF(t);save();renderWorldTournament();renderWorldHome();return;
+    }
+    const opp=opponents[playedCount%opponents.length];
+    const oppOvr=opp.ovr||80;
+    const res=simManagedMatch(S.world_squad,oppOvr,false,`${opp.flag} ${opp.name}`);
+    res.myName=`${n.flag} ${n.name}`;
+    pn.played=(pn.played||0)+1;opp.played=(opp.played||0)+1;
+    if(res.won){pn.w++;pn.pts+=2;pn.nrr=+(pn.nrr+.3).toFixed(2);}else{pn.l++;pn.nrr=+(pn.nrr-.2).toFixed(2);}
+    if(!res.won){opp.w++;opp.pts+=2;opp.nrr=+(opp.nrr+.3).toFixed(2);}else{opp.l++;opp.nrr=+(opp.nrr-.2).toFixed(2);}
+    // Also simulate other groups' games
+    t.groups.forEach(g=>{
+      if(!g.some(n2=>n2.idx===S.world_nation)){
+        const gPlayed=g.reduce((a,n2)=>a+(n2.played||0),0)/2;
+        if(gPlayed<3){
+          const a2=g[~~(Math.random()*g.length)];
+          const b2=g.find(x=>x!==a2);
+          if(a2&&b2){
+            a2.played=(a2.played||0)+1;
+            b2.played=(b2.played||0)+1;
+            if(Math.random()>.45){a2.w++;a2.pts+=2;b2.l++;}
+            else{b2.w++;b2.pts+=2;a2.l++;}
+          }
+        }
+      }
+    });
+    t.gamesPlayed=(t.gamesPlayed||0)+1;
+    save();renderWorldTournament();renderWorldHome();
+    showMatchResult(res,`Group Stage vs ${opp.flag} ${opp.name}`,false,'world');
+    if(pn.played>=3){setTimeout(()=>{advanceToSF(t);save();renderWorldTournament();renderWorldHome();showToast('Group stage complete! Advancing to Semi-Finals...');},800);}
+  }else if(t.stage==='semifinal'){
+    const mySF=t.sf.find(m=>(m.a.idx===S.world_nation||m.b.idx===S.world_nation)&&!m.winner);
+    if(!mySF){showToast('Waiting for other semi...','warning');return;}
+    const isA=mySF.a.idx===S.world_nation;
+    const opp=isA?mySF.b:mySF.a;
+    const res=simManagedMatch(S.world_squad,opp.ovr||88,true,`${opp.flag} ${opp.name}`);
+    res.myName=`${n.flag} ${n.name}`;
+    mySF.winner=res.won?n:opp;
+    // Sim other SF if needed
+    const otherSF=t.sf.find(m=>!(m.a.idx===S.world_nation||m.b.idx===S.world_nation));
+    if(otherSF&&!otherSF.winner)otherSF.winner=Math.random()>.5?otherSF.a:otherSF.b;
+    if(t.sf.every(m=>m.winner)){
+      t.final={a:t.sf[0].winner,b:t.sf[1].winner};t.stage='final';
+    }
+    save();renderWorldTournament();renderWorldHome();
+    showMatchResult(res,`Semi-Final vs ${opp.flag} ${opp.name}`,true,'world');
+    if(!res.won){showToast(`${n.flag} eliminated in Semi-Finals.`,'error');}
+  }else if(t.stage==='final'){
+    const fin=t.final;if(!fin)return;
+    const opp=fin.a.idx===S.world_nation?fin.b:fin.a;
+    const res=simManagedMatch(S.world_squad,opp.ovr||92,true,`${opp.flag} ${opp.name}`);
+    res.myName=`${n.flag} ${n.name}`;
+    t.champion=res.won?n:opp;t.stage='done';
+    if(res.won){S.world_coins+=50000;updCoins();showToast('🌍 WORLD CHAMPIONS! +🪙50,000');}
+    save();renderWorldTournament();renderWorldHome();
+    showMatchResult(res,`World Cup Final vs ${opp.flag} ${opp.name}`,true,'world');
+  }
+}
+function advanceToSF(t){
+  t.stage='semifinal';
+  // top 2 from each group
+  const qualifiers=t.groups.map(g=>[...g].sort((a,b)=>b.pts-a.pts||b.nrr-a.nrr).slice(0,2)).flat();
+  // check if player qualified
+  const pn=NATIONS[S.world_nation];
+  const playerQ=qualifiers.find(q=>q.idx===S.world_nation);
+  if(!playerQ){t.stage='done';t.champion=qualifiers[0];showToast(`${pn.flag} ${pn.name} didn't qualify for the Semi-Finals.`,'error');return;}
+  shuffle(qualifiers);
+  t.sf=[{a:qualifiers[0],b:qualifiers[1],winner:null},{a:qualifiers[2],b:qualifiers[3],winner:null}];
+  // make sure player is in a SF
+  const inSF=t.sf.some(m=>m.a.idx===S.world_nation||m.b.idx===S.world_nation);
+  if(!inSF){t.sf[0].a=playerQ;t.sf[0].b=qualifiers.find(q=>q.idx!==S.world_nation)||qualifiers[1];}
+}
+
+// ═══════════════════════════════════════════
+//  SHARED MATCH RESULT MODAL
+// ═══════════════════════════════════════════
+function buildScorecardTable(batStats,bowlStats,label){
+  const topBat=[...batStats].sort((a,b)=>b.runs-a.runs).slice(0,6);
+  const topBowl=[...bowlStats].sort((a,b)=>b.wickets-a.wickets||a.runs-b.runs).slice(0,4);
+  const batRows=topBat.map(b=>`<tr>
+    <td style="font-weight:700;color:var(--cream)">${b.name}</td>
+    <td style="text-align:right;color:var(--gold);font-weight:700">${b.runs}</td>
+    <td style="text-align:right;color:rgba(244,239,228,.45)">${b.balls}</td>
+    <td style="text-align:right;color:#60a5fa">${b.fours}</td>
+    <td style="text-align:right;color:#facc15">${b.sixes}</td>
+    <td style="text-align:right;color:${b.out?'var(--red)':'var(--green-light)'}">${b.out?'out':'n.o.'}</td>
+  </tr>`).join('');
+  const bowlRows=topBowl.map(b=>`<tr>
+    <td style="font-weight:700;color:var(--cream)">${b.name}</td>
+    <td style="text-align:right;color:rgba(244,239,228,.45)">${b.overs}</td>
+    <td style="text-align:right;color:rgba(244,239,228,.45)">${b.runs}</td>
+    <td style="text-align:right;color:var(--red);font-weight:700">${b.wickets}</td>
+  </tr>`).join('');
+  return`<div style="margin-bottom:14px">
+    <div style="font-family:'Bebas Neue';font-size:16px;letter-spacing:2px;color:var(--gold);margin-bottom:6px">${label} — BATTING</div>
+    <table class="ltable" style="font-size:12px">
+      <thead><tr><th>Batter</th><th style="text-align:right">R</th><th style="text-align:right">B</th><th style="text-align:right">4s</th><th style="text-align:right">6s</th><th style="text-align:right"></th></tr></thead>
+      <tbody>${batRows}</tbody>
+    </table>
+    <div style="font-family:'Bebas Neue';font-size:16px;letter-spacing:2px;color:var(--gold);margin:10px 0 6px">${label} — BOWLING</div>
+    <table class="ltable" style="font-size:12px">
+      <thead><tr><th>Bowler</th><th style="text-align:right">O</th><th style="text-align:right">R</th><th style="text-align:right">W</th></tr></thead>
+      <tbody>${bowlRows}</tbody>
+    </table>
+  </div>`;
+}
+
+function showMatchResult(res,label,isFinal,mode){
+  const {won,myI,oppI,oppName,myName}=res;
+  const teamA=myName||'Your Team';
+  const teamB=oppName||'Opposition';
+  // Show loading animation first
+  openModal(`<div style="text-align:center;padding:40px 20px">
+    <div style="font-size:60px;animation:pb .5s ease-in-out infinite alternate;display:inline-block">🏏</div>
+    <div style="font-family:'Bebas Neue';font-size:24px;letter-spacing:3px;color:var(--gold);margin-top:16px">MATCH IN PROGRESS</div>
+    <div style="font-family:'Barlow Condensed';font-size:14px;color:rgba(244,239,228,.45);margin-top:8px">${teamA} vs ${teamB}</div>
+    <div class="spinner" style="margin-top:20px"></div>
+  </div>`);
+  setTimeout(()=>{
+    const margin=Math.abs(myI.runs-oppI.runs);
+    // myI.bowlStats = opp's bowlers; oppI.bowlStats = my team's bowlers
+    const myCard=buildScorecardTable(myI.batStats||[],oppI.bowlStats||[],teamA);
+    const oppCard=buildScorecardTable(oppI.batStats||[],myI.bowlStats||[],teamB);
+    openModal(`<div class="modal-title">⚡ ${isFinal?'🏆 '+label:label}</div>
+    <div class="scoreboard"><div class="match-teams">
+      <div class="tscore"><div class="tscore-name">${teamA}</div><div class="tscore-runs">${myI.runs}</div><div class="tscore-wkts">${myI.wickets} wkts</div></div>
+      <div class="vs">VS</div>
+      <div class="tscore"><div class="tscore-name">${teamB}</div><div class="tscore-runs">${oppI.runs}</div><div class="tscore-wkts">${oppI.wickets} wkts</div></div>
+    </div><div class="match-overs">10 Overs Each Side</div></div>
+    <div class="result-banner ${won?'win':'loss'}" style="margin-bottom:18px">
+      <div class="result-title">${isFinal?(won?'CHAMPIONS!':'ELIMINATED'):(won?'VICTORY!':'DEFEAT')}</div>
+      <div style="font-family:'Barlow Condensed';font-size:14px;color:rgba(244,239,228,.7);margin-top:4px">${won?`Won by ${margin} runs`:`Lost by ${margin} runs`}</div>
+    </div>
+    <div style="background:rgba(0,0,0,.25);border-radius:10px;padding:14px;margin-bottom:10px">${myCard}</div>
+    <div style="background:rgba(0,0,0,.25);border-radius:10px;padding:14px">${oppCard}</div>
+    <div class="flex-row mt24" style="justify-content:center"><button class="btn btn-primary" onclick="closeModal()">Close</button></div>`);
+  },1200);
+}
+
+// ═══════════════════════════════════════════
+//  UI NAVIGATION
+// ═══════════════════════════════════════════
+let currentMode='packs';
+function switchMode(mode){
+  currentMode=mode;
+  document.querySelectorAll('.mode-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('mode-'+mode).classList.add('active');
+  document.querySelectorAll('.mode-btn').forEach(b=>{if(b.getAttribute('onclick')&&b.getAttribute('onclick').includes(`'${mode}'`))b.classList.add('active');});
+  updCoins(); // update header to show correct wallet
+  // Render on switch
+  if(mode==='packs'){renderCol();updateSlots();renderCareer('careerLeagueContent');}
+  if(mode==='myleague'){renderCareer();updateSlots();}
+  if(mode==='u19'){initU19();}
+  if(mode==='atcl'){initATCL();}
+  if(mode==='world'){initWorld();}
+}
+
+function showSub(mode,sub){
+  const panelId='mode-'+mode;
+  const panel=document.getElementById(panelId);if(!panel)return;
+  panel.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  panel.querySelectorAll('.sub-btn').forEach(b=>b.classList.remove('active'));
+  const screen=document.getElementById(mode+'-'+sub);
+  if(screen)screen.classList.add('active');
+  panel.querySelectorAll('.sub-btn').forEach(b=>{if(b.getAttribute('onclick')&&b.getAttribute('onclick').includes(`'${sub}'`))b.classList.add('active');});
+  // Render content
+  if(mode==='packs'){if(sub==='collection')renderCol();if(sub==='team')updateSlots();if(sub==='league')renderCareer('careerLeagueContent');}
+  if(mode==='myleague'){if(sub==='league')renderCareer();if(sub==='squad')updateSlots();}
+  if(mode==='u19'){if(sub==='home')renderU19Home();if(sub==='squad')renderU19Squad();if(sub==='market')renderU19Market();if(sub==='season')renderU19Season();}
+  if(mode==='atcl'){if(sub==='home')renderATCLHome();if(sub==='squad')renderATCLSquad();if(sub==='market')renderATCLMarket();if(sub==='season')renderATCLSeason();}
+  if(mode==='world'){if(sub==='home')renderWorldHome();if(sub==='squad')renderWorldSquad();if(sub==='market')renderWorldMarket();if(sub==='tournament')renderWorldTournament();}
+}
+
+// ═══════════════════════════════════════════
+//  MODAL / TOAST
+// ═══════════════════════════════════════════
+function openModal(h){document.getElementById('modalContent').innerHTML=h;document.getElementById('modalOverlay').style.display='flex';}
+function closeModal(){document.getElementById('modalOverlay').style.display='none';}
+function closeMOB(e){if(e.target===document.getElementById('modalOverlay'))closeModal();}
+let _tt;
+function showToast(msg,type=''){
+  const t=document.getElementById('toast');t.textContent=msg;t.className='toast show'+(type?' '+type:'');
+  clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove('show'),3200);
+}
+function getCoins(){const m={'packs':S.coins,'myleague':S.coins,'u19':S.u19_coins,'atcl':S.atcl_coins,'world':S.world_coins};return m[currentMode]||S.coins;}
+function setCoins(v){if(currentMode==='u19')S.u19_coins=v;else if(currentMode==='atcl')S.atcl_coins=v;else if(currentMode==='world')S.world_coins=v;else S.coins=v;}
+function updCoins(){
+  const el=document.getElementById('coinDisplay');
+  const lb=document.getElementById('coinLabel');
+  if(el)el.textContent=getCoins().toLocaleString();
+  const labels={'packs':'PACKS','myleague':'CAREER','u19':'U19','atcl':'ATCL','world':'WORLD'};
+  if(lb)lb.textContent=labels[currentMode]||'';
+  save();
+}
+
+// ═══════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════
+load();updCoins();
+initCareer();renderCareer('careerLeagueContent');
+updateSlots();renderCol();
+</script>
+</div>
+</body>
+</html>
