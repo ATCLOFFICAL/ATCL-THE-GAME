@@ -191,10 +191,248 @@ header{background:linear-gradient(135deg,var(--green) 0%,#0d2a18 100%);border-bo
 .tpname{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700}
 .tpmeta{font-size:11px;color:rgba(244,239,228,.45);margin-top:3px}
 .tpovr{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--gold)}
+
+/* ── PLAYER CAREER ── */
+.pc-create{max-width:560px;margin:0 auto}
+.pc-role-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px}
+.pc-role-btn{background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.1);border-radius:10px;padding:16px;text-align:center;cursor:pointer;transition:all .2s;font-family:'Barlow Condensed',sans-serif}
+.pc-role-btn:hover,.pc-role-btn.sel{border-color:var(--gold);background:rgba(245,200,66,.08)}
+.pc-role-btn .re{font-size:32px;margin-bottom:6px}
+.pc-role-btn .rl{font-size:15px;font-weight:700;letter-spacing:.5px}
+.pc-role-btn .rd{font-size:11px;color:rgba(244,239,228,.45);margin-top:3px}
+.stat-card{background:linear-gradient(160deg,#0d2018,#182b1e 60%,#0d1a12);border:2px solid var(--gold);border-radius:16px;padding:24px;max-width:420px;margin:0 auto;box-shadow:0 0 40px rgba(245,200,66,.18)}
+.stat-card-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:3px;color:var(--gold);text-align:center;margin-bottom:4px}
+.stat-card-sub{font-size:12px;color:rgba(244,239,228,.45);text-align:center;letter-spacing:1px;margin-bottom:20px}
+.stat-card-ovr{font-family:'Bebas Neue',sans-serif;font-size:72px;color:var(--gold);text-align:center;line-height:1;text-shadow:0 0 24px rgba(245,200,66,.5)}
+.stat-card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+.stat-card-stat{text-align:center;background:rgba(255,255,255,.05);border-radius:8px;padding:10px 6px}
+.stat-card-val{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--cream)}
+.stat-card-lbl{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:rgba(244,239,228,.45);margin-top:2px}
+.career-hub{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+@media(max-width:600px){.career-hub{grid-template-columns:1fr}}
+.hub-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:18px}
+.hub-card-title{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;color:var(--gold);margin-bottom:10px}
+.offer-card{background:linear-gradient(135deg,rgba(245,200,66,.06),rgba(245,200,66,.02));border:1px solid rgba(245,200,66,.25);border-radius:10px;padding:14px 16px;margin-bottom:10px}
+.offer-title{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700}
+.offer-meta{font-size:11px;color:rgba(244,239,228,.45);margin-top:2px}
+.training-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.training-btn{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:9px;padding:14px 10px;text-align:center;cursor:pointer;transition:all .2s;font-family:'Barlow Condensed',sans-serif}
+.training-btn:hover:not(:disabled){border-color:var(--gold);background:rgba(245,200,66,.07);transform:translateY(-2px)}
+.training-btn:disabled{opacity:.35;cursor:not-allowed}
+.training-btn .ti{font-size:26px;margin-bottom:6px}
+.training-btn .tl{font-size:13px;font-weight:700;letter-spacing:.5px}
+.training-btn .tm{font-size:10px;color:rgba(244,239,228,.45);margin-top:2px}
+.match-hist{max-height:220px;overflow-y:auto}
+.mh-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05);font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:600}
+.mh-win{color:var(--green-light)}.mh-loss{color:var(--red)}
+.ovr-badge{display:inline-block;font-family:'Bebas Neue',sans-serif;font-size:42px;color:var(--gold);text-shadow:0 0 12px rgba(245,200,66,.4);letter-spacing:1px}
+.form-bar{display:flex;gap:4px;margin-top:6px}
+.form-dot{width:16px;height:16px;border-radius:50%;font-size:9px;display:flex;align-items:center;justify-content:center;font-weight:700}
+.form-w{background:var(--green-light);color:#0d1a12}.form-l{background:var(--red);color:#fff}.form-d{background:rgba(255,255,255,.15);color:rgba(244,239,228,.5)}
+.pc-input{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:7px;padding:10px 14px;font-family:'Barlow',sans-serif;font-size:14px;color:var(--cream);width:100%;margin-bottom:12px;outline:none}
+.pc-input:focus{border-color:var(--gold)}
+.pc-select{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:7px;padding:10px 14px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:var(--cream);width:100%;margin-bottom:12px;outline:none;cursor:pointer}
+.pc-select option{background:#182b1e;color:var(--cream)}
+.season-stat-banner{background:linear-gradient(135deg,rgba(245,200,66,.08),rgba(245,200,66,.02));border:1px solid rgba(245,200,66,.2);border-radius:12px;padding:18px;margin-bottom:16px;text-align:center}
+.age-badge{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:rgba(244,239,228,.5);letter-spacing:1px}
+.club-badge{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:2px;color:var(--green-light)}
+.timeline{position:relative;padding-left:20px}
+.timeline::before{content:'';position:absolute;left:6px;top:0;bottom:0;width:2px;background:rgba(245,200,66,.15)}
+.tl-item{position:relative;margin-bottom:14px}
+.tl-item::before{content:'';position:absolute;left:-17px;top:5px;width:8px;height:8px;border-radius:50%;background:var(--gold)}
+.tl-text{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:600;color:rgba(244,239,228,.75)}
+.tl-sub{font-size:11px;color:rgba(244,239,228,.4);margin-top:1px}
+
+
+/* ── SPLASH SCREEN ── */
+#splashScreen{
+  position:fixed;inset:0;z-index:9999;
+  background:#0d1a12;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:20px;
+  transition:opacity .6s ease, visibility .6s ease;
+}
+#splashScreen.hidden{opacity:0;visibility:hidden;pointer-events:none;}
+
+.splash-glow{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 60%,rgba(26,92,46,.5) 0%,transparent 70%),
+    radial-gradient(ellipse 40% 30% at 50% 100%,rgba(245,200,66,.12) 0%,transparent 60%);
+  pointer-events:none;
+}
+
+.splash-year{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(14px,3vw,22px);
+  letter-spacing:8px;
+  color:var(--gold);
+  opacity:.7;
+  margin-bottom:4px;
+  animation:fadeUp .8s ease both;
+}
+
+.splash-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(64px,18vw,140px);
+  line-height:.92;
+  letter-spacing:6px;
+  color:var(--cream);
+  text-shadow:
+    0 0 60px rgba(245,200,66,.35),
+    0 0 120px rgba(26,92,46,.4),
+    0 4px 24px rgba(0,0,0,.8);
+  animation:fadeUp .9s .1s ease both;
+}
+
+.splash-title span{
+  color:var(--gold);
+  display:block;
+}
+
+.splash-sub{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:clamp(13px,3vw,18px);
+  font-weight:600;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  color:rgba(244,239,228,.45);
+  margin-top:10px;
+  margin-bottom:48px;
+  animation:fadeUp 1s .2s ease both;
+}
+
+.splash-play{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(20px,4vw,26px);
+  letter-spacing:4px;
+  padding:18px 64px;
+  border-radius:50px;
+  border:none;
+  cursor:pointer;
+  background:linear-gradient(135deg,var(--gold),var(--gold-dark));
+  color:var(--dark);
+  box-shadow:0 0 40px rgba(245,200,66,.4),0 8px 32px rgba(0,0,0,.4);
+  transition:all .25s;
+  animation:fadeUp 1s .35s ease both, pulseGlow 2.5s 1.5s ease-in-out infinite;
+}
+
+.splash-play:hover{
+  transform:scale(1.06) translateY(-3px);
+  box-shadow:0 0 60px rgba(245,200,66,.65),0 12px 40px rgba(0,0,0,.5);
+}
+
+.splash-cricket{
+  font-size:clamp(36px,8vw,64px);
+  margin-bottom:16px;
+  animation:fadeUp .7s ease both, float 3s 1s ease-in-out infinite;
+  filter:drop-shadow(0 0 16px rgba(245,200,66,.4));
+}
+
+.splash-divider{
+  width:80px;height:3px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  margin:16px auto 0;
+  animation:fadeUp 1s .15s ease both;
+}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(24px);}
+  to{opacity:1;transform:translateY(0);}
+}
+@keyframes float{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-10px);}
+}
+@keyframes pulseGlow{
+  0%,100%{box-shadow:0 0 40px rgba(245,200,66,.4),0 8px 32px rgba(0,0,0,.4);}
+  50%{box-shadow:0 0 70px rgba(245,200,66,.7),0 8px 40px rgba(0,0,0,.5);}
+}
+
+
+/* ── CARD ZOOM OVERLAY ── */
+#cardZoomOverlay{
+  position:fixed;inset:0;z-index:1000;
+  background:rgba(0,0,0,.82);
+  backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+  opacity:0;visibility:hidden;
+  transition:opacity .25s,visibility .25s;
+  cursor:pointer;
+}
+#cardZoomOverlay.show{opacity:1;visibility:visible;}
+#cardZoomInner{
+  transform:scale(.6);
+  transition:transform .28s cubic-bezier(.34,1.4,.64,1);
+  cursor:default;
+  pointer-events:none;  /* clicks pass through to overlay = dismiss */
+}
+#cardZoomOverlay.show #cardZoomInner{transform:scale(1);}
+
+.card-zoom-wrap{
+  width:280px;
+  height:390px;
+  border-radius:20px;
+  position:relative;
+}
+.card-zoom-wrap .card-inner{
+  padding:20px 18px 16px;
+  border-radius:20px;
+}
+.card-zoom-wrap .card-ovr{font-size:68px;}
+.card-zoom-wrap .card-name{font-size:20px;letter-spacing:.5px;margin-top:6px;}
+.card-zoom-wrap .card-role{margin-top:5px;}
+.card-zoom-wrap .card-role .pill{font-size:13px;padding:3px 10px;}
+.card-zoom-wrap .card-badge{font-size:11px;padding:3px 8px;border-radius:5px;margin-top:5px;}
+.card-zoom-wrap .card-avatar{font-size:60px;margin:8px 0;}
+.card-zoom-wrap .card-stats{gap:5px;}
+.card-zoom-wrap .stat-row{font-size:13px;}
+.card-zoom-wrap .card-val{font-size:12px;margin-top:4px;}
+
+/* Extra detail rows only shown in zoom */
+.zoom-extra{
+  margin-top:10px;
+  border-top:1px solid rgba(255,255,255,.08);
+  padding-top:10px;
+  font-size:11px;
+  font-family:'Barlow Condensed',sans-serif;
+  color:rgba(244,239,228,.5);
+  line-height:1.8;
+}
+.zoom-extra strong{color:var(--cream);}
+
+.zoom-hint{
+  position:absolute;
+  bottom:-36px;
+  left:50%;
+  transform:translateX(-50%);
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:1px;
+  color:rgba(244,239,228,.4);
+  white-space:nowrap;
+}
+
 </style>
 </head>
 <body>
 <div class="app">
+
+<!-- ══════════════════════════════════════════ -->
+<!--  SPLASH / HOME SCREEN                     -->
+<!-- ══════════════════════════════════════════ -->
+<div id="splashScreen">
+  <div class="splash-glow"></div>
+  <div class="splash-cricket">🏏</div>
+  <div class="splash-year">AUSSIE TAPEBALL CRICKET LEAGUE</div>
+  <div class="splash-title">ATCL<span>'26</span></div>
+  <div class="splash-divider"></div>
+  <div class="splash-sub">The Game</div>
+  <button class="splash-play" onclick="hideSplash()">▶ &nbsp; PLAY</button>
+</div>
+
 <header>
   <div class="logo">ATCL <span>Tapeball</span></div>
   <div class="hcoins">🪙 <span id="coinDisplay">2000</span><span id="coinLabel" style="font-size:10px;opacity:.6;margin-left:2px"></span></div>
@@ -207,6 +445,7 @@ header{background:linear-gradient(135deg,var(--green) 0%,#0d2a18 100%);border-bo
   <button class="mode-btn" onclick="switchMode('u19')">🟡 U19 League</button>
   <button class="mode-btn" onclick="switchMode('atcl')">🟢 ATCL</button>
   <button class="mode-btn" onclick="switchMode('world')">🌍 World Championship</button>
+  <button class="mode-btn" onclick="switchMode('career')">⭐ My Player Career</button>
 </div>
 
 <!-- ═══════════════════════════════════════ -->
@@ -345,6 +584,31 @@ header{background:linear-gradient(135deg,var(--green) 0%,#0d2a18 100%);border-bo
   <div id="world-tournament" class="screen"><div id="worldTournamentContent"></div></div>
 </div>
 
+
+<!-- ═══════════════════════════════════════ -->
+<!--  MODE: MY PLAYER CAREER                -->
+<!-- ═══════════════════════════════════════ -->
+<div id="mode-career" class="mode-panel">
+  <div class="sub-nav">
+    <button class="sub-btn active" onclick="showSub('career','home')">🏠 Home</button>
+    <button class="sub-btn" onclick="showSub('career','training')">💪 Training</button>
+    <button class="sub-btn" onclick="showSub('career','matches')">⚡ Play Match</button>
+    <button class="sub-btn" onclick="showSub('career','history')">📊 History</button>
+    <button class="sub-btn" onclick="showSub('career','transfer')">📨 Transfers</button>
+  </div>
+  <div id="career-home" class="screen active"><div id="careerPlayerHome"></div></div>
+  <div id="career-training" class="screen"><div id="careerTraining"></div></div>
+  <div id="career-matches" class="screen"><div id="careerMatches"></div></div>
+  <div id="career-history" class="screen"><div id="careerHistory"></div></div>
+  <div id="career-transfer" class="screen"><div id="careerTransfer"></div></div>
+</div>
+
+
+<!-- CARD ZOOM OVERLAY -->
+<div id="cardZoomOverlay" onclick="closeCardZoom()">
+  <div id="cardZoomInner"></div>
+</div>
+
 <!-- MODAL + TOAST -->
 <div id="modalOverlay" class="modal-overlay" style="display:none" onclick="closeMOB(event)">
   <div class="modal" id="modalContent"></div>
@@ -452,6 +716,15 @@ const NATIONS=[
   {name:'Namibia',flag:'🇳🇦',ovr:65},
 ];
 
+// ── FIXED NATIONAL ROSTERS ──
+const NATION_ROSTERS = {
+  'India': ['Arjun Rathore','Kunal Deshmukh','Rishabh Malik','Dev Malhotra','Aditya Kulkarni','Nikhil Bedi','Yashvardhan Singh','Pranav Iyer','Shaurya Mehta','Vivaan Choudhary','Tanish Kapoor','Rohan Venkataraman','Aaryan Patil','Siddhant Joshi','Krishan Thakur'],
+  'Bangladesh': ['Rahat Hossain','Tanvir Mahmud','Ariful Karim','Nayeem Hasan','Shakil Ahmed','Mahin Chowdhury','Farhan Islam','Imtiaz Rahman','Sajid Uddin','Rifat Kabir','Zayan Morshed','Adnan Hossain','Samiul Bari','Fahim Anwar','Tareq Siddique'],
+  'Sri Lanka': ['Dhanuka Perera','Kavindu Jayasinghe','Ashen Fernando','Nimesh Gunaratne','Tharindu Silva','Ravin Wickramasinghe','Pasindu Senanayake','Malith Rajapaksa','Dinuka Weerasinghe','Vihanga Peris','Sachintha Bandara','Lahiru Madugalle','Kanishka Ranatunga','Yasiru Ekanayake','Chamod De Alwis'],
+  'Pakistan': ['Ahsan Raza','Hamza Qureshi','Saad Nawaz','Bilal Akhtar','Zain Haider','Faraz Malik','Hammad Shah','Daniyal Abbasi','Taimoor Khan','Arslan Sheikh','Huzaifa Mirza','Salman Javed','Usman Siddiqui','Rehan Iqbal','Shahzaib Hussain'],
+};
+
+
 // U19 TEAMS
 const U19_TEAMS_DEF=[
   'Northern Stars U19','Southern Bolts U19','Western Blaze U19','Eastern Crocs U19','Capital Roos U19','Harbour Hawks U19','Desert Cobras U19','Valley Eagles U19','Coastal Pythons U19','Outback Vipers U19'
@@ -511,7 +784,31 @@ function load(){
 // ═══════════════════════════════════════════
 
 function rnd(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
-function wRnd(min,max){return Math.floor(min+Math.pow(Math.random(),1.8)*(max-min));}
+
+// Tiered rarity pull — only bands overlapping [min,max] are eligible; weights re-normalised.
+//   60-69  Common       43%  (very frequent — most pulls land here)
+//   70-83  Uncommon     25%  (occasional)
+//   84-90  Rare (Gold)  20%  (solid pull)
+//   91-99  Very Rare    10%  (hard)
+//   100+   Legendary     2%  (extremely hard — even in Epic packs)
+function wRnd(min,max){
+  const BANDS=[
+    {lo:60,hi:69,w:43},
+    {lo:70,hi:83,w:25},
+    {lo:84,hi:90,w:20},
+    {lo:91,hi:99,w:10},
+    {lo:100,hi:110,w:2},
+  ];
+  const eligible=BANDS.map(b=>{
+    const lo=Math.max(b.lo,min),hi=Math.min(b.hi,max);
+    return lo<=hi?{lo,hi,w:b.w}:null;
+  }).filter(Boolean);
+  if(!eligible.length)return min;
+  const total=eligible.reduce((s,b)=>s+b.w,0);
+  let roll=Math.random()*total;
+  for(const b of eligible){roll-=b.w;if(roll<=0)return rnd(b.lo,b.hi);}
+  const last=eligible[eligible.length-1];return rnd(last.lo,last.hi);
+}
 
 function tierFromOvr(o){if(o>=100)return'legendary';if(o>=90)return'epic';if(o>=80)return'gold';if(o>=70)return'silver';return'bronze';}
 function valFromOvr(o){if(o>=100)return 700;if(o>=90)return 400;if(o>=85)return 370;if(o>=80)return 300;if(o>=70)return 200;return 100;}
@@ -542,7 +839,7 @@ function genPlayer(role,oMin,oMax,leagueName,isU19=false,nationality=null){
   };
 }
 
-const DAKSH={id:'daksh_nayak',name:'Daksh Nayak',ovr:82,role:'BOWL',batting_style:'Right-hand bat',bowling_style:'Left-arm fast',specialisation:'Pace bowler',league:'Division 1 — U19 ATCL',is_u19:true,stats:{pace:84,swing:80,accuracy:79,fitness:83,batting:48,fielding:77,experience:72},card_tier:'gold',value:300,from_league:'Division 1 — U19 ATCL'};
+const DAKSH={id:'daksh_nayak',name:'Daksh Nayak',ovr:82,role:'BOWL',batting_style:'Right-hand bat',bowling_style:'Left-arm fast',specialisation:'Pace bowler',league:'Coastal Pythons U19',is_u19:true,team:'Coastal Pythons U19',stats:{pace:84,swing:80,accuracy:79,fitness:83,batting:48,fielding:77,experience:72},card_tier:'gold',value:300,from_league:'Coastal Pythons U19'};
 
 // ═══════════════════════════════════════════
 //  CARD HTML
@@ -559,7 +856,9 @@ function buildCard(p,showSell=false){
     else badge=`<div class="card-badge badge-atcl">ATCL</div>`;
   }
   const sellBtn=showSell?`<button class="sell-btn" onclick="sellCard('${p.id}',event)">SELL 🪙${p.value}</button>`:'';
-  return`<div class="player-card card-${tier}" title="${p.name}">
+  // Encode player data for zoom — escape for safe HTML attribute
+  const pData=encodeURIComponent(JSON.stringify(p));
+  return`<div class="player-card card-${tier}" title="${p.name}" onclick="openCardZoom(event,'${pData}')">
     <div class="card-inner">
       <div class="card-ovr">${p.ovr}</div>
       <div class="card-name">${p.name}</div>
@@ -572,6 +871,58 @@ function buildCard(p,showSell=false){
     </div>
   </div>`;
 }
+
+
+// ── CARD ZOOM ────────────────────────────────
+function openCardZoom(e, pData){
+  // Don't open zoom if click was on sell button
+  if(e.target.classList.contains('sell-btn')||e.target.closest('.sell-btn'))return;
+  e.stopPropagation();
+  const p=JSON.parse(decodeURIComponent(pData));
+  const tier=p.card_tier;
+  const sk=Object.keys(p.stats);
+  const emo={BAT:'🏏',ALL:'⚡',BOWL:'🎳',WK:'🧤'}[p.role]||'🎯';
+  let badge='';
+  if(p.ovr>75){
+    const isU19=p.is_u19||(p.from_league||'').toLowerCase().includes('u19');
+    badge=`<div class="card-badge ${isU19?'badge-u19':'badge-atcl'}">${isU19?'U19 ATCL':'ATCL'}</div>`;
+  }
+  // All stats for zoom
+  const allStats=sk.map(k=>`<div class="stat-row"><span class="stat-label">${k.toUpperCase().slice(0,3)}</span><span class="stat-val">${Math.round(p.stats[k])}</span></div>`).join('');
+  const extraInfo=`<div class="zoom-extra">
+    <strong>Batting:</strong> ${p.batting_style||'—'}<br>
+    <strong>Bowling:</strong> ${p.bowling_style||'—'}<br>
+    <strong>Speciality:</strong> ${p.specialisation||'—'}<br>
+    ${p.from_league?`<strong>League:</strong> ${p.from_league}<br>`:''}
+    <strong>Card Value:</strong> 🪙${p.value}
+  </div>`;
+
+  document.getElementById('cardZoomInner').innerHTML=`
+    <div style="position:relative">
+      <div class="card-zoom-wrap player-card card-${tier}">
+        <div class="card-inner">
+          <div class="card-ovr">${p.ovr}</div>
+          <div class="card-name">${p.name}</div>
+          <div class="card-role"><span class="pill ${ROLE_PILLS[p.role]||''}">${ROLE_NAMES[p.role]||p.role}</span></div>
+          ${badge}
+          <div class="card-avatar">${emo}</div>
+          <div class="card-stats" style="grid-template-columns:1fr 1fr 1fr">${allStats}</div>
+          <div class="card-val">🪙${p.value}</div>
+          ${extraInfo}
+        </div>
+      </div>
+      <div class="zoom-hint">tap anywhere to close</div>
+    </div>`;
+
+  document.getElementById('cardZoomOverlay').classList.add('show');
+}
+
+function closeCardZoom(){
+  document.getElementById('cardZoomOverlay').classList.remove('show');
+}
+
+// Close zoom on Escape key
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeCardZoom();});
 
 // ═══════════════════════════════════════════
 //  PACKS
@@ -589,7 +940,16 @@ function openPack(type){
     const allR=[...roles.slice(0,3),pool[~~(Math.random()*pool.length)],pool[~~(Math.random()*pool.length)]];
     const ld=LEAGUES[Math.min(S.career_tier,LEAGUES.length-1)];
     const cards=allR.map(r=>genPlayer(r,cfg.min,cfg.max,ld.name,type==='basic'));
-    if(type==='basic'&&!S.collection.find(c=>c.id==='daksh_nayak'))cards[cards.length-1]=DAKSH;
+    // Daksh Nayak: 1-in-50 chance per basic pack. Guaranteed only if you've opened 50+ packs and still don't have him.
+    if(type==='basic'&&!S.collection.find(c=>c.id==='daksh_nayak')){
+      S.basic_packs_opened=(S.basic_packs_opened||0)+1;
+      const dakshRoll=Math.random()<(1/50); // 2% per pack
+      const pityPull=S.basic_packs_opened>=50;   // guaranteed after 50 packs
+      if(dakshRoll||pityPull){
+        cards[cards.length-1]=DAKSH;
+        S.basic_packs_opened=0; // reset pity counter
+      }
+    }
     cards.forEach(c=>S.collection.push(c));save();
     const total=cards.reduce((a,c)=>a+c.value,0);
     const revH=cards.map((c,i)=>`<div class="reveal-card" style="animation-delay:${i*.12}s">${buildCard(c)}</div>`).join('');
@@ -835,7 +1195,7 @@ function runCareerMatch(isFinal){
     const margin=Math.abs(myI.runs-aiI.runs);
     // myI.bowlStats = opp's bowlers (they bowl when my team bats)
     // oppI.bowlStats = my bowlers (I bowl when opp bats)
-    const myCard=buildScorecardTable(myI.batStats||[],oppI.bowlStats||[],'Your Team');
+    const myCard=buildScorecardTable(myI.batStats||[],aiI.bowlStats||[],'Your Team');
     const oppCard=buildScorecardTable(aiI.batStats||[],myI.bowlStats||[],aiName);
     const pfl=!isFinal&&pe&&pe.played>=maxM;
     const qual=pe&&pe.w>=ld.qw;
@@ -989,13 +1349,40 @@ function genManagedSeasonTable(myName,numTeams,isU19,qw,maxM,prize,teamNames){
   return{table:shuffle(table),qw,maxM,prize};
 }
 
-function simManagedMatch(mySquad,oppOvr,isFinal=false,oppName=null){
-  const myOvr=mgmtTeamOvr(mySquad)+(isFinal?0:0);
-  const opp=genManagedTeam(Math.max(55,oppOvr-6),Math.min(110,oppOvr+6));
+function simManagedMatch(mySquad,oppOvr,isFinal=false,oppName=null,myName=null,oppSquad=null){
+  // Always use exactly 11 — for national squads preserve order (names are role-matched)
+  // For others, sort by OVR desc
+  const hasNationals=mySquad.some(p=>p.national);
+  const sorted11=hasNationals
+    ? mySquad.slice(0,11)                               // keep original order for named squads
+    : [...mySquad].sort((a,b)=>b.ovr-a.ovr).slice(0,11);
+  const myOvr=mgmtTeamOvr(sorted11);
+  // Use a provided opp squad, or try to build a named squad if the opp is a known nation
+  let opp;
+  if(oppSquad){
+    opp=oppSquad.slice(0,11);
+  }else{
+    // Check if oppName matches a nation with a fixed roster
+    const namedNation=Object.keys(NATION_ROSTERS).find(k=>oppName&&oppName.includes(k));
+    if(namedNation){
+      const namedNationObj=NATIONS.find(n=>n.name===namedNation);
+      const namedRoles=['BAT','BAT','BAT','BAT','ALL','ALL','BOWL','BOWL','BOWL','WK','BAT'];
+      const nRoster=NATION_ROSTERS[namedNation];
+      const nOvr=namedNationObj?namedNationObj.ovr:oppOvr;
+      opp=namedRoles.map((r,i)=>{
+        const p=genPlayer(r,Math.max(55,nOvr-8),Math.min(110,nOvr+8),namedNation+' National',false);
+        p.name=nRoster[i]||p.name;
+        p.national=true;p.nation=namedNation;
+        return p;
+      });
+    }else{
+      opp=genManagedTeam(Math.max(55,oppOvr-6),Math.min(110,oppOvr+6));
+    }
+  }
   const oppO=Math.round(opp.reduce((a,c)=>a+c.ovr,0)/opp.length);
-  const myI=simInnings(mySquad,opp,myOvr,oppO);
-  const oppI=simInnings(opp,mySquad,oppO+(isFinal?5:0),myOvr,myI.runs+1);
-  return{won:myI.runs>oppI.runs,myI,oppI,oppName:oppName||aiTeamName()};
+  const myI=simInnings(sorted11,opp,myOvr,oppO);
+  const oppI=simInnings(opp,sorted11,oppO+(isFinal?5:0),myOvr,myI.runs+1);
+  return{won:myI.runs>oppI.runs,myI,oppI,oppName:oppName||aiTeamName(),myName:myName||null};
 }
 
 // ═══════════════════════════════════════════
@@ -1022,13 +1409,21 @@ function renderU19TeamPick(){
 }
 function pickU19Team(idx){
   S.u19_team_idx=idx;
-  // Generate squad
+  const teamName=U19_TEAMS_DEF[idx];
+  // Generate squad tagged with the team name
   const roles=['BAT','BAT','BAT','BAT','ALL','ALL','BOWL','BOWL','BOWL','WK','BAT','BOWL','ALL','BAT','WK'];
-  S.u19_squad=roles.map(r=>genPlayer(r,62,88,'U19 League',true));
+  S.u19_squad=roles.map(r=>genPlayer(r,62,88,teamName,true));
+  // If Coastal Pythons U19 — inject Daksh Nayak as the starting pace bowler
+  if(teamName==='Coastal Pythons U19'){
+    const dakshClone={...DAKSH,id:'daksh_nayak',league:teamName,from_league:teamName,team:teamName};
+    const bowlIdx=S.u19_squad.findIndex(p=>p.role==='BOWL');
+    if(bowlIdx!==-1) S.u19_squad[bowlIdx]=dakshClone;
+    else S.u19_squad.push(dakshClone);
+  }
   S.u19_market=genMarket(true,16);
   // Start season
   const otherTeams=U19_TEAMS_DEF.filter((_,i)=>i!==idx);
-  S.u19_season=genManagedSeasonTable(U19_TEAMS_DEF[idx],10,true,4,7,3000,otherTeams);
+  S.u19_season=genManagedSeasonTable(teamName,10,true,4,7,3000,otherTeams);
   save();renderU19Home();renderU19Season();renderU19Squad();renderU19Market();
 }
 function renderU19Home(){
@@ -1109,7 +1504,7 @@ function playU19Match(){
   if(!pe||pe.played>=7){showToast('Season complete!','warning');showSub('u19','season');return;}
   const ovrBase=72+Math.floor(pe.played/2);
   const oppTeam=S.u19_season.table.filter(t=>!t.isP)[~~(Math.random()*(S.u19_season.table.length-1))];
-  const res=simManagedMatch(S.u19_squad,ovrBase,false,oppTeam?.name||'Opposition');
+  const res=simManagedMatch(S.u19_squad,ovrBase,false,oppTeam?.name||'Opposition',U19_TEAMS_DEF[S.u19_team_idx]);
   res.myName=U19_TEAMS_DEF[S.u19_team_idx]||'Your Team';
   pe.played++;
   const ate=S.u19_season.table.filter(t=>!t.isP)[~~(Math.random()*(S.u19_season.table.length-1))];
@@ -1122,7 +1517,7 @@ function playU19Match(){
 function enterU19Final(){const pe=S.u19_season?.table?.find(t=>t.isP);if(pe)pe.in_final=true;save();renderU19Season();}
 function playU19Final(){
   if(!S.u19_season)return;
-  const res=simManagedMatch(S.u19_squad,85,true,'Grand Final Opponents');
+  const res=simManagedMatch(S.u19_squad,85,true,'Grand Final Opponents',U19_TEAMS_DEF[S.u19_team_idx]);
   res.myName=U19_TEAMS_DEF[S.u19_team_idx]||'Your Team';
   const pe=S.u19_season.table.find(t=>t.isP);
   if(pe){pe.final_done=true;pe.final_won=res.won;}
@@ -1234,7 +1629,7 @@ function playATCLMatch(){
   if(!pe||pe.played>=7){showToast('Season complete!','warning');showSub('atcl','season');return;}
   const ovrBase=80+Math.floor(pe.played/2);
   const oppTeam=S.atcl_season.table.filter(t=>!t.isP)[~~(Math.random()*(S.atcl_season.table.length-1))];
-  const res=simManagedMatch(S.atcl_squad,ovrBase,false,oppTeam?.name||'Opposition');
+  const res=simManagedMatch(S.atcl_squad,ovrBase,false,oppTeam?.name||'Opposition',ATCL_TEAMS_DEF[S.atcl_team_idx]);
   res.myName=ATCL_TEAMS_DEF[S.atcl_team_idx]||'Your Team';
   pe.played++;
   if(res.won){pe.w++;pe.pts+=2;pe.nrr=+(pe.nrr+.3).toFixed(2);}else{pe.l++;pe.nrr=+(pe.nrr-.2).toFixed(2);}
@@ -1245,7 +1640,7 @@ function playATCLMatch(){
 function enterATCLFinal(){const pe=S.atcl_season?.table?.find(t=>t.isP);if(pe)pe.in_final=true;save();renderATCLSeason();}
 function playATCLFinal(){
   if(!S.atcl_season)return;
-  const res=simManagedMatch(S.atcl_squad,92,true,'ATCL Grand Final Opponents');
+  const res=simManagedMatch(S.atcl_squad,92,true,'ATCL Grand Final Opponents',ATCL_TEAMS_DEF[S.atcl_team_idx]);
   res.myName=ATCL_TEAMS_DEF[S.atcl_team_idx]||'Your Team';
   const pe=S.atcl_season.table.find(t=>t.isP);
   if(pe){pe.final_done=true;pe.final_won=res.won;}
@@ -1284,7 +1679,17 @@ function pickNation(idx){
   const n=NATIONS[idx];
   const roles=['BAT','BAT','BAT','BAT','ALL','ALL','BOWL','BOWL','BOWL','WK','BAT','BOWL','ALL','BAT','WK'];
   const ovrBase=n.ovr;
-  S.world_squad=roles.map(r=>genPlayer(r,Math.max(60,ovrBase-10),Math.min(110,ovrBase+10),n.name+' National',false,n.name));
+  const fixedNames=NATION_ROSTERS[n.name]||null;
+  S.world_squad=roles.map((r,i)=>{
+    const p=genPlayer(r,Math.max(60,ovrBase-10),Math.min(110,ovrBase+10),n.name+' National',false,n.name);
+    if(fixedNames&&fixedNames[i]){
+      p.name=fixedNames[i];
+      p.national_name=fixedNames[i]; // permanent flag so name never gets overwritten
+    }
+    p.national=true;
+    p.nation=n.name;
+    return p;
+  });
   S.world_market=genWorldMarket();
   S.world_tournament=genWorldTournament(idx);
   save();renderWorldHome();renderWorldSquad();renderWorldMarket();renderWorldTournament();
@@ -1417,7 +1822,7 @@ function playWorldMatch(){
     }
     const opp=opponents[playedCount%opponents.length];
     const oppOvr=opp.ovr||80;
-    const res=simManagedMatch(S.world_squad,oppOvr,false,`${opp.flag} ${opp.name}`);
+    const n2=NATIONS[S.world_nation];const res=simManagedMatch(S.world_squad,oppOvr,false,`${opp.flag} ${opp.name}`,`${n2.flag} ${n2.name}`);
     res.myName=`${n.flag} ${n.name}`;
     pn.played=(pn.played||0)+1;opp.played=(opp.played||0)+1;
     if(res.won){pn.w++;pn.pts+=2;pn.nrr=+(pn.nrr+.3).toFixed(2);}else{pn.l++;pn.nrr=+(pn.nrr-.2).toFixed(2);}
@@ -1447,7 +1852,7 @@ function playWorldMatch(){
     if(!mySF){showToast('Waiting for other semi...','warning');return;}
     const isA=mySF.a.idx===S.world_nation;
     const opp=isA?mySF.b:mySF.a;
-    const res=simManagedMatch(S.world_squad,opp.ovr||88,true,`${opp.flag} ${opp.name}`);
+    const n3=NATIONS[S.world_nation];const res=simManagedMatch(S.world_squad,opp.ovr||88,true,`${opp.flag} ${opp.name}`,`${n3.flag} ${n3.name}`);
     res.myName=`${n.flag} ${n.name}`;
     mySF.winner=res.won?n:opp;
     // Sim other SF if needed
@@ -1462,7 +1867,7 @@ function playWorldMatch(){
   }else if(t.stage==='final'){
     const fin=t.final;if(!fin)return;
     const opp=fin.a.idx===S.world_nation?fin.b:fin.a;
-    const res=simManagedMatch(S.world_squad,opp.ovr||92,true,`${opp.flag} ${opp.name}`);
+    const n4=NATIONS[S.world_nation];const res=simManagedMatch(S.world_squad,opp.ovr||92,true,`${opp.flag} ${opp.name}`,`${n4.flag} ${n4.name}`);
     res.myName=`${n.flag} ${n.name}`;
     t.champion=res.won?n:opp;t.stage='done';
     if(res.won){S.world_coins+=50000;updCoins();showToast('🌍 WORLD CHAMPIONS! +🪙50,000');}
@@ -1568,6 +1973,7 @@ function switchMode(mode){
   if(mode==='u19'){initU19();}
   if(mode==='atcl'){initATCL();}
   if(mode==='world'){initWorld();}
+  if(mode==='career'){initPlayerCareer();}
 }
 
 function showSub(mode,sub){
@@ -1584,6 +1990,7 @@ function showSub(mode,sub){
   if(mode==='u19'){if(sub==='home')renderU19Home();if(sub==='squad')renderU19Squad();if(sub==='market')renderU19Market();if(sub==='season')renderU19Season();}
   if(mode==='atcl'){if(sub==='home')renderATCLHome();if(sub==='squad')renderATCLSquad();if(sub==='market')renderATCLMarket();if(sub==='season')renderATCLSeason();}
   if(mode==='world'){if(sub==='home')renderWorldHome();if(sub==='squad')renderWorldSquad();if(sub==='market')renderWorldMarket();if(sub==='tournament')renderWorldTournament();}
+  if(mode==='career'){if(sub==='home')renderPCHome();if(sub==='training')renderPCTraining();if(sub==='matches')renderPCMatches();if(sub==='history')renderPCHistory();if(sub==='transfer')renderPCTransfer();}
 }
 
 // ═══════════════════════════════════════════
@@ -1608,9 +2015,907 @@ function updCoins(){
   save();
 }
 
+
+// ═══════════════════════════════════════════
+//  MY PLAYER CAREER
+// ═══════════════════════════════════════════
+const PC_ROLES=[
+  {id:'BAT',label:'Batter',emoji:'🏏',desc:'Aggressive run scorer',primary:['power','timing','technique'],secondary:['running','fielding']},
+  {id:'BOWL',label:'Bowler',emoji:'🎳',desc:'Wicket-taking specialist',primary:['pace','swing','accuracy'],secondary:['variation','fielding']},
+  {id:'ALL',label:'Allrounder',emoji:'⚡',desc:'Bat & ball contributor',primary:['batting','bowling','fitness'],secondary:['fielding','power']},
+  {id:'WK',label:'Keeper',emoji:'🧤',desc:'Keeper-batter',primary:['keeping','stumping','batting'],secondary:['diving','reading']},
+];
+
+// Club name pools — randomly drawn per career, keeping the fixed stat structure per tier
+const PC_CLUB_PREFIXES=['Red','Blue','Golden','Black','Thunder','Storm','Blaze','Iron','Wild','Silver','Rapid','Shadow','Crimson','Apex','Feral','Sonic','Razor','Bronze','Cobalt','Amber'];
+const PC_CLUB_ANIMALS=['Vipers','Hawks','Eagles','Crocs','Roos','Cobras','Pythons','Magpies','Panthers','Wolves','Falcons','Sharks','Dingoes','Stallions','Kookaburras'];
+const PC_CLUB_SUFFIXES=['','','','SC','CC','XI','FC',''];  // mostly no suffix
+
+// Fixed tier structure — names are randomised at career creation
+const PC_CLUB_TIERS=[
+  {tier:1, minOvr:0,  offerOvr:0,  winsReq:0, league:'Street Division'},
+  {tier:2, minOvr:50, offerOvr:52, winsReq:1, league:'Park League'},
+  {tier:3, minOvr:58, offerOvr:60, winsReq:2, league:'Regional Cup'},
+  {tier:4, minOvr:65, offerOvr:67, winsReq:3, league:'U19 ATCL'},
+  {tier:5, minOvr:72, offerOvr:74, winsReq:4, league:'ATCL Division 1'},
+  {tier:6, minOvr:79, offerOvr:81, winsReq:5, league:'ATCL Pro'},
+  {tier:7, minOvr:85, offerOvr:87, winsReq:6, league:'Champions Trophy'},
+  {tier:8, minOvr:90, offerOvr:91, winsReq:7, league:'Champions Trophy Elite'},
+  {tier:9, minOvr:93, offerOvr:94, winsReq:8, league:'World Championship', national:true},
+];
+
+function genCareerClubs(){
+  // Pick 8 unique random club names + keep Australia National fixed at tier 9
+  const usedNames=new Set();
+  function randClubName(){
+    let name,tries=0;
+    do{
+      const p=PC_CLUB_PREFIXES[~~(Math.random()*PC_CLUB_PREFIXES.length)];
+      const a=PC_CLUB_ANIMALS[~~(Math.random()*PC_CLUB_ANIMALS.length)];
+      const s=PC_CLUB_SUFFIXES[~~(Math.random()*PC_CLUB_SUFFIXES.length)];
+      name=(p+' '+a+(s?' '+s:'')).trim();
+      tries++;
+    }while(usedNames.has(name)&&tries<40);
+    usedNames.add(name);return name;
+  }
+  return PC_CLUB_TIERS.map(t=>{
+    const name=t.national?'Australia National':randClubName();
+    return{...t,name};
+  });
+}
+
+// PC_CLUBS is populated at career creation — starts as tier templates
+let PC_CLUBS=genCareerClubs(); // generate real names at load; replaced again at career creation
+
+const TRAINING_SESSIONS=[
+  {id:'nets',label:'Batting Nets',emoji:'🏏',stat:'timing',gain:1.5,cost:0,sessions:3,desc:'Improve timing & technique'},
+  {id:'fitness',label:'Fitness Run',emoji:'🏃',stat:'fitness',gain:1.2,cost:0,sessions:3,desc:'Build stamina & running'},
+  {id:'bowling',label:'Bowling Drills',emoji:'🎳',stat:'pace',gain:1.5,cost:0,sessions:3,desc:'Sharpen pace & accuracy'},
+  {id:'fielding',label:'Fielding Camp',emoji:'🤸',stat:'fielding',gain:1.2,cost:0,sessions:3,desc:'Improve fielding & reflexes'},
+  {id:'video',label:'Video Analysis',emoji:'📹',stat:'technique',gain:1.0,cost:150,sessions:5,desc:'Study opponents — costs 🪙150'},
+  {id:'elite',label:'Elite Coaching',emoji:'🎓',stat:'all',gain:0.8,cost:400,sessions:5,desc:'Boost all stats — costs 🪙400'},
+];
+
+function pcInitState(){
+  if(!S.pc) S.pc={
+    created:false,name:'',role:'BAT',age:16,ovr:50,
+    stats:{batting:50,bowling:50,timing:50,power:50,pace:50,swing:50,accuracy:50,technique:50,fielding:50,fitness:50,keeping:50,stumping:50,variation:50,running:50,diving:50,reading:50},
+    club:PC_CLUBS[0],clubIdx:0,
+    season:1,seasonMatches:0,seasonRuns:0,seasonWickets:0,seasonWins:0,seasonLosses:0,
+    trainingLeft:3,trainingUsed:{},
+    offers:[],matchHistory:[],seasonHistory:[],
+    timeline:[{text:'Started career at '+PC_CLUBS[0].name,sub:'Age 16 • OVR 50',season:1}],
+    retired:false,careerMatches:0,careerRuns:0,careerWickets:0,
+  };
+}
+
+function pcOvrFromStats(pc){
+  const role=pc.role;
+  const s=pc.stats;
+  if(role==='BAT') return Math.round((s.batting||s.timing||50)*0.35+(s.power||50)*0.25+(s.technique||50)*0.25+(s.fielding||50)*0.15);
+  if(role==='BOWL') return Math.round((s.pace||50)*0.3+(s.swing||50)*0.25+(s.accuracy||50)*0.25+(s.variation||50)*0.15+(s.fielding||50)*0.05);
+  if(role==='ALL') return Math.round((s.batting||50)*0.3+(s.bowling||50)*0.3+(s.fitness||50)*0.2+(s.fielding||50)*0.2);
+  return Math.round((s.keeping||50)*0.35+(s.stumping||50)*0.25+(s.batting||50)*0.25+(s.diving||50)*0.15);
+}
+
+function pcUpdateOvr(pc){
+  pc.ovr=Math.min(99,Math.max(40,pcOvrFromStats(pc)));
+}
+
+function pcRelevantStats(pc){
+  const s=pc.stats;
+  if(pc.role==='BAT') return {Timing:s.timing,Power:s.power,Technique:s.technique,Running:s.running,Fielding:s.fielding};
+  if(pc.role==='BOWL') return {Pace:s.pace,Swing:s.swing,Accuracy:s.accuracy,Variation:s.variation,Fielding:s.fielding};
+  if(pc.role==='ALL') return {Batting:s.batting,Bowling:s.bowling,Fitness:s.fitness,Power:s.power,Fielding:s.fielding};
+  return {Keeping:s.keeping,Stumping:s.stumping,Batting:s.batting,Diving:s.diving,Reading:s.reading};
+}
+
+function pcStatBar(val,label){
+  const pct=Math.round((val/110)*100);
+  const col=val>=85?'var(--gold)':val>=70?'var(--green-light)':val>=55?'#60a5fa':'rgba(244,239,228,.4)';
+  return`<div style="margin-bottom:8px">
+    <div style="display:flex;justify-content:space-between;font-family:'Barlow Condensed';font-size:12px;font-weight:700;margin-bottom:3px">
+      <span style="color:rgba(244,239,228,.55);text-transform:uppercase;letter-spacing:.5px">${label}</span>
+      <span style="color:${col}">${val}</span>
+    </div>
+    <div class="pbar"><div class="pfill" style="width:${pct}%;background:${col}"></div></div>
+  </div>`;
+}
+
+function pcFormDots(history){
+  const last5=history.slice(-5);
+  return last5.map(m=>`<div class="form-dot form-${m.won?'w':'l'}">${m.won?'W':'L'}</div>`).join('');
+}
+
+// ── CREATE ────────────────────────────────────
+function initCareerPlayer(){
+  pcInitState();
+  const el=document.getElementById('careerPlayerHome');if(!el)return;
+  if(!S.pc.created){renderPCCreate();return;}
+  if(S.pc.retired){renderPCRetired();return;}
+  renderPCHome();
+}
+
+function renderPCCreate(){
+  const el=document.getElementById('careerPlayerHome');if(!el)return;
+  const roleOpts=PC_ROLES.map(r=>`<div class="pc-role-btn${S._pcCreateRole===r.id?' sel':''}" onclick="S._pcCreateRole='${r.id}';renderPCCreate()">
+    <div class="re">${r.emoji}</div><div class="rl">${r.label}</div><div class="rd">${r.desc}</div>
+  </div>`).join('');
+  el.innerHTML=`<div style="padding:20px;max-width:520px;margin:0 auto">
+  <div class="stitle">CREATE YOUR PLAYER</div>
+  <div class="ssub">Build a career from the grassroots up</div>
+  <input class="pc-input" id="pcNameInput" placeholder="Enter player name..." maxlength="28" value="${S._pcCreateName||''}" oninput="S._pcCreateName=this.value"/>
+  <div style="font-family:'Barlow Condensed';font-size:13px;font-weight:700;letter-spacing:1px;color:rgba(244,239,228,.45);text-transform:uppercase;margin-bottom:10px">Choose Your Role</div>
+  <div class="pc-role-grid">${roleOpts}</div>
+  <select class="pc-select" id="pcStyleSel">
+    <option value="Right-hand bat">Right-hand bat</option>
+    <option value="Left-hand bat">Left-hand bat</option>
+  </select>
+  <select class="pc-select" id="pcBowlSel">
+    ${BOWLING_STYLES.map(s=>`<option value="${s}">${s}</option>`).join('')}
+  </select>
+  <div style="font-size:12px;color:rgba(244,239,228,.4);margin-bottom:16px;line-height:1.6">
+    You start at <strong style="color:var(--gold)">OVR 50</strong> playing for <strong style="color:var(--green-light)">${PC_CLUBS[0].name}</strong>.<br>
+    Train hard, play well, earn offers from better clubs — and maybe a national call-up.
+  </div>
+  <button class="btn btn-gold" onclick="pcCreatePlayer()" style="width:100%">⭐ Start Career</button>
+  </div>`;
+}
+
+function pcCreatePlayer(){
+  const name=(S._pcCreateName||'').trim()||(document.getElementById('pcNameInput')?.value||'').trim();
+  if(!name){showToast('Enter a player name!','error');return;}
+  const role=S._pcCreateRole||'BAT';
+  const batStyle=document.getElementById('pcStyleSel')?.value||'Right-hand bat';
+  const bowlStyle=document.getElementById('pcBowlSel')?.value||'Right-arm fast';
+  // Generate a fresh set of random club names for this career
+  PC_CLUBS=genCareerClubs();
+  S.pc={
+    created:true,name,role,batting_style:batStyle,bowling_style:bowlStyle,
+    age:16,ovr:50,
+    stats:{batting:50,bowling:50,timing:50,power:50,pace:50,swing:50,accuracy:50,technique:50,fielding:50,fitness:50,keeping:50,stumping:50,variation:50,running:50,diving:50,reading:50},
+    clubs:PC_CLUBS.map(c=>({...c})),  // snapshot the clubs into state so they persist across saves
+    club:PC_CLUBS[0],clubIdx:0,
+    season:1,seasonMatches:0,seasonRuns:0,seasonWickets:0,seasonWins:0,seasonLosses:0,
+    trainingLeft:3,trainingUsed:{},
+    offers:[],matchHistory:[],seasonHistory:[],
+    timeline:[{text:`Signed first contract with ${PC_CLUBS[0].name}`,sub:'Age 16 • OVR 50',season:1}],
+    retired:false,careerMatches:0,careerRuns:0,careerWickets:0,
+  };
+  delete S._pcCreateName;delete S._pcCreateRole;
+  save();renderPCHome();renderPCTraining();renderPCMatches();renderPCHistory();
+  showToast(`Career started! Welcome, ${name}! 🌟`);
+}
+
+// ── HOME ──────────────────────────────────────
+function renderPCHome(){
+  const el=document.getElementById('careerPlayerHome');if(!el)return;
+  const pc=S.pc;
+  const rs=pcRelevantStats(pc);
+  const statsHTML=Object.entries(rs).map(([k,v])=>pcStatBar(v,k)).join('');
+  const formHTML=pc.matchHistory.length?`<div class="form-bar">${pcFormDots(pc.matchHistory)}</div>`:'<div style="font-size:11px;color:rgba(244,239,228,.35);margin-top:4px">No matches yet</div>';
+  const offersHTML=pc.offers.length?`<div class="hub-card"><div class="hub-card-title">📬 Club Offers (${pc.offers.length})</div>${pc.offers.map((o,i)=>`<div class="offer-card"><div class="offer-title">${o.club.name}</div><div class="offer-meta">${o.club.league} • ${o.reason}</div><div class="flex-row mt8"><button class="btn btn-gold btn-sm" onclick="pcAcceptOffer(${i})">Accept</button><button class="btn btn-danger btn-sm" onclick="pcDeclineOffer(${i})">Decline</button></div></div>`).join('')}</div>`:'';
+
+  // Progress to next club
+  const nextClub=PC_CLUBS[Math.min(pc.clubIdx+1,PC_CLUBS.length-1)];
+  const needed=nextClub.offerOvr||nextClub.minOvr;
+  const curMin=pc.club.offerOvr||pc.club.minOvr||0;
+  const prog=pc.clubIdx>=PC_CLUBS.length-1?100:Math.min(100,Math.max(0,Math.round(((pc.ovr-curMin)/(needed-curMin))*100)));
+
+  el.innerHTML=`
+  <div style="padding:20px;max-width:700px;margin:0 auto">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px">
+    <div>
+      <div class="stitle" style="margin-bottom:0">${pc.name}</div>
+      <div class="club-badge">${pc.club.name}</div>
+      <div class="age-badge">Age ${pc.age} • Season ${pc.season} • ${ROLE_NAMES[pc.role]}</div>
+      ${formHTML}
+    </div>
+    <div style="text-align:center">
+      <div class="ovr-badge">${pc.ovr}</div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(244,239,228,.4)">OVR</div>
+    </div>
+  </div>
+
+  <div class="career-hub">
+    <div class="hub-card">
+      <div class="hub-card-title">📊 This Season</div>
+      <div style="font-family:'Barlow Condensed';font-size:14px;line-height:2">
+        <div>Matches: <strong>${pc.seasonMatches}</strong>/10 &nbsp;•&nbsp; Wins: <strong style="color:var(--green-light)">${pc.seasonWins}</strong> Losses: <strong style="color:var(--red)">${pc.seasonLosses}</strong></div>
+        ${pc.role==='BAT'||pc.role==='ALL'?`<div>Runs: <strong>${pc.seasonRuns}</strong></div>`:''}
+        ${pc.role==='BOWL'||pc.role==='ALL'?`<div>Wickets: <strong>${pc.seasonWickets}</strong></div>`:''}
+        <div>Training left: <strong style="color:var(--gold)">${pc.trainingLeft}</strong></div>
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:rgba(244,239,228,.4)">Progress to ${nextClub.name}</div>
+      <div class="pbar"><div class="pfill" style="width:${prog}%"></div></div>
+    </div>
+    <div class="hub-card">
+      <div class="hub-card-title">📈 Key Stats</div>
+      ${statsHTML}
+    </div>
+  </div>
+
+  ${offersHTML}
+
+  <div class="flex-row" style="flex-wrap:wrap;gap:10px;margin-top:4px">
+    <button class="btn btn-primary" onclick="showSub('career','matches')">⚡ Play Match</button>
+    <button class="btn btn-gold" onclick="showSub('career','training')">💪 Training</button>
+    <button class="btn btn-primary" onclick="showSub('career','history')">📊 Season History</button>
+    <button class="btn btn-blue" onclick="showSub('career','transfer')">📨 Transfers${(pc.interest_responses||[]).filter(r=>r.fresh).length?` <span style='background:var(--red);color:#fff;border-radius:50%;padding:1px 5px;font-size:10px;margin-left:4px'>${(pc.interest_responses||[]).filter(r=>r.fresh).length}</span>`:''}</button>
+    ${pc.seasonMatches>=10?`<button class="btn btn-gold" onclick="pcEndSeason()">🏆 End Season</button>`:''}
+    ${pc.age>=35?`<button class="btn btn-danger btn-sm" onclick="pcRetire()">🏁 Retire</button>`:''}
+  </div>
+
+  <div class="divider"></div>
+  <div class="stitle" style="font-size:18px">Career Timeline</div>
+  <div class="timeline mt8">${[...pc.timeline].reverse().map(t=>`<div class="tl-item"><div class="tl-text">${t.text}</div><div class="tl-sub">${t.sub}</div></div>`).join('')}</div>
+  </div>`;
+}
+
+// ── TRAINING ──────────────────────────────────
+function renderPCTraining(){
+  const el=document.getElementById('careerTraining');if(!el)return;
+  const pc=S.pc;
+  if(!pc.created){el.innerHTML='<div class="col-empty"><div class="ei">💪</div><p>Create a player first!</p></div>';return;}
+  const sessH=TRAINING_SESSIONS.map(t=>{
+    const used=(pc.trainingUsed[t.id]||0);
+    const maxS=t.sessions;
+    const canDo=pc.trainingLeft>0&&used<maxS&&(t.cost===0||S.coins>=t.cost);
+    return`<div class="training-btn ${canDo?'':'disabled'}" onclick="${canDo?`pcTrain('${t.id}')`:''}" ${!canDo?'disabled':''}>
+      <div class="ti">${t.emoji}</div>
+      <div class="tl">${t.label}</div>
+      <div class="tm">${t.desc}</div>
+      <div class="tm" style="margin-top:4px;color:var(--gold)">${used}/${maxS} used</div>
+    </div>`;
+  }).join('');
+  el.innerHTML=`<div style="padding:20px">
+  <div class="stitle">Training</div>
+  <div class="ssub">Sharpen your skills • ${pc.trainingLeft} session${pc.trainingLeft!==1?'s':''} remaining this season</div>
+  <div class="info-box"><strong>How it works:</strong> Each season you get <strong>3 free training sessions</strong>. Use them wisely — each session type boosts specific stats. Video Analysis and Elite Coaching cost coins but give extra slots.</div>
+  <div class="training-grid">${sessH}</div>
+  </div>`;
+}
+
+function pcTrain(id){
+  const pc=S.pc;if(!pc.created||pc.trainingLeft<=0)return;
+  const t=TRAINING_SESSIONS.find(x=>x.id===id);if(!t)return;
+  if(t.cost>0&&S.coins<t.cost){showToast(`Need 🪙${t.cost}!`,'error');return;}
+  if((pc.trainingUsed[id]||0)>=t.sessions){showToast('Max sessions reached for this drill!','warning');return;}
+  if(t.cost>0){S.coins-=t.cost;updCoins();}
+  // Apply gain
+  const gain=t.gain+Math.random()*0.5; // slight randomness
+  if(t.stat==='all'){
+    Object.keys(pc.stats).forEach(k=>{pc.stats[k]=Math.min(99,+(pc.stats[k]+gain*0.6).toFixed(1));});
+  }else{
+    const primary=PC_ROLES.find(r=>r.id===pc.role)?.primary||[];
+    if(primary.includes(t.stat)||t.stat==='all'){
+      pc.stats[t.stat]=Math.min(99,+(pc.stats[t.stat]+gain).toFixed(1));
+    }
+    // Small spillover to related stats
+    primary.forEach(s=>{if(s!==t.stat)pc.stats[s]=Math.min(99,+(pc.stats[s]+gain*0.15).toFixed(1));});
+  }
+  pc.trainingUsed[id]=(pc.trainingUsed[id]||0)+1;
+  pc.trainingLeft--;
+  pcUpdateOvr(pc);
+  pc.timeline.push({text:`Completed ${t.label} training`,sub:`Age ${pc.age} • OVR now ${pc.ovr}`,season:pc.season});
+  save();renderPCTraining();renderPCHome();
+  showToast(`✅ ${t.label} done! Stats improved. OVR: ${pc.ovr}`);
+}
+
+// ── MATCHES ───────────────────────────────────
+function renderPCMatches(){
+  const el=document.getElementById('careerMatches');if(!el)return;
+  const pc=S.pc;
+  if(!pc.created){el.innerHTML='<div class="col-empty"><div class="ei">⚡</div><p>Create a player first!</p></div>';return;}
+  if(pc.seasonMatches>=10){el.innerHTML=`<div style="padding:20px"><div class="stitle">Match Day</div><div class="info-box" style="border-color:rgba(245,200,66,.4)">Season complete! You've played all 10 matches.<br><button class="btn btn-gold mt8" onclick="pcEndSeason()">🏆 End Season & Get Stat Card</button></div></div>`;return;}
+  const oppClub=PC_CLUBS[Math.min(pc.clubIdx+Math.floor(Math.random()*2),PC_CLUBS.length-1)];
+  const oppOvr=Math.max(45,pc.ovr+rnd(-12,12));
+  const nextC=PC_CLUBS[Math.min(pc.clubIdx+1,PC_CLUBS.length-1)];
+  const ovrNeeded=nextC.offerOvr||nextC.minOvr;
+  const winsNeeded=nextC.winsReq||0;
+  const nextInfo=pc.clubIdx<PC_CLUBS.length-1
+    ?`<div style="margin-top:8px;font-size:11px;color:rgba(244,239,228,.5)">🎯 Next club: <strong style="color:var(--gold)">${nextC.name}</strong> — need OVR ${ovrNeeded} & ${winsNeeded} wins this season</div>`:'';
+  el.innerHTML=`<div style="padding:20px">
+  <div class="stitle">Match Day</div>
+  <div class="ssub">Season ${pc.season} • Match ${pc.seasonMatches+1} of 10</div>
+  <div class="info-box">
+    <strong>${pc.club.name}</strong> vs <strong>${oppClub.name}</strong><br>
+    <span style="font-size:12px;color:rgba(244,239,228,.45)">Your OVR: ${pc.ovr} &nbsp;•&nbsp; Opponent OVR: ~${oppOvr} &nbsp;•&nbsp; ${pc.club.league}</span>
+    ${nextInfo}
+  </div>
+  <div class="flex-row">
+    <button class="btn btn-primary" onclick="pcPlayMatch(${oppOvr},'${oppClub.name.replace(/'/g,"\'")}')">⚡ Play Match</button>
+  </div>
+  </div>`;
+}
+
+function pcPlayMatch(oppOvr,oppName){
+  const pc=S.pc;
+  const tier=pc.club.tier||1;
+
+  // ── Tier-based run caps (tapeball: shorter format, realistic scores per level) ──
+  // Street(1): 0-18 | Park(2): 0-24 | Regional(3): 0-32 | U19(4): 0-38
+  // State(5): 0-44 | Pro(6): 0-52 | Champs(7): 0-60 | Elite(8): 0-68 | National(9): 0-78
+  const MAX_RUNS=[0,18,24,32,38,44,52,60,68,78][tier]||18;
+  const MAX_WKTS=[0,2, 2, 3, 3, 4, 4, 5, 5, 6][tier]||2;
+
+  // ── Win probability: slight OVR-based tilt ──
+  const myAdv=(pc.ovr-oppOvr)/100;
+  const performRoll=Math.random()+myAdv;
+  const won=performRoll>0.47;
+
+  // ── Generate full team scorecard ──
+  const myTeam=pcBuildCareerTeam(pc);       // 11 generated teammates
+  const oppTeam=pcBuildOppTeam(oppOvr,tier);// 11 generated opponents
+  const myInnings=pcSimInnings(myTeam,oppTeam,pc.ovr,oppOvr,tier,false);
+  const oppInnings=pcSimInnings(oppTeam,myTeam,oppOvr,pc.ovr,tier,true,myInnings.runs+1);
+  // Override win based on actual scores
+  const actualWon=myInnings.runs>oppInnings.runs;
+
+  // ── Player's personal stats ──
+  let runs=0,wickets=0,fours=0,sixes=0,balls=0,statLine='';
+  // Find player's entry in batting card
+  const plyrBat=myInnings.batCard.find(b=>b.isPlayer);
+  const plyrBwl=myInnings.bowlCard.find(b=>b.isPlayer);
+  if(plyrBat){runs=plyrBat.runs;fours=plyrBat.fours;sixes=plyrBat.sixes;balls=plyrBat.balls;}
+  if(plyrBwl){wickets=plyrBwl.wickets;}
+
+  if(pc.role==='BAT'||pc.role==='ALL'||pc.role==='WK'){
+    pc.seasonRuns+=runs;pc.careerRuns=(pc.careerRuns||0)+runs;
+    statLine+=`${runs} runs (${balls} balls)${fours?` • ${fours}×4`:''}${sixes?` • ${sixes}×6`:''}`;
+  }
+  if(pc.role==='BOWL'||pc.role==='ALL'){
+    pc.seasonWickets+=wickets;pc.careerWickets=(pc.careerWickets||0)+wickets;
+    statLine+=(statLine?' — ':'')+`${wickets} wkt${wickets!==1?'s':''}`;
+  }
+
+  // ── OVR progression — slower at higher tiers, degrades on bad games ──
+  // Gain: win well +0.6→+1.0 | win narrow +0.2→+0.5 | loss narrow -0.1→-0.3 | loss bad -0.3→-0.6
+  // Higher tiers: gains are smaller (harder to improve against better comp)
+  const tierFactor=Math.max(0.4,1-(tier-1)*0.07);
+  let ovrDelta;
+  if(actualWon){
+    ovrDelta=performRoll>0.75
+      ?+(( 0.5+Math.random()*0.5)*tierFactor).toFixed(1)
+      :+((0.15+Math.random()*0.3)*tierFactor).toFixed(1);
+  }else{
+    ovrDelta=performRoll<0.3
+      ?-(( 0.3+Math.random()*0.3)*tierFactor).toFixed(1)
+      :-((0.05+Math.random()*0.15)*tierFactor).toFixed(1);
+  }
+
+  // Apply delta to primary stats
+  const primary=PC_ROLES.find(r=>r.id===pc.role)?.primary||[];
+  primary.forEach(s=>{
+    pc.stats[s]=Math.min(99,Math.max(30,+(pc.stats[s]+parseFloat(ovrDelta)*0.35).toFixed(1)));
+  });
+  pcUpdateOvr(pc);
+
+  pc.seasonMatches++;pc.careerMatches=(pc.careerMatches||0)+1;
+  if(actualWon)pc.seasonWins++;else pc.seasonLosses++;
+  pc.matchHistory.push({won:actualWon,runs,wickets,opp:oppName,ovr:pc.ovr,season:pc.season,match:pc.seasonMatches});
+  pc.age=16+(pc.season-1);
+
+  pcCheckOffers();
+  pcProcessInterests();
+
+  const ovrChange=parseFloat(ovrDelta)>=0
+    ?`<span style="color:var(--green-light)">+${ovrDelta}</span>`
+    :`<span style="color:var(--red)">${ovrDelta}</span>`;
+  save();
+
+  // ── Build scorecard HTML ──
+  function scorecardTable(card,title,isbatting){
+    if(isbatting){
+      const rows=card.map(b=>`<tr style="${b.isPlayer?'background:rgba(245,200,66,.07);color:var(--gold)':''}">
+        <td style="font-weight:700;font-family:'Barlow Condensed';font-size:13px;padding:5px 8px">${b.name}${b.isPlayer?' ★':''}</td>
+        <td style="font-size:11px;color:rgba(244,239,228,.4);padding:5px 4px;font-family:'Barlow Condensed'">${b.out?'out':'not out'}</td>
+        <td style="font-family:'Bebas Neue';font-size:16px;color:${b.isPlayer?'var(--gold)':'var(--cream)'};padding:5px 6px;text-align:right">${b.runs}</td>
+        <td style="font-size:11px;color:rgba(244,239,228,.4);padding:5px 4px;text-align:right;font-family:'Barlow Condensed'">${b.balls}b</td>
+        <td style="font-size:11px;color:rgba(244,239,228,.4);padding:5px 4px;text-align:right;font-family:'Barlow Condensed'">${b.fours?b.fours+'×4':''}</td>
+        <td style="font-size:11px;color:rgba(244,239,228,.4);padding:5px 4px;text-align:right;font-family:'Barlow Condensed'">${b.sixes?b.sixes+'×6':''}</td>
+      </tr>`).join('');
+      return`<div style="margin-bottom:16px">
+        <div style="font-family:'Barlow Condensed';font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(244,239,228,.4);margin-bottom:6px">${title}</div>
+        <table style="width:100%;border-collapse:collapse"><tbody>${rows}</tbody></table>
+      </div>`;
+    }else{
+      const rows=card.map(b=>`<tr style="${b.isPlayer?'background:rgba(245,200,66,.07);color:var(--gold)':''}">
+        <td style="font-weight:700;font-family:'Barlow Condensed';font-size:13px;padding:5px 8px">${b.name}${b.isPlayer?' ★':''}</td>
+        <td style="font-size:11px;color:rgba(244,239,228,.4);padding:5px 4px;font-family:'Barlow Condensed'">${b.overs}ov</td>
+        <td style="font-family:'Bebas Neue';font-size:16px;color:${b.wickets>0?(b.isPlayer?'var(--gold)':'#c084fc'):'var(--cream)'};padding:5px 6px;text-align:right">${b.wickets}-${b.runs}</td>
+        <td style="font-size:11px;color:rgba(244,239,228,.4);padding:5px 4px;text-align:right;font-family:'Barlow Condensed'">${b.overs>0?(b.runs/b.overs).toFixed(1)+' econ':''}</td>
+      </tr>`).join('');
+      return`<div style="margin-bottom:16px">
+        <div style="font-family:'Barlow Condensed';font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(244,239,228,.4);margin-bottom:6px">${title}</div>
+        <table style="width:100%;border-collapse:collapse"><tbody>${rows}</tbody></table>
+      </div>`;
+    }
+  }
+
+  openModal(`<div class="modal-title">⚡ Match Scorecard</div>
+  <div style="font-family:'Barlow Condensed';font-size:12px;font-weight:700;letter-spacing:1px;color:rgba(245,200,66,.55);margin-bottom:12px;text-transform:uppercase">${pc.club.name} vs ${oppName} • ${pc.club.league} • Match ${pc.seasonMatches}/10</div>
+
+  <div class="scoreboard" style="margin-bottom:14px"><div class="match-teams">
+    <div class="tscore"><div class="tscore-name">${pc.club.name}</div><div class="tscore-runs">${myInnings.runs}</div><div class="tscore-wkts">${myInnings.wickets} wkts</div></div>
+    <div class="vs">${actualWon?'WON':'LOST'}</div>
+    <div class="tscore"><div class="tscore-name">${oppName}</div><div class="tscore-runs">${oppInnings.runs}</div><div class="tscore-wkts">${oppInnings.wickets} wkts</div></div>
+  </div><div class="match-overs">10 Overs Each Side</div></div>
+
+  <div style="background:rgba(0,0,0,.25);border-radius:10px;padding:14px;margin-bottom:14px">
+    ${scorecardTable(myInnings.batCard,'🏏 Batting — '+pc.club.name,true)}
+    ${scorecardTable(oppInnings.bowlCard,'🎳 Bowling — '+oppName,false)}
+  </div>
+  <div style="background:rgba(0,0,0,.25);border-radius:10px;padding:14px;margin-bottom:14px">
+    ${scorecardTable(oppInnings.batCard,'🏏 Batting — '+oppName,true)}
+    ${scorecardTable(myInnings.bowlCard,'🎳 Bowling — '+pc.club.name,false)}
+  </div>
+
+  <div class="result-banner ${actualWon?'win':'loss'}" style="margin-bottom:12px">
+    <div class="result-title">${actualWon?'VICTORY!':'DEFEAT'}</div>
+    <div style="font-family:'Barlow Condensed';font-size:14px;color:rgba(244,239,228,.65);margin-top:4px">Your: ${statLine||'contributed to team'}</div>
+  </div>
+  <div class="info-box">
+    <strong>OVR:</strong> ${pc.ovr} (${ovrChange}) &nbsp;•&nbsp; <strong>Season:</strong> ${pc.seasonMatches}/10
+    ${pc.offers.length?'<br><strong style="color:var(--gold)">📬 New offer waiting!</strong>':''}
+  </div>
+  <div class="flex-row mt16" style="justify-content:center;gap:10px">
+    <button class="btn btn-primary" onclick="closeModal();renderPCMatches();renderPCHome()">Next Match</button>
+    <button class="btn btn-gold" onclick="closeModal();showSub('career','home')">Home</button>
+  </div>`);
+  renderPCHome();renderPCMatches();
+}
+
+// Build 11-player team for career match (player + 10 generated teammates)
+function pcBuildCareerTeam(pc){
+  const roles=['BAT','BAT','BAT','ALL','ALL','BOWL','BOWL','BOWL','WK','BAT','ALL'];
+  const mates=roles.map(r=>({
+    name:rndName(),role:r,
+    ovr:Math.max(30,pc.ovr+rnd(-10,8)),
+    stats:{timing:Math.max(30,pc.ovr+rnd(-12,8)),power:Math.max(30,pc.ovr+rnd(-12,8)),pace:Math.max(30,pc.ovr+rnd(-12,8)),accuracy:Math.max(30,pc.ovr+rnd(-12,8)),batting:Math.max(30,pc.ovr+rnd(-12,8)),bowling:Math.max(30,pc.ovr+rnd(-12,8))}
+  }));
+  // Insert player at batting position 3 or 4
+  const playerEntry={name:pc.name,role:pc.role,ovr:pc.ovr,stats:{...pc.stats},isPlayer:true};
+  mates.splice(2,0,playerEntry);
+  return mates.slice(0,11);
+}
+
+function pcBuildOppTeam(oppOvr,tier){
+  const roles=['BAT','BAT','BAT','BAT','ALL','ALL','BOWL','BOWL','BOWL','WK','BAT'];
+  return roles.map(r=>({
+    name:rndName(),role:r,
+    ovr:Math.max(30,oppOvr+rnd(-10,10)),
+    stats:{timing:Math.max(30,oppOvr+rnd(-12,10)),power:Math.max(30,oppOvr+rnd(-12,10)),pace:Math.max(30,oppOvr+rnd(-12,10)),accuracy:Math.max(30,oppOvr+rnd(-12,10)),batting:Math.max(30,oppOvr+rnd(-12,10)),bowling:Math.max(30,oppOvr+rnd(-12,10))}
+  }));
+}
+
+// Simulate innings for career match with tier-appropriate scoring
+function pcSimInnings(batTeam,bowlTeam,batOvr,bowlOvr,tier,isOpp,target=null){
+  const overs=10;
+  // Tier-based scoring scale: Street=very low, National=proper scores
+  //   tier 1: max ~25 | tier 5: max ~55 | tier 9: max ~85
+  const tierScale=0.55+(tier-1)*0.055; // 0.55 at tier1 → 0.99 at tier9
+  const adv=(batOvr/100)-(bowlOvr/100*0.9)+0.03;
+
+  let runs=0,wickets=0;
+  const batCard=batTeam.map(p=>({name:p.name,runs:0,balls:0,fours:0,sixes:0,out:false,isPlayer:!!p.isPlayer}));
+  const bowlers=bowlTeam.filter(p=>p.role==='BOWL'||p.role==='ALL');
+  const bowlCard=bowlers.map(p=>({name:p.name,overs:0,runs:0,wickets:0,isPlayer:!!p.isPlayer}));
+  if(!bowlCard.length){bowlCard.push({name:bowlTeam[0]?.name||'Bowler',overs:0,runs:0,wickets:0});}
+
+  let batIdx=0;
+  for(let o=0;o<overs;o++){
+    if(wickets>=10)break;
+    const bowler=bowlCard[o%bowlCard.length];
+    bowler.overs++;
+    for(let b=0;b<6;b++){
+      if(wickets>=10||(target&&runs>=target))break;
+      const batter=batCard[Math.min(batIdx,batCard.length-1)];
+      batter.balls++;
+      // Wicket chance slightly higher at lower tiers (less technique)
+      const wktChance=Math.max(0.05,0.11-adv*0.06+(1-tierScale)*0.05);
+      if(Math.random()<wktChance){
+        batter.out=true;wickets++;bowler.wickets++;batIdx++;
+      }else{
+        // Run distribution scaled by tier: lower tiers hit fewer big shots
+        const r=Math.random();
+        let br=0;
+        if(r<0.30)br=0;
+        else if(r<0.52)br=1;
+        else if(r<0.67)br=2;
+        else if(r<0.76)br=3;
+        else if(r<0.88+(tierScale*0.05))br=4;
+        else if(r<0.94+(tierScale*0.04))br=6;
+        else br=1;
+        br=Math.round(br*tierScale+adv*1.5);
+        br=Math.max(0,Math.min(br,6));
+        runs+=br;batter.runs+=br;bowler.runs+=br;
+        if(br===4)batter.fours++;
+        if(br===6)batter.sixes++;
+      }
+    }
+  }
+  return{runs,wickets,batCard:batCard.filter(b=>b.balls>0||b.isPlayer),bowlCard:bowlCard.filter(b=>b.overs>0)};
+}
+
+
+// ── TRANSFER / EXPRESS INTEREST ──────────────────────────────
+function renderPCTransfer(){
+  const el=document.getElementById('careerTransfer');if(!el)return;
+  const pc=S.pc;
+  if(!pc||!pc.created){el.innerHTML='<div class="col-empty"><div class="ei">📨</div><p>Create a player first!</p></div>';return;}
+
+  // All clubs above current + all (can also apply to same tier or below but gets rejected)
+  const allClubs=PC_CLUBS.filter(club=>club.name!==pc.club.name);
+  const pending=pc.interest_sent||[];
+
+  // Response section — any clubs that responded since last check
+  const responses=pc.interest_responses||[];
+  const responsesHTML=responses.length?`
+    <div style="margin-bottom:20px">
+      <div style="font-family:'Bebas Neue';font-size:18px;letter-spacing:2px;color:var(--gold);margin-bottom:10px">📬 RESPONSES</div>
+      ${responses.map((r,i)=>`
+        <div class="offer-card" style="border-color:${r.accepted?'rgba(60,176,94,.4)':'rgba(231,76,60,.35)'}">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+            <div>
+              <div class="offer-title">${r.club} <span style="font-size:12px;font-weight:400;color:${r.accepted?'var(--green-light)':'var(--red)'}">${r.accepted?'✅ INTERESTED':'❌ NOT INTERESTED'}</span></div>
+              <div class="offer-meta">${r.reason}</div>
+            </div>
+            ${r.accepted?`<button class="btn btn-gold btn-sm" onclick="pcAcceptInterest(${i})">Sign Contract</button>`:''}
+            <button class="btn btn-danger btn-sm" onclick="pcDismissResponse(${i})">Dismiss</button>
+          </div>
+        </div>`).join('')}
+    </div>`:'' ;
+
+  // Club list
+  const clubsHTML=allClubs.map(club=>{
+    const alreadySent=pending.find(p=>p.name===club.name);
+    const isHigher=club.tier>pc.club.tier;
+    const ovrNeeded=club.offerOvr||club.minOvr;
+    const winsNeeded=club.winsReq||0;
+    const ovrMet=pc.ovr>=ovrNeeded;
+    const winsMet=pc.seasonWins>=winsNeeded;
+    const tierDiff=club.tier-pc.club.tier;
+
+    // Likelihood label
+    let likelyLabel,likelyColor;
+    if(club.national&&pc.ovr<90){likelyLabel='Very unlikely';likelyColor='var(--red)';}
+    else if(!ovrMet||!winsMet){likelyLabel='Unlikely — stats too low';likelyColor='var(--red)';}
+    else if(tierDiff<=1&&ovrMet&&winsMet){likelyLabel='Good chance';likelyColor='var(--green-light)';}
+    else if(tierDiff<=2&&ovrMet){likelyLabel='Possible';likelyColor='var(--orange)';}
+    else{likelyLabel='Long shot';likelyColor='rgba(244,239,228,.4)';}
+
+    return`<div class="market-card" style="opacity:${alreadySent?0.55:1}">
+      <div style="min-width:36px;text-align:center">
+        <div style="font-family:'Bebas Neue';font-size:22px;color:var(--gold)">${club.tier}</div>
+        <div style="font-size:9px;color:rgba(244,239,228,.35);text-transform:uppercase">Tier</div>
+      </div>
+      <div style="flex:1">
+        <div style="font-family:'Barlow Condensed';font-size:15px;font-weight:700">${club.name}${club.national?' 🌍':''}</div>
+        <div style="font-size:11px;color:rgba(244,239,228,.4);margin-top:2px">${club.league}</div>
+        <div style="font-size:11px;margin-top:4px">
+          <span style="color:${ovrMet?'var(--green-light)':'var(--red)'}">OVR ${pc.ovr}/${ovrNeeded}</span>
+          &nbsp;•&nbsp;
+          <span style="color:${winsMet?'var(--green-light)':'var(--red)'}">Wins ${pc.seasonWins}/${winsNeeded}</span>
+          &nbsp;•&nbsp;
+          <span style="color:${likelyColor};font-weight:700">${likelyLabel}</span>
+        </div>
+      </div>
+      <button class="btn ${alreadySent?'btn-danger':'btn-primary'} btn-sm"
+        onclick="${alreadySent?`pcWithdrawInterest('${club.name}')`:`pcSendInterest('${club.name}')`}"
+        ${alreadySent&&alreadySent.responded?'disabled':''}>
+        ${alreadySent?'Withdraw':'Express Interest'}
+      </button>
+    </div>`;
+  }).join('');
+
+  el.innerHTML=`<div style="padding:20px">
+    <div class="stitle">Transfers</div>
+    <div class="ssub">Send interest to clubs — they'll assess your stats and respond</div>
+    <div class="info-box">
+      <strong>How it works:</strong> Express interest in any club. They scout your <strong>OVR, wins, and role-specific stats</strong> and decide within your next match. Higher clubs are tougher to impress — build your stats first.
+      ${pc.interest_sent?.length?`<br>📨 <strong>${pc.interest_sent.length}</strong> interest${pc.interest_sent.length!==1?'s':''} pending.`:''}
+    </div>
+    ${responsesHTML}
+    <div style="font-family:'Bebas Neue';font-size:18px;letter-spacing:2px;color:var(--gold);margin-bottom:10px">ALL CLUBS</div>
+    ${clubsHTML||'<div style="color:rgba(244,239,228,.3);font-size:13px">No other clubs available.</div>'}
+  </div>`;
+}
+
+function pcSendInterest(clubName){
+  const pc=S.pc;
+  if(!pc.interest_sent)pc.interest_sent=[];
+  if(pc.interest_sent.find(p=>p.name===clubName)){showToast('Already sent interest!','warning');return;}
+  const club=PC_CLUBS.find(c=>c.name===clubName);if(!club)return;
+  pc.interest_sent.push({name:clubName,club,sent_season:pc.season,sent_match:pc.seasonMatches,responded:false});
+  pc.timeline.push({text:`Expressed interest in ${clubName}`,sub:`Age ${pc.age} • OVR ${pc.ovr}`,season:pc.season});
+  save();renderPCTransfer();
+  showToast(`📨 Interest sent to ${clubName}! Check back after your next match.`);
+}
+
+function pcWithdrawInterest(clubName){
+  const pc=S.pc;
+  if(!pc.interest_sent)return;
+  pc.interest_sent=pc.interest_sent.filter(p=>p.name!==clubName);
+  save();renderPCTransfer();
+  showToast(`Withdrawn interest from ${clubName}.`);
+}
+
+function pcProcessInterests(){
+  // Called after each match — clubs review pending interests and respond
+  const pc=S.pc;
+  if(!pc.interest_sent||!pc.interest_sent.length)return;
+  if(!pc.interest_responses)pc.interest_responses=[];
+
+  const primary=PC_ROLES.find(r=>r.id===pc.role)?.primary||[];
+  const avgPrimary=primary.reduce((s,k)=>s+(pc.stats[k]||50),0)/Math.max(1,primary.length);
+
+  pc.interest_sent=pc.interest_sent.filter(interest=>{
+    if(interest.responded)return false; // already answered, remove
+    const club=interest.club;
+    const tierDiff=club.tier-pc.club.tier;
+    const ovrMet=pc.ovr>=(club.offerOvr||club.minOvr);
+    const winsMet=pc.seasonWins>=(club.winsReq||0);
+
+    // Acceptance formula:
+    // Base chance from OVR surplus/deficit
+    const ovrSurplus=pc.ovr-(club.offerOvr||club.minOvr);
+    let acceptChance=0;
+    if(ovrSurplus>=8)       acceptChance=0.85;
+    else if(ovrSurplus>=4)  acceptChance=0.65;
+    else if(ovrSurplus>=0)  acceptChance=0.45;
+    else if(ovrSurplus>=-4) acceptChance=0.18;
+    else                    acceptChance=0.05;
+
+    // Wins modifier
+    if(winsMet) acceptChance+=0.1; else acceptChance-=0.15;
+
+    // Primary stats modifier — clubs care about role-specific ability
+    const statBonus=(avgPrimary-60)/200; // +0.2 at 100, -0.1 at 40
+    acceptChance+=statBonus;
+
+    // National team is extra strict
+    if(club.national) acceptChance*=0.6;
+
+    // Higher tier jump = harder
+    if(tierDiff>=3) acceptChance*=0.5;
+    else if(tierDiff>=2) acceptChance*=0.75;
+
+    acceptChance=Math.max(0.03,Math.min(0.95,acceptChance));
+    const accepted=Math.random()<acceptChance;
+
+    let reason;
+    if(accepted){
+      if(ovrSurplus>=5) reason=`Your OVR ${pc.ovr} exceeds our requirements — we want you!`;
+      else if(winsMet)  reason=`${pc.seasonWins} wins this season caught our eye. You're exactly what we need.`;
+      else              reason=`Your ${primary[0]||'ability'} stat impressed our scouts (${Math.round(avgPrimary)}/100).`;
+    }else{
+      if(ovrSurplus<-5)  reason=`OVR too low (${pc.ovr} vs required ${club.offerOvr||club.minOvr}). Keep developing.`;
+      else if(!winsMet)  reason=`Need ${club.winsReq} wins this season — you have ${pc.seasonWins}. Perform more consistently.`;
+      else if(avgPrimary<55) reason=`Your ${primary[0]||'key'} stats need improvement before we'd consider signing.`;
+      else               reason=`Not the right fit at this time. Build more experience.`;
+    }
+
+    pc.interest_responses.push({
+      club:club.name,league:club.league,clubObj:club,
+      clubIdx:PC_CLUBS.findIndex(c=>c.name===club.name),
+      accepted,reason,fresh:true
+    });
+    return false; // remove from pending after responding
+  });
+
+  save();
+  const newResponses=pc.interest_responses.filter(r=>r.fresh);
+  if(newResponses.length){
+    const accepted=newResponses.filter(r=>r.accepted);
+    if(accepted.length)showToast(`📬 ${accepted[0].club} wants to sign you!`,'');
+    else showToast(`📬 Response received from ${newResponses[0].club}`);
+  }
+  renderPCTransfer();
+}
+
+function pcAcceptInterest(responseIdx){
+  const pc=S.pc;
+  const resp=(pc.interest_responses||[])[responseIdx];
+  if(!resp||!resp.accepted)return;
+  const oldClub=pc.club.name;
+  pc.club=resp.clubObj;
+  pc.clubIdx=resp.clubIdx>=0?resp.clubIdx:PC_CLUBS.findIndex(c=>c.name===resp.club);
+  pc.interest_responses.splice(responseIdx,1);
+  // Also clear any other pending interests (you've signed)
+  pc.interest_sent=[];
+  pc.interest_responses=[];
+  pc.timeline.push({text:`Signed for ${resp.club} after expressing interest`,sub:`Age ${pc.age} • OVR ${pc.ovr} • From ${oldClub}`,season:pc.season});
+  save();renderPCHome();renderPCTransfer();closeModal();
+  showToast(`🎉 Signed for ${resp.club}!`);
+}
+
+function pcDismissResponse(responseIdx){
+  const pc=S.pc;
+  if(!pc.interest_responses)return;
+  pc.interest_responses[responseIdx].fresh=false;
+  pc.interest_responses.splice(responseIdx,1);
+  save();renderPCTransfer();
+}
+
+function pcCheckOffers(){
+  const pc=S.pc;
+  // Drop stale offers after each match
+  pc.offers=pc.offers.filter(o=>o.fresh);
+
+  // Check the immediately next club — and potentially skip-a-tier if exceptional
+  for(let jump=1;jump<=2;jump++){
+    const nextIdx=pc.clubIdx+jump;
+    if(nextIdx>=PC_CLUBS.length) break;
+    const next=PC_CLUBS[nextIdx];
+
+    // Each higher club needs a bigger OVR gap and more wins
+    const ovrMet=pc.ovr>=next.offerOvr;
+    const winsMet=pc.seasonWins>=next.winsReq;
+
+    // Higher tiers are harder to get offers from — probability drops steeply
+    // Tier 1-3: 80% if qualified | Tier 4-6: 55% | Tier 7-8: 35% | Tier 9 National: 20%
+    const baseProb=[0.8,0.8,0.75,0.55,0.55,0.45,0.35,0.28,0.20][next.tier-1]||0.2;
+    // Skip-a-tier offer is much rarer
+    const prob=jump===2?baseProb*0.25:baseProb;
+
+    if(ovrMet&&winsMet&&Math.random()<prob){
+      if(!pc.offers.find(o=>o.club.name===next.name)){
+        const ovrGap=pc.ovr-next.offerOvr;
+        const qualifier=next.national
+          ?`National call-up — elite performance recognised 🌍`
+          :jump===2
+          ?`Outstanding form — ${next.name} scouts impressed! OVR ${pc.ovr} (need ${next.offerOvr})`
+          :`OVR ${pc.ovr}/${next.offerOvr} required • ${pc.seasonWins}/${next.winsReq} wins`;
+        pc.offers.push({club:next,clubIdx:nextIdx,reason:qualifier,fresh:true});
+      }
+    }
+  }
+}
+
+function pcAcceptOffer(idx){
+  const pc=S.pc;
+  const offer=pc.offers[idx];if(!offer)return;
+  const oldClub=pc.club.name;
+  pc.club=offer.club;
+  pc.clubIdx=offer.clubIdx!=null?offer.clubIdx:PC_CLUBS.findIndex(c=>c.name===offer.club.name);
+  pc.offers.splice(idx,1);
+  pc.timeline.push({text:`Transferred to ${offer.club.name}`,sub:`Age ${pc.age} • OVR ${pc.ovr} • From ${oldClub}`,season:pc.season});
+  save();renderPCHome();closeModal();
+  showToast(`🎉 Signed for ${offer.club.name}!`);
+}
+function pcDeclineOffer(idx){
+  const pc=S.pc;
+  const offer=pc.offers[idx];if(!offer)return;
+  pc.offers.splice(idx,1);
+  pc.timeline.push({text:`Declined offer from ${offer.club.name}`,sub:`Age ${pc.age} • OVR ${pc.ovr}`,season:pc.season});
+  save();renderPCHome();
+  showToast(`Offer declined.`);
+}
+
+// ── SEASON END & STAT CARD ────────────────────
+function pcEndSeason(){
+  const pc=S.pc;
+  if(pc.seasonMatches<10&&pc.seasonMatches<1){showToast('Play at least 1 match first!','warning');return;}
+  // Season stat card
+  const avg=pc.seasonMatches?Math.round(pc.seasonRuns/pc.seasonMatches):0;
+  pc.seasonHistory.push({
+    season:pc.season,age:pc.age,club:pc.club.name,ovr:pc.ovr,
+    matches:pc.seasonMatches,wins:pc.seasonWins,losses:pc.seasonLosses,
+    runs:pc.seasonRuns,wickets:pc.seasonWickets,avg,
+    stats:{...pc.stats}
+  });
+  const rs=pcRelevantStats(pc);
+  const statsCardHTML=Object.entries(rs).map(([k,v])=>`<div class="stat-card-stat"><div class="stat-card-val">${Math.round(v)}</div><div class="stat-card-lbl">${k}</div></div>`).join('');
+  const cardTier=pc.ovr>=90?'epic':pc.ovr>=80?'gold':pc.ovr>=70?'silver':'bronze';
+
+  openModal(`<div class="stat-card card-${cardTier}" style="max-width:100%">
+    <div class="stat-card-title">${pc.name}</div>
+    <div class="stat-card-sub">Season ${pc.season} • ${pc.club.name} • Age ${pc.age}</div>
+    <div class="stat-card-ovr">${pc.ovr}</div>
+    <div style="font-family:'Barlow Condensed';font-size:12px;font-weight:700;letter-spacing:1px;color:rgba(244,239,228,.45);text-align:center;text-transform:uppercase;margin-top:4px">${ROLE_NAMES[pc.role]}</div>
+    <div class="stat-card-grid">${statsCardHTML}</div>
+    <hr style="border:none;border-top:1px solid rgba(255,255,255,.08);margin:14px 0">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center;font-family:'Barlow Condensed';font-size:13px">
+      <div><div style="font-family:'Bebas Neue';font-size:24px;color:var(--gold)">${pc.seasonMatches}</div><div style="color:rgba(244,239,228,.4);font-size:10px;text-transform:uppercase">Matches</div></div>
+      <div><div style="font-family:'Bebas Neue';font-size:24px;color:var(--green-light)">${pc.seasonWins}</div><div style="color:rgba(244,239,228,.4);font-size:10px;text-transform:uppercase">Wins</div></div>
+      ${pc.role==='BAT'||pc.role==='ALL'?`<div><div style="font-family:'Bebas Neue';font-size:24px;color:#60a5fa">${pc.seasonRuns}</div><div style="color:rgba(244,239,228,.4);font-size:10px;text-transform:uppercase">Runs</div></div>`:`<div><div style="font-family:'Bebas Neue';font-size:24px;color:#c084fc">${pc.seasonWickets}</div><div style="color:rgba(244,239,228,.4);font-size:10px;text-transform:uppercase">Wickets</div></div>`}
+    </div>
+  </div>
+  <div class="flex-row mt16" style="justify-content:center"><button class="btn btn-gold" onclick="pcNextSeason()">➡️ Start Season ${pc.season+1}</button></div>`);
+
+  renderPCHome();renderPCHistory();
+}
+
+function pcNextSeason(){
+  const pc=S.pc;
+  pc.season++;pc.age++;
+  pc.seasonMatches=0;pc.seasonRuns=0;pc.seasonWickets=0;pc.seasonWins=0;pc.seasonLosses=0;
+  pc.trainingLeft=3;pc.trainingUsed={};pc.offers=[];
+  // Small natural stat decay to simulate competition
+  Object.keys(pc.stats).forEach(k=>{pc.stats[k]=Math.max(30,+(pc.stats[k]-rnd(0,1)).toFixed(1));});
+  pcUpdateOvr(pc);
+  pc.timeline.push({text:`Season ${pc.season} begins`,sub:`Age ${pc.age} • OVR ${pc.ovr} • ${pc.club.name}`,season:pc.season});
+  save();closeModal();renderPCHome();renderPCTraining();renderPCMatches();renderPCHistory();
+  showToast(`Season ${pc.season} started! Age ${pc.age} • OVR ${pc.ovr}`);
+}
+
+// ── HISTORY ──────────────────────────────────
+function renderPCHistory(){
+  const el=document.getElementById('careerHistory');if(!el)return;
+  const pc=S.pc;
+  if(!pc.created){el.innerHTML='<div class="col-empty"><div class="ei">📊</div><p>Create a player first!</p></div>';return;}
+  if(!pc.seasonHistory.length){el.innerHTML=`<div style="padding:20px"><div class="stitle">Career History</div><div class="col-empty"><div class="ei">📊</div><p>Complete a season to see your stat card!</p></div></div>`;return;}
+  const cards=pc.seasonHistory.map(h=>{
+    const tier=h.ovr>=90?'epic':h.ovr>=80?'gold':h.ovr>=70?'silver':'bronze';
+    return`<div class="stat-card card-${tier}" style="margin-bottom:20px">
+      <div class="stat-card-title" style="font-size:20px">${pc.name}</div>
+      <div class="stat-card-sub">Season ${h.season} • ${h.club} • Age ${h.age}</div>
+      <div class="stat-card-ovr" style="font-size:52px">${h.ovr}</div>
+      <div style="font-family:'Barlow Condensed';font-size:11px;font-weight:700;letter-spacing:1px;color:rgba(244,239,228,.4);text-align:center;text-transform:uppercase;margin-top:3px">${ROLE_NAMES[pc.role]}</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:12px;text-align:center;font-family:'Barlow Condensed'">
+        <div><div style="font-family:'Bebas Neue';font-size:20px;color:var(--gold)">${h.matches}</div><div style="color:rgba(244,239,228,.35);font-size:9px;text-transform:uppercase">Matches</div></div>
+        <div><div style="font-family:'Bebas Neue';font-size:20px;color:var(--green-light)">${h.wins}</div><div style="color:rgba(244,239,228,.35);font-size:9px;text-transform:uppercase">Wins</div></div>
+        <div><div style="font-family:'Bebas Neue';font-size:20px;color:#60a5fa">${h.runs||0}</div><div style="color:rgba(244,239,228,.35);font-size:9px;text-transform:uppercase">Runs</div></div>
+        <div><div style="font-family:'Bebas Neue';font-size:20px;color:#c084fc">${h.wickets||0}</div><div style="color:rgba(244,239,228,.35);font-size:9px;text-transform:uppercase">Wkts</div></div>
+      </div>
+    </div>`;
+  }).reverse().join('');
+  el.innerHTML=`<div style="padding:20px">
+  <div class="stitle">Season Stat Cards</div>
+  <div class="ssub">Career summary • ${pc.careerMatches||0} total matches</div>
+  <div style="max-width:420px;margin:0 auto">${cards}</div>
+  </div>`;
+}
+
+function pcRetire(){
+  const pc=S.pc;
+  pc.retired=true;
+  pc.timeline.push({text:'Retired from professional cricket',sub:`Age ${pc.age} • Final OVR ${pc.ovr}`,season:pc.season});
+  save();renderPCRetired();
+  showToast(`${pc.name} has retired. What a career! 🏁`);
+}
+
+function renderPCRetired(){
+  const el=document.getElementById('careerPlayerHome');if(!el)return;
+  const pc=S.pc;
+  el.innerHTML=`<div style="padding:20px;max-width:520px;margin:0 auto;text-align:center">
+  <div class="stitle">RETIRED</div>
+  <div class="ssub">${pc.name} • ${ROLE_NAMES[pc.role]}</div>
+  <div class="stat-card" style="margin:20px auto">
+    <div class="stat-card-title">Career Summary</div>
+    <div class="stat-card-sub">${pc.age} years old • ${pc.season} seasons</div>
+    <div class="stat-card-ovr">${pc.ovr}</div>
+    <div class="stat-card-grid">
+      <div class="stat-card-stat"><div class="stat-card-val">${pc.careerMatches||0}</div><div class="stat-card-lbl">Matches</div></div>
+      <div class="stat-card-stat"><div class="stat-card-val">${pc.careerRuns||0}</div><div class="stat-card-lbl">Runs</div></div>
+      <div class="stat-card-stat"><div class="stat-card-val">${pc.careerWickets||0}</div><div class="stat-card-lbl">Wickets</div></div>
+      <div class="stat-card-stat"><div class="stat-card-val">${pc.club.name.split(' ')[0]}</div><div class="stat-card-lbl">Final Club</div></div>
+      <div class="stat-card-stat"><div class="stat-card-val">${pc.season}</div><div class="stat-card-lbl">Seasons</div></div>
+      <div class="stat-card-stat"><div class="stat-card-val">${pc.age}</div><div class="stat-card-lbl">Age</div></div>
+    </div>
+  </div>
+  <button class="btn btn-gold" onclick="S.pc=null;PC_CLUBS=genCareerClubs();pcInitState();save();renderPCCreate()">🌟 Start New Career</button>
+  </div>`;
+}
+
+function initPlayerCareer(){
+  pcInitState();
+  const el=document.getElementById('careerPlayerHome');if(!el)return;
+  if(!S.pc||!S.pc.created){renderPCCreate();return;}
+  // Restore the career's club list from saved state
+  if(S.pc.clubs&&S.pc.clubs.length) PC_CLUBS=S.pc.clubs;
+  if(S.pc.retired){renderPCRetired();return;}
+  renderPCHome();renderPCTraining();renderPCMatches();renderPCHistory();
+}
+
 // ═══════════════════════════════════════════
 //  INIT
 // ═══════════════════════════════════════════
+function hideSplash(){
+  const s=document.getElementById('splashScreen');
+  if(s)s.classList.add('hidden');
+}
 load();updCoins();
 initCareer();renderCareer('careerLeagueContent');
 updateSlots();renderCol();
