@@ -569,7 +569,6 @@ header{background:linear-gradient(135deg,var(--green) 0%,#0d2a18 100%);border-bo
   <div class="sub-nav">
     <button class="sub-btn active" onclick="showSub('myleague','league')">Season</button>
     <button class="sub-btn" onclick="showSub('myleague','squad')">Squad</button>
-    <button class="sub-btn" onclick="showSub('myleague','teamstats')">📊 Team Stats</button>
   </div>
   <div id="myleague-league" class="screen active">
     <div id="careerContent"></div>
@@ -584,7 +583,6 @@ header{background:linear-gradient(135deg,var(--green) 0%,#0d2a18 100%);border-bo
     </div>
     <div id="squadSlots" class="team-grid"></div>
   </div>
-  <div id="myleague-teamstats" class="screen"><div id="myleagueTeamStats"></div></div>
 </div>
 
 <!-- ═══════════════════════════════════════ -->
@@ -596,13 +594,11 @@ header{background:linear-gradient(135deg,var(--green) 0%,#0d2a18 100%);border-bo
     <button class="sub-btn" onclick="showSub('u19','squad')">Squad</button>
     <button class="sub-btn" onclick="showSub('u19','market')">Market</button>
     <button class="sub-btn" onclick="showSub('u19','season')">Season</button>
-    <button class="sub-btn" onclick="showSub('u19','teamstats')">📊 Team Stats</button>
   </div>
   <div id="u19-home" class="screen active"><div id="u19HomeContent"></div></div>
   <div id="u19-squad" class="screen"><div id="u19SquadContent"></div></div>
   <div id="u19-market" class="screen"><div id="u19MarketContent"></div></div>
   <div id="u19-season" class="screen"><div id="u19SeasonContent"></div></div>
-  <div id="u19-teamstats" class="screen"><div id="u19TeamStats"></div></div>
 </div>
 
 <!-- ═══════════════════════════════════════ -->
@@ -614,13 +610,11 @@ header{background:linear-gradient(135deg,var(--green) 0%,#0d2a18 100%);border-bo
     <button class="sub-btn" onclick="showSub('atcl','squad')">Squad</button>
     <button class="sub-btn" onclick="showSub('atcl','market')">Market</button>
     <button class="sub-btn" onclick="showSub('atcl','season')">Season</button>
-    <button class="sub-btn" onclick="showSub('atcl','teamstats')">📊 Team Stats</button>
   </div>
   <div id="atcl-home" class="screen active"><div id="atclHomeContent"></div></div>
   <div id="atcl-squad" class="screen"><div id="atclSquadContent"></div></div>
   <div id="atcl-market" class="screen"><div id="atclMarketContent"></div></div>
   <div id="atcl-season" class="screen"><div id="atclSeasonContent"></div></div>
-  <div id="atcl-teamstats" class="screen"><div id="atclTeamStats"></div></div>
 </div>
 
 <!-- ═══════════════════════════════════════ -->
@@ -632,13 +626,11 @@ header{background:linear-gradient(135deg,var(--green) 0%,#0d2a18 100%);border-bo
     <button class="sub-btn" onclick="showSub('world','squad')">Squad</button>
     <button class="sub-btn" onclick="showSub('world','market')">Transfer</button>
     <button class="sub-btn" onclick="showSub('world','tournament')">Tournament</button>
-    <button class="sub-btn" onclick="showSub('world','teamstats')">📊 Team Stats</button>
   </div>
   <div id="world-home" class="screen active"><div id="worldHomeContent"></div></div>
   <div id="world-squad" class="screen"><div id="worldSquadContent"></div></div>
   <div id="world-market" class="screen"><div id="worldMarketContent"></div></div>
   <div id="world-tournament" class="screen"><div id="worldTournamentContent"></div></div>
-  <div id="world-teamstats" class="screen"><div id="worldTeamStats"></div></div>
 </div>
 
 
@@ -676,13 +668,11 @@ header{background:linear-gradient(135deg,var(--green) 0%,#0d2a18 100%);border-bo
     <button class="sub-btn" onclick="showSub('auctionmode','squad')">👕 Squad</button>
     <button class="sub-btn" onclick="showSub('auctionmode','match')">⚡ Match</button>
     <button class="sub-btn" onclick="showSub('auctionmode','season')">🏆 Season</button>
-    <button class="sub-btn" onclick="showSub('auctionmode','teamstats')">📊 Team Stats</button>
   </div>
   <div id="auctionmode-home"  class="screen active"><div id="amHome"></div></div>
   <div id="auctionmode-squad" class="screen"><div id="amSquad"></div></div>
   <div id="auctionmode-match" class="screen"><div id="amMatch"></div></div>
   <div id="auctionmode-season" class="screen"><div id="amSeason"></div></div>
-  <div id="auctionmode-teamstats" class="screen"><div id="amTeamStats"></div></div>
 </div>
 
 <!-- MODAL + TOAST -->
@@ -1265,10 +1255,7 @@ function runCareerMatch(isFinal){
       if(pe){pe.played=(pe.played||0)+1;if(won){pe.w++;pe.pts+=2;pe.nrr=+(pe.nrr+.3).toFixed(2);}else{pe.l++;pe.nrr=+(pe.nrr-.2).toFixed(2);}}
       if(ate){ate.played=Math.min(maxM,(ate.played||0)+1);if(!won){ate.w++;ate.pts+=2;ate.nrr=+(ate.nrr+.3).toFixed(2);}else{ate.l++;ate.nrr=+(ate.nrr-.2).toFixed(2);}}
     }
-    S.total_wins=(S.total_wins||0)+(won?1:0);
-    // Accumulate team player stats for My League Career
-    accumulateSquadStats(my,{myI});
-    save();
+    S.total_wins=(S.total_wins||0)+(won?1:0);save();
     const fmn=maxM+1;
     const mnum=isFinal?`Grand Final (Match ${fmn})`:`Match ${pe?pe.played:'?'} of ${maxM}`;
     const margin=Math.abs(myI.runs-aiI.runs);
@@ -1358,8 +1345,8 @@ function simInnings(bat,bowl,batO,bowlO,target=null){
     log.push({text:`  End of over ${o+1}: ${runs}/${wickets} (over: ${overRuns})`});
   }
   log.push({text:`TOTAL: ${runs}/${wickets} (${overs} overs)`,t:'log-highlight'});
-  // Return all selected bowlers (including those who didn't get an over due to match ending early)
-  const bowlStats=actualBowlers;
+  // Only return stats for bowlers who actually bowled
+  const bowlStats=actualBowlers.filter(p=>p.overs>0);
   return{runs,wickets,log,batStats,bowlStats};
 }
 
@@ -1590,7 +1577,6 @@ function playU19Match(){
   if(res.won){pe.w++;pe.pts+=2;pe.nrr=+(pe.nrr+.3).toFixed(2);}
   else{pe.l++;pe.nrr=+(pe.nrr-.2).toFixed(2);}
   if(ate){ate.played=Math.min(7,(ate.played||0)+1);if(!res.won){ate.w++;ate.pts+=2;}else{ate.l++;}}
-  accumulateSquadStats(S.u19_squad,res);
   save();renderU19Season();renderU19Home();
   showMatchResult(res,`Match ${pe.played} of 7`,false,'u19');
 }
@@ -1601,7 +1587,6 @@ function playU19Final(){
   res.myName=U19_TEAMS_DEF[S.u19_team_idx]||'Your Team';
   const pe=S.u19_season.table.find(t=>t.isP);
   if(pe){pe.final_done=true;pe.final_won=res.won;}
-  accumulateSquadStats(S.u19_squad,res);
   save();renderU19Season();renderU19Home();
   showMatchResult(res,'Grand Final (Match 8)',true,'u19');
 }
@@ -1715,7 +1700,6 @@ function playATCLMatch(){
   pe.played++;
   if(res.won){pe.w++;pe.pts+=2;pe.nrr=+(pe.nrr+.3).toFixed(2);}else{pe.l++;pe.nrr=+(pe.nrr-.2).toFixed(2);}
   if(oppTeam){oppTeam.played=Math.min(7,(oppTeam.played||0)+1);if(!res.won){oppTeam.w++;oppTeam.pts+=2;}else oppTeam.l++;}
-  accumulateSquadStats(S.atcl_squad,res);
   save();renderATCLSeason();renderATCLHome();
   showMatchResult(res,`Match ${pe.played} of 7`,false,'atcl');
 }
@@ -1726,7 +1710,6 @@ function playATCLFinal(){
   res.myName=ATCL_TEAMS_DEF[S.atcl_team_idx]||'Your Team';
   const pe=S.atcl_season.table.find(t=>t.isP);
   if(pe){pe.final_done=true;pe.final_won=res.won;}
-  accumulateSquadStats(S.atcl_squad,res);
   save();renderATCLSeason();renderATCLHome();
   showMatchResult(res,'Grand Final (Match 8)',true,'atcl');
 }
@@ -1927,7 +1910,6 @@ function playWorldMatch(){
       }
     });
     t.gamesPlayed=(t.gamesPlayed||0)+1;
-    accumulateSquadStats(S.world_squad,res);
     save();renderWorldTournament();renderWorldHome();
     showMatchResult(res,`Group Stage vs ${opp.flag} ${opp.name}`,false,'world');
     if(pn.played>=3){setTimeout(()=>{advanceToSF(t);save();renderWorldTournament();renderWorldHome();showToast('Group stage complete! Advancing to Semi-Finals...');},800);}
@@ -1945,7 +1927,6 @@ function playWorldMatch(){
     if(t.sf.every(m=>m.winner)){
       t.final={a:t.sf[0].winner,b:t.sf[1].winner};t.stage='final';
     }
-    accumulateSquadStats(S.world_squad,res);
     save();renderWorldTournament();renderWorldHome();
     showMatchResult(res,`Semi-Final vs ${opp.flag} ${opp.name}`,true,'world');
     if(!res.won){showToast(`${n.flag} eliminated in Semi-Finals.`,'error');}
@@ -1956,7 +1937,6 @@ function playWorldMatch(){
     res.myName=`${n.flag} ${n.name}`;
     t.champion=res.won?n:opp;t.stage='done';
     if(res.won){S.world_coins+=50000;updCoins();showToast('🌍 WORLD CHAMPIONS! +🪙50,000');}
-    accumulateSquadStats(S.world_squad,res);
     save();renderWorldTournament();renderWorldHome();
     showMatchResult(res,`World Cup Final vs ${opp.flag} ${opp.name}`,true,'world');
   }
@@ -2073,11 +2053,11 @@ function showSub(mode,sub){
   panel.querySelectorAll('.sub-btn').forEach(b=>{if(b.getAttribute('onclick')&&b.getAttribute('onclick').includes(`'${sub}'`))b.classList.add('active');});
   // Render content
   if(mode==='packs'){if(sub==='collection')renderCol();if(sub==='team')updateSlots();if(sub==='league')renderCareer('careerLeagueContent');}
-  if(mode==='myleague'){if(sub==='league')renderCareer();if(sub==='squad')updateSlots();if(sub==='teamstats')renderTeamStats('myleague',S.team.filter(Boolean),'myleagueTeamStats');}
-  if(mode==='u19'){if(sub==='home')renderU19Home();if(sub==='squad')renderU19Squad();if(sub==='market')renderU19Market();if(sub==='season')renderU19Season();if(sub==='teamstats')renderTeamStats('u19',S.u19_squad,'u19TeamStats');}
-  if(mode==='atcl'){if(sub==='home')renderATCLHome();if(sub==='squad')renderATCLSquad();if(sub==='market')renderATCLMarket();if(sub==='season')renderATCLSeason();if(sub==='teamstats')renderTeamStats('atcl',S.atcl_squad,'atclTeamStats');}
-  if(mode==='auctionmode'){if(sub==='home')renderAMHome();if(sub==='squad')renderAMSquad();if(sub==='match')renderAMMatch();if(sub==='season')renderAMSeason();if(sub==='teamstats'){const am=S.am;const sq=am?[...am.slots.filter(s=>s.player).map(s=>s.player),...(am.autoSlots||[])]:[];renderTeamStats('auctionmode',sq,'amTeamStats');}}
-  if(mode==='world'){if(sub==='home')renderWorldHome();if(sub==='squad')renderWorldSquad();if(sub==='market')renderWorldMarket();if(sub==='tournament')renderWorldTournament();if(sub==='teamstats')renderTeamStats('world',S.world_squad||[],'worldTeamStats');}
+  if(mode==='myleague'){if(sub==='league')renderCareer();if(sub==='squad')updateSlots();}
+  if(mode==='u19'){if(sub==='home')renderU19Home();if(sub==='squad')renderU19Squad();if(sub==='market')renderU19Market();if(sub==='season')renderU19Season();}
+  if(mode==='atcl'){if(sub==='home')renderATCLHome();if(sub==='squad')renderATCLSquad();if(sub==='market')renderATCLMarket();if(sub==='season')renderATCLSeason();}
+  if(mode==='auctionmode'){if(sub==='home')renderAMHome();if(sub==='squad')renderAMSquad();if(sub==='match')renderAMMatch();if(sub==='season')renderAMSeason();}
+  if(mode==='world'){if(sub==='home')renderWorldHome();if(sub==='squad')renderWorldSquad();if(sub==='market')renderWorldMarket();if(sub==='tournament')renderWorldTournament();}
   if(mode==='career'){if(sub==='home')renderPCHome();if(sub==='training')renderPCTraining();if(sub==='matches')renderPCMatches();if(sub==='history')renderPCHistory();if(sub==='transfer')renderPCTransfer();}
 }
 
@@ -2442,10 +2422,11 @@ function pcPlayMatch(oppOvr,oppName){
   const actualWon=myInnings.runs>oppInnings.runs;
 
   // ── Player's personal stats ──
+  // Batting: player bats in MY team's innings (myInnings.batCard)
+  // Bowling: player BOWLS in the OPPOSITION's innings (oppInnings.bowlCard) — they bowl against opp batters
   let runs=0,wickets=0,fours=0,sixes=0,balls=0,statLine='';
-  // Find player's entry in batting card
   const plyrBat=myInnings.batCard.find(b=>b.isPlayer);
-  const plyrBwl=myInnings.bowlCard.find(b=>b.isPlayer);
+  const plyrBwl=oppInnings.bowlCard.find(b=>b.isPlayer); // FIXED: opp innings, not my innings
   if(plyrBat){runs=plyrBat.runs;fours=plyrBat.fours;sixes=plyrBat.sixes;balls=plyrBat.balls;}
   if(plyrBwl){wickets=plyrBwl.wickets;}
 
@@ -2458,47 +2439,44 @@ function pcPlayMatch(oppOvr,oppName){
     statLine+=(statLine?' — ':'')+`${wickets} wkt${wickets!==1?'s':''}`;
   }
 
-  // ── OVR progression — based on actual performance stats ──
-  // Batting: 0 runs = -0.5 | 1-19 runs = -0.1 | 20+ runs = +1.0
-  // Bowling: 0 wickets = -0.2 | 1-2 wickets = +0.2 | 3+ wickets = +1.0
+  // ── OVR progression ──
+  // Gains are based on actual performance (runs/wickets), not just win/loss
+  // This makes OVR improve VISIBLY even in losses if you performed well
+  const tierFactor=Math.max(0.5,1-(tier-1)*0.06);
+  let ovrDelta=0;
+
+  // OVR delta rules (exact):
+  // BOWLER:  0 wkts = 0.0 | 1 wkt = +0.5 | 2 wkts = +1.0 | 3+ wkts = +1.5
+  // BATTER:  0 runs = 0.0 | 1-9 runs = +0.1 | 10+ runs = +0.5 | 25+ = +1.0 | 40+ = +1.5
+  // ALLROUNDER: average of bat + bowl deltas
+  // WK: same as batter for runs
+  if(pc.role==='BOWL'){
+    if(wickets===0)      ovrDelta=0.0;
+    else if(wickets===1) ovrDelta=0.5;
+    else if(wickets===2) ovrDelta=1.0;
+    else                 ovrDelta=1.5;
+  } else if(pc.role==='BAT'||pc.role==='WK'){
+    if(runs===0)         ovrDelta=0.0;
+    else if(runs<10)     ovrDelta=0.1;
+    else if(runs<25)     ovrDelta=0.5;
+    else if(runs<40)     ovrDelta=1.0;
+    else                 ovrDelta=1.5;
+  } else if(pc.role==='ALL'){
+    const batDelta=runs===0?0:runs<10?0.1:runs<25?0.5:runs<40?1.0:1.5;
+    const bowlDelta=wickets===0?0:wickets===1?0.5:wickets===2?1.0:1.5;
+    ovrDelta=+((batDelta+bowlDelta)/2).toFixed(1);
+  }
+
+  // Apply delta to all primary stats proportionally
   const primary=PC_ROLES.find(r=>r.id===pc.role)?.primary||[];
-  const battingStatKeys=['timing','power','technique','batting','running'];
-  const bowlingStatKeys=['pace','swing','accuracy','variation','bowling'];
-
-  let batDelta=0;
-  let bowlDelta=0;
-
-  if(pc.role==='BAT'||pc.role==='ALL'||pc.role==='WK'){
-    if(runs===0) batDelta=-0.5;
-    else if(runs>=20) batDelta=1.0;
-    else batDelta=-0.1;
-  }
-
-  if(pc.role==='BOWL'||pc.role==='ALL'){
-    if(wickets===0) bowlDelta=-0.2;
-    else if(wickets>=3) bowlDelta=1.0;
-    else bowlDelta=0.2; // 1 or 2 wickets
-  }
-
+  const secondary=PC_ROLES.find(r=>r.id===pc.role)?.secondary||[];
   primary.forEach(s=>{
-    const isBatStat=battingStatKeys.includes(s);
-    const isBowlStat=bowlingStatKeys.includes(s);
-    let delta=0;
-    if(isBatStat&&batDelta!==0) delta+=batDelta;
-    if(isBowlStat&&bowlDelta!==0) delta+=bowlDelta;
-    // For pure roles, apply the relevant delta to all primary stats
-    if(!isBatStat&&!isBowlStat){
-      if(pc.role==='BAT'||pc.role==='WK') delta=batDelta;
-      else if(pc.role==='BOWL') delta=bowlDelta;
-      else delta=(batDelta+bowlDelta)/2;
-    }
-    if(delta!==0) pc.stats[s]=Math.min(99,Math.max(30,+(pc.stats[s]+delta).toFixed(1)));
+    pc.stats[s]=Math.min(99,Math.max(30,+(pc.stats[s]+ovrDelta*0.5).toFixed(1)));
   });
-
-  const ovrBefore=pc.ovr;
+  secondary.forEach(s=>{
+    pc.stats[s]=Math.min(99,Math.max(30,+(pc.stats[s]+ovrDelta*0.2).toFixed(1)));
+  });
   pcUpdateOvr(pc);
-  const ovrDeltaNum=pc.ovr-ovrBefore;
-  const ovrDelta=ovrDeltaNum.toFixed(1);
 
   pc.seasonMatches++;pc.careerMatches=(pc.careerMatches||0)+1;
   if(actualWon)pc.seasonWins++;else pc.seasonLosses++;
@@ -2511,21 +2489,6 @@ function pcPlayMatch(oppOvr,oppName){
   const ovrChange=parseFloat(ovrDelta)>=0
     ?`<span style="color:var(--green-light)">+${ovrDelta}</span>`
     :`<span style="color:var(--red)">${ovrDelta}</span>`;
-  // Build stat change explanation
-  let statChangeNote='';
-  if(pc.role==='BAT'||pc.role==='WK'){
-    if(runs===0) statChangeNote='Batting stats −0.5 (0 runs)';
-    else if(runs>=20) statChangeNote='Batting stats +1.0 (20+ runs)';
-    else statChangeNote='Batting stats −0.1 (under 20 runs)';
-  } else if(pc.role==='BOWL'){
-    if(wickets===0) statChangeNote='Bowling stats −0.2 (0 wickets)';
-    else if(wickets>=3) statChangeNote='Bowling stats +1.0 (3+ wickets)';
-    else statChangeNote='Bowling stats +0.2 (wickets taken)';
-  } else if(pc.role==='ALL'){
-    const bNote=runs===0?'bat −0.5':runs>=20?'bat +1.0':'bat −0.1';
-    const wNote=wickets===0?'bowl −0.2':wickets>=3?'bowl +1.0':'bowl +0.2';
-    statChangeNote=`${bNote} • ${wNote}`;
-  }
   save();
 
   // ── Build scorecard HTML ──
@@ -2581,7 +2544,6 @@ function pcPlayMatch(oppOvr,oppName){
   </div>
   <div class="info-box">
     <strong>OVR:</strong> ${pc.ovr} (${ovrChange}) &nbsp;•&nbsp; <strong>Season:</strong> ${pc.seasonMatches}/10
-    ${statChangeNote?`<br><span style="color:rgba(244,239,228,.55);font-size:12px">📊 ${statChangeNote}</span>`:''}
     ${pc.offers.length?'<br><strong style="color:var(--gold)">📬 New offer waiting!</strong>':''}
   </div>
   <div class="flex-row mt16" style="justify-content:center;gap:10px">
@@ -2773,12 +2735,6 @@ function pcSendInterest(clubName){
 
   // ATCL clubs trigger an auction instead of a standard response
   if(club.atcl){
-    if(pc.ovr<60){
-      openModal(`<div class="modal-title">🔨 ATCL Auction</div>
-        <div class="info-box" style="border-color:rgba(231,76,60,.4)">You need at least <strong style="color:var(--gold)">OVR 60</strong> to enter an ATCL auction.<br><br>Your current OVR: <strong style="color:var(--red)">${pc.ovr}</strong> — keep training and playing matches to reach 60!</div>
-        <div class="mt16"><button class="btn btn-primary" onclick="closeModal()">Got it</button></div>`);
-      return;
-    }
     pcTriggerAuction(club);
     return;
   }
@@ -3232,11 +3188,7 @@ function amInitState(){
     autoSlots:[],seasonNum:1,table:[],
     matchesPlayed:0,w:0,l:0,pts:0,nrr:0,
     auctionPool:[],currentAuctionIdx:0,auctionDone:false,
-    finalDone:false,finalWon:false,
   };
-  // Patch existing saves
-  if(S.am.finalDone===undefined)S.am.finalDone=false;
-  if(S.am.finalWon===undefined)S.am.finalWon=false;
 }
 
 function initAuctionMode(){
@@ -3607,53 +3559,9 @@ function renderAMMatch(){
   const el=document.getElementById('amMatch');if(!el)return;
   const am=S.am;
   if(!am||!am.auctionDone){el.innerHTML=`<div style="padding:20px"><div class="info-box">Complete the auction first to play matches.</div></div>`;return;}
+  if(am.matchesPlayed>=10){el.innerHTML=`<div style="padding:20px"><div class="stitle">Season Over</div><div class="info-box">You've played all 10 matches this season.<br><button class="btn btn-gold mt8" onclick="amNewSeason()">🔄 New Season Auction</button></div></div>`;return;}
   const allPlayers=[...am.slots.filter(s=>s.player).map(s=>s.player),...(am.autoSlots||[])];
   const ovr=allPlayers.length?Math.round(allPlayers.reduce((a,p)=>a+p.ovr,0)/allPlayers.length):65;
-
-  // Check final state
-  if(am.finalDone){
-    el.innerHTML=`<div style="padding:20px">
-      <div class="stitle">Season Over</div>
-      <div class="${am.finalWon?'result-banner win':'result-banner loss'}" style="margin-bottom:16px">
-        <div class="result-title">${am.finalWon?'🏆 CHAMPIONS!':'❌ DEFEATED'}</div>
-        <div style="font-family:\'Barlow Condensed\';font-size:14px;color:rgba(244,239,228,.7);margin-top:4px">${am.finalWon?'You won the Grand Final! +🪙300,000':'You lost the Grand Final.'}</div>
-      </div>
-      <button class="btn btn-gold mt8" onclick="amNewSeason()">🔄 New Season Auction</button>
-    </div>`;
-    return;
-  }
-
-  // Qualify check — top 4 in table qualify for final
-  if(am.matchesPlayed>=10&&!am.finalDone){
-    const sorted=[...am.table].sort((a,b)=>b.pts-a.pts||b.nrr-a.nrr);
-    const pe=am.table.find(t=>t.isPlayer);
-    const playerPos=sorted.findIndex(t=>t.isPlayer);
-    const qualified=playerPos<4; // top 4 qualify
-    if(qualified){
-      el.innerHTML=`<div style="padding:20px">
-        <div class="stitle">Grand Final!</div>
-        <div class="ssub">Season ${am.seasonNum} • Top 4 qualified</div>
-        <div class="info-box">
-          🏆 <strong>${am.teamName}</strong> finished <strong>#${playerPos+1}</strong> — qualified for the Grand Final!<br>
-          Win the Final to earn <strong style="color:var(--gold)">🪙300,000</strong> and be crowned champions!
-        </div>
-        <div class="info-box">
-          Your OVR: ${ovr}
-        </div>
-        <button class="btn btn-gold" onclick="amPlayFinal()">🏆 Play Grand Final</button>
-      </div>`;
-    }else{
-      el.innerHTML=`<div style="padding:20px">
-        <div class="stitle">Season Over</div>
-        <div class="info-box" style="border-color:rgba(231,76,60,.35)">
-          <strong>${am.teamName}</strong> finished #${playerPos+1} — didn't make the top 4 for the Grand Final.<br>
-        </div>
-        <button class="btn btn-gold mt8" onclick="amNewSeason()">🔄 New Season Auction</button>
-      </div>`;
-    }
-    return;
-  }
-
   const oppName=AM_AI_FRANCHISES[~~(Math.random()*AM_AI_FRANCHISES.length)];
   const oppOvr=rnd(64,90);
   el.innerHTML=`
@@ -3663,7 +3571,6 @@ function renderAMMatch(){
     <div class="info-box">
       <strong>${am.teamName}</strong> vs <strong>${oppName}</strong><br>
       Your OVR: ${ovr} &nbsp;•&nbsp; Opp OVR: ~${oppOvr}
-      <div style="font-size:11px;color:rgba(244,239,228,.45);margin-top:4px">🏆 Top 4 after 10 matches qualify for the Grand Final — winner earns 🪙300,000</div>
     </div>
     <button class="btn btn-primary" onclick="amPlayMatch(${oppOvr},'${oppName.replace(/'/g,"\'")}')">⚡ Play Match</button>
   </div>`;
@@ -3678,28 +3585,8 @@ function amPlayMatch(oppOvr,oppName){
   am.matchesPlayed++;
   if(res.won){if(pe){pe.w++;pe.pts+=2;pe.nrr=+(pe.nrr+.3).toFixed(2);pe.played++;}if(ate){ate.l++;ate.played++;}}
   else{if(pe){pe.l++;pe.nrr=+(pe.nrr-.2).toFixed(2);pe.played++;}if(ate){ate.w++;ate.pts+=2;ate.played++;}}
-  // Accumulate player stats
-  accumulateSquadStats(mySquad, res);
   save();renderAMHome();renderAMMatch();renderAMSeason();
   showMatchResult(res,`Match ${am.matchesPlayed}/10`,false,'atclauc');
-}
-
-// ── GRAND FINAL ────────────────────────────────
-function amPlayFinal(){
-  const am=S.am;
-  const mySquad=[...am.slots.filter(s=>s.player).map(s=>s.player),...(am.autoSlots||[])];
-  const oppOvr=rnd(78,92);
-  const oppName='Grand Final Opposition';
-  const res=simManagedMatch(mySquad,oppOvr,true,oppName,am.teamName);
-  am.finalDone=true;am.finalWon=res.won;
-  accumulateSquadStats(mySquad,res);
-  if(res.won){
-    am.coins=(am.coins||0)+300000;
-    // Also award to player coins pool
-    S.coins+=300000;updCoins();
-  }
-  save();renderAMSeason();renderAMHome();
-  showMatchResult(res,'🏆 Grand Final',true,'atclauc');
 }
 
 // ── SEASON TABLE ──────────────────────────────
@@ -3708,20 +3595,15 @@ function renderAMSeason(){
   const am=S.am;
   if(!am||!am.setup){el.innerHTML='';return;}
   const sorted=[...am.table].sort((a,b)=>b.pts-a.pts||b.nrr-a.nrr);
-  const playerPos=sorted.findIndex(t=>t.isPlayer);
-  const qualified=playerPos<4&&am.matchesPlayed>=10;
+  const pe=am.table.find(t=>t.isPlayer);
   el.innerHTML=`
   <div style="padding:20px">
     <div class="stitle">Season ${am.seasonNum} Table</div>
-    <div class="ssub">ATCL Auction League • Top 4 qualify for Grand Final</div>
-    ${am.finalDone?`<div class="${am.finalWon?'result-banner win':'result-banner loss'}" style="margin-bottom:16px">
-      <div class="result-title">${am.finalWon?'🏆 CHAMPIONS! +🪙300,000':'❌ Final Lost'}</div>
-    </div>`:''}
-    ${!am.finalDone&&qualified?`<div class="info-box" style="border-color:rgba(245,200,66,.4)">🏆 You qualified for the Grand Final! Head to the Match tab to play it.</div>`:''}
+    <div class="ssub">ATCL Auction League</div>
     <table class="ltable">
       <thead><tr><th>#</th><th>Franchise</th><th>Pld</th><th>W</th><th>L</th><th>Pts</th><th>NRR</th></tr></thead>
-      <tbody>${sorted.map((t,i)=>`<tr class="${t.isPlayer?'prow':''}" style="${i<4&&am.matchesPlayed>=10?'border-left:3px solid var(--gold)':''}">
-        <td class="lpos">${i+1}${i<4&&am.matchesPlayed>=10?' 🏆':''}</td>
+      <tbody>${sorted.map((t,i)=>`<tr class="${t.isPlayer?'prow':''}">
+        <td class="lpos">${i+1}</td>
         <td style="font-weight:700">${t.name}${t.isPlayer?' ⭐':''}</td>
         <td style="color:rgba(244,239,228,.4)">${t.played||0}</td>
         <td>${t.w}</td><td>${t.l}</td>
@@ -3729,226 +3611,23 @@ function renderAMSeason(){
         <td style="color:rgba(244,239,228,.4)">${t.nrr>0?'+':''}${t.nrr}</td>
       </tr>`).join('')}</tbody>
     </table>
-    ${am.matchesPlayed>=10&&am.finalDone?`<div class="mt16"><button class="btn btn-gold" onclick="amNewSeason()">🔄 Start New Season</button></div>`:''}
-    ${am.matchesPlayed>=10&&!am.finalDone&&!qualified?`<div class="mt16"><button class="btn btn-gold" onclick="amNewSeason()">🔄 Start New Season Auction</button></div>`:''}
+    ${am.matchesPlayed>=10?`<div class="mt16"><button class="btn btn-gold" onclick="amNewSeason()">🔄 Start New Season Auction</button></div>`:''}
   </div>`;
 }
 
 // ── NEW SEASON ────────────────────────────────
 function amNewSeason(){
   const am=S.am;
-  // Collect all current players for retention selection
-  const allPlayers=[
-    ...am.slots.filter(s=>s.player).map(s=>({...s.player,slotLabel:s.label,paid:s.paid||0})),
-    ...(am.autoSlots||[]).map(p=>({...p,slotLabel:'Auto',paid:0}))
-  ];
-  if(allPlayers.length===0){
-    _amStartNewSeason([]);return;
-  }
-  // Show retain-2 picker modal
-  let selected=[];
-  function renderRetainModal(){
-    openModal(`
-      <div class="modal-title">🔒 Retain Players</div>
-      <div class="info-box">Select up to <strong style="color:var(--gold)">2 players</strong> to keep for next season. The rest will be released back to the auction pool.</div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;margin-bottom:16px">
-        ${allPlayers.map((p,i)=>{
-          const isSel=selected.includes(i);
-          return`<div onclick="amToggleRetain(${i})" style="background:${isSel?'rgba(245,200,66,.12)':'rgba(255,255,255,.04)'};border:2px solid ${isSel?'var(--gold)':'rgba(255,255,255,.1)'};border-radius:10px;padding:12px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:all .2s">
-            <div style="font-size:26px">${{BAT:'🏏',ALL:'⚡',BOWL:'🎳',WK:'🧤'}[p.role]}</div>
-            <div style="flex:1">
-              <div style="font-family:'Barlow Condensed';font-size:14px;font-weight:700;color:${isSel?'var(--gold)':'var(--cream)'}">${p.name}</div>
-              <div style="font-size:11px;color:rgba(244,239,228,.45)">${ROLE_NAMES[p.role]} • OVR ${p.ovr}</div>
-            </div>
-            <div style="font-size:18px">${isSel?'✅':''}</div>
-          </div>`;
-        }).join('')}
-      </div>
-      <div style="font-family:'Barlow Condensed';font-size:13px;color:rgba(244,239,228,.5);margin-bottom:12px">
-        Selected: <strong style="color:var(--gold)">${selected.length}/2</strong>
-      </div>
-      <div class="flex-row" style="gap:10px">
-        <button class="btn btn-gold" onclick="amConfirmRetain()" style="flex:1">✅ Confirm & Start Auction</button>
-        <button class="btn btn-primary" onclick="amConfirmRetain(true)">Skip — Keep Nobody</button>
-      </div>
-    `);
-  }
-  window._amRetainSelected=selected;
-  window._amRetainPlayers=allPlayers;
-  window._amRetainRender=renderRetainModal;
-  renderRetainModal();
-}
-
-window.amToggleRetain=function(i){
-  const sel=window._amRetainSelected;
-  const idx=sel.indexOf(i);
-  if(idx>=0){sel.splice(idx,1);}
-  else if(sel.length<2){sel.push(i);}
-  window._amRetainRender();
-};
-window.amConfirmRetain=function(skipAll=false){
-  const retainedPlayers=skipAll?[]:window._amRetainSelected.map(i=>window._amRetainPlayers[i]);
-  closeModal();
-  _amStartNewSeason(retainedPlayers);
-};
-
-function _amStartNewSeason(retainedPlayers){
-  const am=S.am;
   am.seasonNum++;
   am.matchesPlayed=0;am.w=0;am.l=0;am.pts=0;
-  am.finalDone=false;am.finalWon=false;
   am.auctionPool=amGenPool();am.currentAuctionIdx=0;am.auctionDone=false;
   am.slots=AM_SLOT_DEF.map(s=>({...s,player:null,paid:0}));
   am.autoSlots=[];
-  am.budget=am.maxBudget;
+  am.budget=am.maxBudget; // reset budget for new auction
   am.table=amGenTable();
-  // Pre-fill retained players into slots
-  retainedPlayers.forEach(p=>{
-    const slotIdx=am.slots.findIndex(s=>s.role===p.role&&!s.player);
-    if(slotIdx>=0){am.slots[slotIdx].player=p;am.slots[slotIdx].paid=0;}
-    else{am.autoSlots.push(p);}
-  });
   save();renderAMHome();
-  const retainMsg=retainedPlayers.length>0?` Kept: ${retainedPlayers.map(p=>p.name).join(', ')}.`:'';
-  showToast(`Season ${am.seasonNum} auction starting!${retainMsg}`);
+  showToast(`Season ${am.seasonNum} auction starting!`);
   setTimeout(()=>amRunAuction(),400);
-}
-
-// ═══════════════════════════════════════════
-//  TEAM PLAYER STATS SYSTEM
-// ═══════════════════════════════════════════
-// Accumulate match batting/bowling stats into squad player objects
-function accumulateSquadStats(squad, matchResult){
-  if(!squad||!matchResult)return;
-  const {myI}=matchResult;
-  if(!myI)return;
-  const batStats=myI.batStats||[];
-  const bowlStats=myI.bowlStats||[];
-  squad.forEach(player=>{
-    if(!player._stats) player._stats={runs:0,balls:0,fours:0,sixes:0,innings:0,outs:0,overs:0,runsConceded:0,wickets:0,bowlInnings:0,oversMatches:0};
-    const bat=batStats.find(b=>b.name===player.name);
-    if(bat){
-      player._stats.runs+=bat.runs||0;
-      player._stats.balls+=bat.balls||0;
-      player._stats.fours+=bat.fours||0;
-      player._stats.sixes+=bat.sixes||0;
-      if(bat.balls>0)player._stats.innings++;
-      if(bat.out)player._stats.outs++;
-    }
-    const bowl=bowlStats.find(b=>b.name===player.name);
-    if(bowl){
-      player._stats.overs+=bowl.overs||0;
-      player._stats.runsConceded+=bowl.runs||0;
-      player._stats.wickets+=bowl.wickets||0;
-      player._stats.bowlInnings++;
-      if((bowl.overs||0)>=1) player._stats.oversMatches=(player._stats.oversMatches||0)+1;
-    }
-  });
-}
-
-function renderTeamStats(mode,squad,containerId){
-  const el=document.getElementById(containerId);if(!el)return;
-  if(!squad||!squad.length){
-    el.innerHTML=`<div style="padding:20px"><div class="col-empty"><div class="ei">📊</div><p>No squad yet — play some matches first!</p></div></div>`;
-    return;
-  }
-  const players=[...squad].sort((a,b)=>b.ovr-a.ovr);
-  // Batting rows
-  const batPlayers=players.filter(p=>p._stats&&p._stats.innings>0).sort((a,b)=>b._stats.runs-a._stats.runs);
-  // Primary bowling section: players whose role is BOWL or ALL with overs>0
-  const bowlPlayers=players.filter(p=>p._stats&&p._stats.overs>0&&(p.role==='BOWL'||p.role==='ALL')).sort((a,b)=>b._stats.wickets-a._stats.wickets);
-  // Secondary section: anyone who bowled >=1 over in at least one match (regardless of role), not already in primary
-  const primaryIds=new Set(bowlPlayers.map(p=>p.id||p.name));
-  const alsoBoled=players.filter(p=>p._stats&&(p._stats.oversMatches||0)>=1&&!primaryIds.has(p.id||p.name)).sort((a,b)=>b._stats.wickets-a._stats.wickets);
-  // Players with no stats yet
-  const noStats=players.filter(p=>!p._stats||(!p._stats.innings&&!p._stats.bowlInnings));
-
-  function batRow(p){
-    const s=p._stats;
-    const avg=s.outs>0?(s.runs/s.outs).toFixed(1):'—';
-    const sr=s.balls>0?((s.runs/s.balls)*100).toFixed(1):'—';
-    return`<tr>
-      <td style="font-weight:700;font-family:'Barlow Condensed';font-size:13px;padding:7px 8px">${p.name}</td>
-      <td style="font-size:11px;color:rgba(244,239,228,.45);padding:7px 4px;font-family:'Barlow Condensed'">${ROLE_NAMES[p.role]}</td>
-      <td style="text-align:right;padding:7px 6px;font-family:'Barlow Condensed';color:rgba(244,239,228,.45)">${s.innings}</td>
-      <td style="text-align:right;padding:7px 6px;font-family:'Bebas Neue';font-size:17px;color:var(--gold)">${s.runs}</td>
-      <td style="text-align:right;padding:7px 6px;font-family:'Barlow Condensed';color:var(--cream)">${avg}</td>
-      <td style="text-align:right;padding:7px 6px;font-family:'Barlow Condensed';color:#60a5fa">${sr}</td>
-      <td style="text-align:right;padding:7px 6px;font-family:'Barlow Condensed';color:rgba(244,239,228,.45)">${s.fours||0}</td>
-      <td style="text-align:right;padding:7px 6px;font-family:'Barlow Condensed';color:#facc15">${s.sixes||0}</td>
-    </tr>`;
-  }
-  function bowlRow(p){
-    const s=p._stats;
-    const econ=s.overs>0?(s.runsConceded/s.overs).toFixed(1):'—';
-    const avg2=s.wickets>0?(s.runsConceded/s.wickets).toFixed(1):'—';
-    return`<tr>
-      <td style="font-weight:700;font-family:'Barlow Condensed';font-size:13px;padding:7px 8px">${p.name}</td>
-      <td style="font-size:11px;color:rgba(244,239,228,.45);padding:7px 4px;font-family:'Barlow Condensed'">${ROLE_NAMES[p.role]}</td>
-      <td style="text-align:right;padding:7px 6px;font-family:'Barlow Condensed';color:rgba(244,239,228,.45)">${s.bowlInnings||0}</td>
-      <td style="text-align:right;padding:7px 6px;font-family:'Barlow Condensed';color:rgba(244,239,228,.45)">${s.overs}</td>
-      <td style="text-align:right;padding:7px 6px;font-family:'Bebas Neue';font-size:17px;color:#c084fc">${s.wickets}</td>
-      <td style="text-align:right;padding:7px 6px;font-family:'Barlow Condensed';color:var(--cream)">${avg2}</td>
-      <td style="text-align:right;padding:7px 6px;font-family:'Barlow Condensed';color:#f87171">${econ}</td>
-      <td style="text-align:right;padding:7px 6px;font-family:'Barlow Condensed';color:rgba(244,239,228,.45)">${s.runsConceded||0}</td>
-    </tr>`;
-  }
-  el.innerHTML=`<div style="padding:20px;max-width:900px;margin:0 auto">
-  <div class="stitle">Team Player Stats</div>
-  <div class="ssub">${players.length} players • Accumulated across all matches</div>
-  ${batPlayers.length?`
-  <div style="font-family:'Bebas Neue';font-size:20px;letter-spacing:2px;color:var(--gold);margin:16px 0 8px">🏏 Batting</div>
-  <div style="overflow-x:auto">
-  <table class="ltable" style="min-width:560px">
-    <thead><tr>
-      <th>Player</th><th>Role</th>
-      <th style="text-align:right">Inn</th>
-      <th style="text-align:right">Runs</th>
-      <th style="text-align:right">Avg</th>
-      <th style="text-align:right">SR</th>
-      <th style="text-align:right">4s</th>
-      <th style="text-align:right">6s</th>
-    </tr></thead>
-    <tbody>${batPlayers.map(batRow).join('')}</tbody>
-  </table>
-  </div>`:'<div class="info-box" style="margin-top:16px">No batting stats yet — play matches to accumulate stats!</div>'}
-  ${bowlPlayers.length?`
-  <div style="font-family:'Bebas Neue';font-size:20px;letter-spacing:2px;color:var(--gold);margin:20px 0 8px">🎳 Bowling</div>
-  <div style="overflow-x:auto">
-  <table class="ltable" style="min-width:540px">
-    <thead><tr>
-      <th>Player</th><th>Role</th>
-      <th style="text-align:right">Mat</th>
-      <th style="text-align:right">Ov</th>
-      <th style="text-align:right">Wkts</th>
-      <th style="text-align:right">Avg</th>
-      <th style="text-align:right">Econ</th>
-      <th style="text-align:right">Runs</th>
-    </tr></thead>
-    <tbody>${bowlPlayers.map(bowlRow).join('')}</tbody>
-  </table>
-  </div>`:''}
-  ${alsoBoled.length?`
-  <div style="font-family:'Bebas Neue';font-size:18px;letter-spacing:2px;color:rgba(192,132,252,.85);margin:20px 0 8px">🎯 Also Bowled This Season</div>
-  <div style="font-family:'Barlow Condensed';font-size:12px;color:rgba(244,239,228,.4);margin-bottom:8px;letter-spacing:.4px">Players outside the main bowling lineup who bowled at least 1 over in a match</div>
-  <div style="overflow-x:auto">
-  <table class="ltable" style="min-width:540px">
-    <thead><tr>
-      <th>Player</th><th>Role</th>
-      <th style="text-align:right">Mat</th>
-      <th style="text-align:right">Ov</th>
-      <th style="text-align:right">Wkts</th>
-      <th style="text-align:right">Avg</th>
-      <th style="text-align:right">Econ</th>
-      <th style="text-align:right">Runs</th>
-    </tr></thead>
-    <tbody>${alsoBoled.map(bowlRow).join('')}</tbody>
-  </table>
-  </div>`:''}
-  ${noStats.length&&(batPlayers.length+bowlPlayers.length+alsoBoled.length)>0?`
-  <div style="font-family:'Bebas Neue';font-size:16px;letter-spacing:2px;color:rgba(244,239,228,.4);margin:16px 0 8px">NOT YET FEATURED</div>
-  <div style="font-family:'Barlow Condensed';font-size:13px;color:rgba(244,239,228,.35)">${noStats.map(p=>p.name).join(' • ')}</div>`:''}
-  </div>`;
 }
 
 // ═══════════════════════════════════════════
